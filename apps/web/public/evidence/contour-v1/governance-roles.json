@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.1.0",
+  "chainId": 5042002,
+  "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+  "captureBlock": 52190647,
+  "status": "CONFIGURED_PAUSED_SOURCE_VERIFIED",
+  "artifact": "governanceRoles",
+  "governance": {
+    "account": "0x78de409a6306550882328E2a67160471368387FF",
+    "accountType": "EOA",
+    "runtimeCode": "0x",
+    "nativeBalanceWei": "9999401631833200000000"
+  },
+  "roles": {
+    "registrar": {
+      "owner": "0x78de409a6306550882328E2a67160471368387FF",
+      "pendingOwner": "0x0000000000000000000000000000000000000000"
+    },
+    "controller": {
+      "owner": "0x78de409a6306550882328E2a67160471368387FF",
+      "pendingOwner": "0x0000000000000000000000000000000000000000"
+    },
+    "marketplace": {
+      "owner": "0x78de409a6306550882328E2a67160471368387FF",
+      "pendingOwner": "0x0000000000000000000000000000000000000000"
+    },
+    "registry": {
+      "rootOwner": "0x78de409a6306550882328E2a67160471368387FF",
+      "baseOwner": "0x0DF136b94f99CAfcC010723b51f8D8EC10A0B907",
+      "reverseRootOwner": "0x78de409a6306550882328E2a67160471368387FF",
+      "reverseOwner": "0x5ecE3F5815813668307BdCe1405B5C765E526837"
+    }
+  }
+}

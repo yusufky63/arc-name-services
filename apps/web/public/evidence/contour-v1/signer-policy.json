@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.1.0",
+  "chainId": 5042002,
+  "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+  "captureBlock": 52190647,
+  "status": "CONFIGURED_PAUSED_SOURCE_VERIFIED",
+  "artifact": "signerPolicy",
+  "controller": "0xFbA7618c929075728b82c69B0B2A8C8d98e4B6A3",
+  "permitSigner": "0x78de409a6306550882328E2a67160471368387FF",
+  "signerPolicyVersion": "1",
+  "registrationsPaused": true,
+  "custodyModel": "SINGLE_ARC_TESTNET_EOA_SERVER_SECRET",
+  "challengeModel": "STATELESS_HMAC_SHA256",
+  "challengeTtlSeconds": 120,
+  "permitTtlSeconds": 180,
+  "postgresRequiredForCoreIssuer": false,
+  "kmsRequiredForCoreIssuer": false,
+  "serverSignerReadinessProven": false
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@contour/x402-keeper",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/server.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@circle-fin/x402-batching": "3.2.0",
+    "@contour/config": "workspace:*",
+    "@contour/normalization": "workspace:*",
+    "@contour/sdk": "workspace:*",
+    "fastify": "5.10.0",
+    "pg": "8.16.3",
+    "viem": "2.55.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.11",
+    "@types/pg": "8.15.5",
+    "typescript": "5.9.3",
+    "vitest": "3.2.6"
+  }
+}

@@ -1,0 +1,11 @@
+network: arc-testnet
+registry_address: null
+registry_start_block: null
+resolver_address: null
+resolver_start_block: null
+controller_address: null
+controller_start_block: null
+base_address: null
+base_start_block: null
+base_tld: null
+base_tld_hash: null

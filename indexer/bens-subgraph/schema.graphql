@@ -1,0 +1,304 @@
+type Domain @entity(immutable: false) {
+  "The namehash of the name"
+  id: ID!
+  "The human readable name, if known. Unknown portions replaced with hash in square brackets (eg, foo.[1234].eth)"
+  name: String
+  "The human readable label name (imported from CSV), if known"
+  labelName: String
+  "keccak256(labelName)"
+  labelhash: Bytes
+  "The namehash (id) of the parent name"
+  parent: Domain
+  "Can count domains from length of array"
+  subdomains: [Domain!]! @derivedFrom(field: "parent")
+  "The number of subdomains"
+  subdomainCount: Int!
+  "Address logged from current resolver, if any"
+  resolvedAddress: Account
+
+  "The resolver that controls the domain's settings"
+  resolver: Resolver
+  "The time-to-live (TTL) value of the domain's records"
+  ttl: BigInt
+
+  "Indicates whether the domain has been migrated to a new registrar"
+  isMigrated: Boolean!
+  "The time when the domain was created"
+  createdAt: BigInt!
+
+  "The account that owns the domain"
+  owner: Account!
+  "The account that owns the ERC721 NFT for the domain"
+  registrant: Account
+  "The account that owns the wrapped domain"
+  wrappedOwner: Account
+
+  "The expiry date for the domain, from either the registration, or the wrapped domain if PCC is burned"
+  expiryDate: BigInt
+
+  "The registration associated with the domain"
+  registration: Registration @derivedFrom(field: "domain")
+  "The wrapped domain associated with the domain"
+  wrappedDomain: WrappedDomain @derivedFrom(field: "domain")
+
+  "The events associated with the domain"
+  events: [DomainEvent!]! @derivedFrom(field: "domain")
+
+  "Is domain stored offchain"
+  storedOffchain: Boolean!
+  "Is domain resolved with wildcard"
+  resolvedWithWildcard: Boolean!
+
+  "Token ID for the domain (ERC721)"
+  tokenId: BigInt
+}
+
+interface DomainEvent {
+  "The unique identifier of the event"
+  id: ID!
+  "The domain name associated with the event"
+  domain: Domain!
+  "The block number at which the event occurred"
+  blockNumber: Int!
+  "The transaction hash of the transaction that triggered the event"
+  transactionID: Bytes!
+}
+
+type Transfer implements DomainEvent @entity(immutable: true) {
+  id: ID!
+  domain: Domain!
+  blockNumber: Int!
+  transactionID: Bytes!
+  owner: Account!
+}
+
+type NewOwner implements DomainEvent @entity(immutable: true) {
+  id: ID!
+  parentDomain: Domain!
+  domain: Domain!
+  blockNumber: Int!
+  transactionID: Bytes!
+  owner: Account!
+}
+
+type NewResolver implements DomainEvent @entity(immutable: true) {
+  id: ID!
+  domain: Domain!
+  blockNumber: Int!
+  transactionID: Bytes!
+  resolver: Resolver!
+}
+
+type NewTTL implements DomainEvent @entity(immutable: true) {
+  id: ID!
+  domain: Domain!
+  blockNumber: Int!
+  transactionID: Bytes!
+  ttl: BigInt!
+}
+
+type WrappedTransfer implements DomainEvent @entity(immutable: true) {
+  id: ID!
+  domain: Domain!
+  blockNumber: Int!
+  transactionID: Bytes!
+  owner: Account!
+}
+
+type NameWrapped implements DomainEvent @entity(immutable: true) {
+  id: ID!
+  domain: Domain!
+  blockNumber: Int!
+  transactionID: Bytes!
+  name: String
+  fuses: Int!
+  owner: Account!
+  expiryDate: BigInt!
+}
+
+type NameUnwrapped implements DomainEvent @entity(immutable: true) {
+  id: ID!
+  domain: Domain!
+  blockNumber: Int!
+  transactionID: Bytes!
+  owner: Account!
+}
+
+type FusesSet implements DomainEvent @entity(immutable: true) {
+  id: ID!
+  domain: Domain!
+  blockNumber: Int!
+  transactionID: Bytes!
+  fuses: Int!
+}
+
+type ExpiryExtended implements DomainEvent @entity(immutable: true) {
+  id: ID!
+  domain: Domain!
+  blockNumber: Int!
+  transactionID: Bytes!
+  expiryDate: BigInt!
+}
+
+type Registration @entity(immutable: false) {
+  id: ID!
+  domain: Domain!
+  registrationDate: BigInt!
+  expiryDate: BigInt!
+  cost: BigInt
+  registrant: Account!
+  labelName: String
+  events: [RegistrationEvent!]! @derivedFrom(field: "registration")
+}
+
+interface RegistrationEvent {
+  id: ID!
+  registration: Registration!
+  blockNumber: Int!
+  transactionID: Bytes!
+}
+
+type NameRegistered implements RegistrationEvent @entity(immutable: true) {
+  id: ID!
+  registration: Registration!
+  blockNumber: Int!
+  transactionID: Bytes!
+  registrant: Account!
+  expiryDate: BigInt!
+}
+
+type NameRenewed implements RegistrationEvent @entity(immutable: true) {
+  id: ID!
+  registration: Registration!
+  blockNumber: Int!
+  transactionID: Bytes!
+  expiryDate: BigInt!
+}
+
+type NameTransferred implements RegistrationEvent @entity(immutable: true) {
+  id: ID!
+  registration: Registration!
+  blockNumber: Int!
+  transactionID: Bytes!
+  newOwner: Account!
+}
+
+type WrappedDomain @entity(immutable: false) {
+  id: ID!
+  domain: Domain!
+  expiryDate: BigInt!
+  fuses: Int!
+  owner: Account!
+  name: String
+}
+
+type Account @entity(immutable: false) {
+  id: ID!
+  domains: [Domain!]! @derivedFrom(field: "owner")
+  wrappedDomains: [WrappedDomain!] @derivedFrom(field: "owner")
+  registrations: [Registration!] @derivedFrom(field: "registrant")
+}
+
+type Resolver @entity(immutable: false) {
+  id: ID!
+  domain: Domain
+  address: Bytes!
+  addr: Account
+  contentHash: Bytes
+  texts: [String!]
+  coinTypes: [BigInt!]
+  events: [ResolverEvent!]! @derivedFrom(field: "resolver")
+}
+
+interface ResolverEvent {
+  id: ID!
+  resolver: Resolver!
+  blockNumber: Int!
+  transactionID: Bytes!
+}
+
+type AddrChanged implements ResolverEvent @entity(immutable: true) {
+  id: ID!
+  resolver: Resolver!
+  blockNumber: Int!
+  transactionID: Bytes!
+  addr: Account!
+}
+
+type MulticoinAddrChanged implements ResolverEvent @entity(immutable: true) {
+  id: ID!
+  resolver: Resolver!
+  blockNumber: Int!
+  transactionID: Bytes!
+  coinType: BigInt!
+  addr: Bytes!
+}
+
+type NameChanged implements ResolverEvent @entity(immutable: true) {
+  id: ID!
+  resolver: Resolver!
+  blockNumber: Int!
+  transactionID: Bytes!
+  name: String!
+}
+
+type AbiChanged implements ResolverEvent @entity(immutable: true) {
+  id: ID!
+  resolver: Resolver!
+  blockNumber: Int!
+  transactionID: Bytes!
+  contentType: BigInt!
+}
+
+type PubkeyChanged implements ResolverEvent @entity(immutable: true) {
+  id: ID!
+  resolver: Resolver!
+  blockNumber: Int!
+  transactionID: Bytes!
+  x: Bytes!
+  y: Bytes!
+}
+
+type TextChanged implements ResolverEvent @entity(immutable: true) {
+  id: ID!
+  resolver: Resolver!
+  blockNumber: Int!
+  transactionID: Bytes!
+  key: String!
+  value: String
+}
+
+type ContenthashChanged implements ResolverEvent @entity(immutable: true) {
+  id: ID!
+  resolver: Resolver!
+  blockNumber: Int!
+  transactionID: Bytes!
+  hash: Bytes!
+}
+
+type InterfaceChanged implements ResolverEvent @entity(immutable: true) {
+  id: ID!
+  resolver: Resolver!
+  blockNumber: Int!
+  transactionID: Bytes!
+  interfaceID: Bytes!
+  implementer: Bytes!
+}
+
+type AuthorisationChanged implements ResolverEvent @entity(immutable: true) {
+  id: ID!
+  resolver: Resolver!
+  blockNumber: Int!
+  transactionID: Bytes!
+  owner: Bytes!
+  target: Bytes!
+  isAuthorized: Boolean!
+}
+
+type VersionChanged implements ResolverEvent @entity(immutable: true) {
+  id: ID!
+  resolver: Resolver!
+  blockNumber: Int!
+  transactionID: Bytes!
+  version: BigInt!
+}

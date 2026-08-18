@@ -1,0 +1,116 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Registry
+    network: arc-testnet
+    context:
+      suffix: { type: String, data: "{{suffix}}" }
+      baseNode: { type: Bytes, data: "{{baseNode}}" }
+    source:
+      address: "{{registryAddress}}"
+      abi: Registry
+      startBlock: {{registryStartBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities: [Domain, Account, Resolver, Transfer, NewOwner, NewResolver, NewTTL]
+      abis:
+        - name: Registry
+          file: ./abis/Registry.json
+      eventHandlers:
+        - event: Transfer(indexed bytes32,address)
+          handler: handleRegistryTransfer
+        - event: NewOwner(indexed bytes32,indexed bytes32,address)
+          handler: handleNewOwner
+        - event: NewResolver(indexed bytes32,address)
+          handler: handleNewResolver
+        - event: NewTTL(indexed bytes32,uint64)
+          handler: handleNewTTL
+      file: ./src/registry.ts
+  - kind: ethereum/contract
+    name: BaseRegistrar
+    network: arc-testnet
+    context:
+      suffix: { type: String, data: "{{suffix}}" }
+      baseNode: { type: Bytes, data: "{{baseNode}}" }
+    source:
+      address: "{{baseRegistrarAddress}}"
+      abi: BaseRegistrar
+      startBlock: {{baseRegistrarStartBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities: [Domain, Registration, Account]
+      abis:
+        - name: BaseRegistrar
+          file: ./abis/BaseRegistrar.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleRegistrarTransfer
+        - event: NameRegistered(indexed uint256,indexed address,uint256)
+          handler: handleBaseNameRegistered
+        - event: NameRenewed(indexed uint256,uint256)
+          handler: handleBaseNameRenewed
+      file: ./src/registrar.ts
+  - kind: ethereum/contract
+    name: Controller
+    network: arc-testnet
+    context:
+      suffix: { type: String, data: "{{suffix}}" }
+      baseNode: { type: Bytes, data: "{{baseNode}}" }
+    source:
+      address: "{{controllerAddress}}"
+      abi: Controller
+      startBlock: {{controllerStartBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities: [Domain, Registration, Account, NameRegistered, NameRenewed]
+      abis:
+        - name: Controller
+          file: ./abis/Controller.json
+      eventHandlers:
+        - event: NameRegistered(string,indexed bytes32,indexed address,uint256,uint256,uint256)
+          handler: handleControllerNameRegistered
+        - event: NameRenewed(string,indexed bytes32,uint256,uint256)
+          handler: handleControllerNameRenewed
+      file: ./src/controller.ts
+  - kind: ethereum/contract
+    name: PublicResolver
+    network: arc-testnet
+    context:
+      suffix: { type: String, data: "{{suffix}}" }
+      baseNode: { type: Bytes, data: "{{baseNode}}" }
+    source:
+      address: "{{publicResolverAddress}}"
+      abi: PublicResolver
+      startBlock: {{publicResolverStartBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities: [Domain, Resolver, Account, AddrChanged, MulticoinAddrChanged, TextChanged, NameChanged, ContenthashChanged, VersionChanged, InterfaceChanged]
+      abis:
+        - name: PublicResolver
+          file: ./abis/PublicResolver.json
+      eventHandlers:
+        - event: AddrChanged(indexed bytes32,address)
+          handler: handleAddrChanged
+        - event: AddressChanged(indexed bytes32,uint256,bytes)
+          handler: handleAddressChanged
+        - event: TextChanged(indexed bytes32,indexed string,string,string)
+          handler: handleTextChanged
+        - event: NameChanged(indexed bytes32,string)
+          handler: handleNameChanged
+        - event: ContenthashChanged(indexed bytes32,bytes)
+          handler: handleContenthashChanged
+        - event: VersionChanged(indexed bytes32,uint64)
+          handler: handleVersionChanged
+        - event: InterfaceChanged(indexed bytes32,indexed bytes4,address)
+          handler: handleInterfaceChanged
+      file: ./src/resolver.ts

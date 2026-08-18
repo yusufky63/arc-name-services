@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0.0",
+  "capturedFrom": "https://rpc.testnet.arc.network",
+  "chainId": 5042002,
+  "captureBlock": 52165098,
+  "releaseId": "0xcb31300ed4857f0ffdb9c3c613818182ea920d1547c58d3beb8cfdb821056bf6",
+  "governanceTransactions": {
+    "safeCreation": "0x6cd62780bc74139ba9621fedc70ac1740ce1e029e66714387d90d5336f5ee2f1",
+    "registrarOwnershipAcceptance": "0x3dcc8a852e3585da9dba9d98246666c50afe12d3bb1d0b25507987e8bdc8f2ee",
+    "controllerOwnershipAcceptance": "0x50dc99ba38f27599c837d414b8b3bd7b44676c7fe7005f92f2650bb5e6a20174",
+    "marketplaceOwnershipAcceptance": "0x31b34a2df7849a5531a28175c1bde56207b03c334253b80dcf37be18a8f0e430"
+  },
+  "safe": {
+    "address": "0xF7c92493f58bBddb1Eb7B8f67AA55e5789a4FB68",
+    "implementation": "0x41675C099F32341bf84BFc5382aF534df5C7461a",
+    "threshold": 2,
+    "owners": [
+      "0x78de409a6306550882328E2a67160471368387FF",
+      "0x5fa2bC9807dDef88315DD5f35A79B7CaA0903D58",
+      "0x230C1aDC5B6b561F1d27425AA5a949f81C2fe15c"
+    ],
+    "modules": {
+      "entries": [],
+      "next": "0x0000000000000000000000000000000000000001"
+    },
+    "guardStorage": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "fallbackHandlerStorage": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "roles": {
+    "registrar": {
+      "owner": "0xF7c92493f58bBddb1Eb7B8f67AA55e5789a4FB68",
+      "pendingOwner": "0x0000000000000000000000000000000000000000"
+    },
+    "controller": {
+      "owner": "0xF7c92493f58bBddb1Eb7B8f67AA55e5789a4FB68",
+      "pendingOwner": "0x0000000000000000000000000000000000000000"
+    },
+    "marketplace": {
+      "owner": "0xF7c92493f58bBddb1Eb7B8f67AA55e5789a4FB68",
+      "pendingOwner": "0x0000000000000000000000000000000000000000"
+    },
+    "registry": {
+      "rootOwner": "0xF7c92493f58bBddb1Eb7B8f67AA55e5789a4FB68",
+      "baseOwner": "0x6C47Bf685914cf7469939bE255FE21702Cb0eBd7",
+      "reverseRootOwner": "0xF7c92493f58bBddb1Eb7B8f67AA55e5789a4FB68",
+      "reverseOwner": "0xEb5D81D7a90cEf350245974E6ADC8502A2c241de"
+    }
+  },
+  "policy": {
+    "controller": {
+      "paused": true,
+      "permitSigner": "0x6c95C6500f768A8Ef690C5D99Bc2BA07750A7e1f",
+      "treasury": "0xF7c92493f58bBddb1Eb7B8f67AA55e5789a4FB68",
+      "referralBps": 500
+    },
+    "marketplace": {
+      "paused": true,
+      "treasury": "0xF7c92493f58bBddb1Eb7B8f67AA55e5789a4FB68",
+      "feeBps": 250
+    }
+  },
+  "wiring": {
+    "registrarRegistry": "0xE1d5A977A3e73f64C1A64cFebCc6E206D259e3ff",
+    "registrarControllerEnabled": true,
+    "controllerRegistrar": "0x6C47Bf685914cf7469939bE255FE21702Cb0eBd7",
+    "controllerSettlementAsset": "0x3600000000000000000000000000000000000000",
+    "controllerPublicResolver": "0x8B007f3755e18202944C8FbF09fCE6005492881F",
+    "resolverRegistry": "0xE1d5A977A3e73f64C1A64cFebCc6E206D259e3ff",
+    "reverseRegistry": "0xE1d5A977A3e73f64C1A64cFebCc6E206D259e3ff",
+    "reverseDefaultResolver": "0x8B007f3755e18202944C8FbF09fCE6005492881F",
+    "reverseBaseRegistrar": "0x6C47Bf685914cf7469939bE255FE21702Cb0eBd7",
+    "reverseNode": "0x91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2",
+    "reverseBaseNode": "0xb0622ac8c513b1e04f26418271b595fae314dbed2e3dea63916fc45cde7c5bbe",
+    "reverseSuffix": "contour",
+    "universalRegistry": "0xE1d5A977A3e73f64C1A64cFebCc6E206D259e3ff",
+    "universalReverseRegistrar": "0xEb5D81D7a90cEf350245974E6ADC8502A2c241de",
+    "marketplaceRegistrar": "0x6C47Bf685914cf7469939bE255FE21702Cb0eBd7",
+    "marketplaceSettlementAsset": "0x3600000000000000000000000000000000000000"
+  }
+}

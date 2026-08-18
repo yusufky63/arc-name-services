@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "1.0.0",
+  "chainId": 5042002,
+  "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+  "manifestSha256": "0x5f8f741ba127cfd5f76b3e39ad56cf09e9bdd8ddbe523fefc160b228f4d6f3b2",
+  "arcscanEvidenceIndexSha256": "0x659c1c514fbf2ae60919999adfa8c085adf50157b5eb2e194cd16e34c7ab218c",
+  "publicationDigest": "0x846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba",
+  "generatedAt": "2026-07-17T13:46:57.846528Z",
+  "commit": "795e73ed7378af2ac6f182a7c1652dfc99db65ab",
+  "artifacts": [
+    {
+      "artifactId": "deploymentReceipts",
+      "schema": "contour/deployment-receipts@1",
+      "url": "https://contour-arc.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/deployment-receipts.json",
+      "sha256": "0xee7ff17c367b7dd5bfb2e44a601bf7d36816683a38bef12fd27fce4fd92e28c9",
+      "mediaType": "application/json",
+      "chainId": 5042002,
+      "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+      "blockNumber": 52190647,
+      "createdAt": "2026-07-17T13:46:57.846528Z"
+    },
+    {
+      "artifactId": "constructorWiring",
+      "schema": "contour/constructor-wiring@1",
+      "url": "https://contour-arc.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/constructor-wiring.json",
+      "sha256": "0x6a9e0014899e3088b8077c7c1c8335f14943bf45d3c777d07aaa910483573b39",
+      "mediaType": "application/json",
+      "chainId": 5042002,
+      "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+      "blockNumber": 52190647,
+      "createdAt": "2026-07-17T13:46:57.846528Z"
+    },
+    {
+      "artifactId": "governanceRoles",
+      "schema": "contour/governance-roles@1",
+      "url": "https://contour-arc.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/governance-roles.json",
+      "sha256": "0x8050376593338fd0de134cf7eeb71145e27658bf0a645bd8dfac225f907bf4d3",
+      "mediaType": "application/json",
+      "chainId": 5042002,
+      "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+      "blockNumber": 52190647,
+      "createdAt": "2026-07-17T13:46:57.846528Z"
+    },
+    {
+      "artifactId": "treasuryControls",
+      "schema": "contour/treasury-controls@1",
+      "url": "https://contour-arc.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/treasury-controls.json",
+      "sha256": "0x7d08e029734a46d74b39c4a577ceb9ed68a6bcc3cd91878a7a927b639ffbdd75",
+      "mediaType": "application/json",
+      "chainId": 5042002,
+      "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+      "blockNumber": 52190647,
+      "createdAt": "2026-07-17T13:46:57.846528Z"
+    },
+    {
+      "artifactId": "signerPolicy",
+      "schema": "contour/signer-policy@1",
+      "url": "https://contour-arc.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/signer-policy.json",
+      "sha256": "0xbc7868b03f48474fbd9a721a52bdb559fa30e1945862b0f78cdf2cbbe9597358",
+      "mediaType": "application/json",
+      "chainId": 5042002,
+      "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+      "blockNumber": 52190647,
+      "createdAt": "2026-07-17T13:46:57.846528Z"
+    },
+    {
+      "artifactId": "releaseAttestation",
+      "schema": "contour/release-attestation@1",
+      "url": "https://contour-arc.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/release-attestation.json",
+      "sha256": "0x4b83ff10c7539b42e4ff6095fd6ca7fde42d9b37170774744de5799abb47c35a",
+      "mediaType": "application/json",
+      "chainId": 5042002,
+      "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+      "blockNumber": 52190647,
+      "createdAt": "2026-07-17T13:46:57.846528Z"
+    }
+  ]
+}

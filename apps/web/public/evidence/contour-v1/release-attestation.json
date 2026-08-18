@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.1.0",
+  "chainId": 5042002,
+  "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+  "captureBlock": 52190647,
+  "status": "CONFIGURED_PAUSED_SOURCE_VERIFIED",
+  "artifact": "releaseAttestation",
+  "productLive": false,
+  "independentReviewerApproved": false,
+  "sourceVerificationPending": false,
+  "sourceVerifiedContracts": 7,
+  "compilerVersion": "v0.8.24+commit.e11b9ed9",
+  "optimizerRuns": 10000,
+  "evmVersion": "cancun",
+  "configuredManifestSha256": "0x5f8f741ba127cfd5f76b3e39ad56cf09e9bdd8ddbe523fefc160b228f4d6f3b2",
+  "arcscanEvidenceIndexSha256": "0x659c1c514fbf2ae60919999adfa8c085adf50157b5eb2e194cd16e34c7ab218c",
+  "configuredChainStateSha256": "0x2d90fc0ae9198f26103420107e434739bdc4d996f5c602a0fdf0513d17ea58e0",
+  "deploymentEvidenceSha256": "0x71c87549d9e090dccac69a980f903c64b7bb961a6d5f06741877a9cbff056faf",
+  "statement": "This record proves the paused single-owner Arc Testnet deployment and seven matching ArcScan source/ABI verifications; issuer readiness, funded acceptance and product-live activation remain pending."
+}

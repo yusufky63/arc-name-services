@@ -1,0 +1,40 @@
+{
+  "name": "@contour/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3002",
+    "prebuild": "pnpm --dir ../.. packages:build && pnpm --dir ../.. verify:promotion:ci",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@coinbase/wallet-sdk": "4.3.6",
+    "@contour/config": "workspace:*",
+    "@contour/normalization": "workspace:*",
+    "@contour/sdk": "workspace:*",
+    "@fontsource-variable/dm-sans": "^5.2.6",
+    "@fontsource-variable/space-grotesk": "^5.2.6",
+    "@fontsource/ibm-plex-mono": "^5.2.6",
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "@tanstack/react-query": "5.101.2",
+    "next": "^16.2.11",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "viem": "^2.55.2",
+    "wagmi": "3.7.1",
+    "zod": "4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.2.11",
+    "typescript": "^5.9.0",
+    "vitest": "3.2.6"
+  }
+}

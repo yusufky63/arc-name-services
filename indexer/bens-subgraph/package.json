@@ -1,0 +1,22 @@
+{
+  "name": "@contour/bens-subgraph",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node --test scripts/scaffold.test.mjs && npm run build:mappings",
+    "render": "node scripts/render-manifest.mjs ../../deployments/5042002.json",
+    "codegen": "graph codegen subgraph.yaml",
+    "render:verify": "node scripts/render-verify.mjs",
+    "codegen:verify": "npm run render:verify && graph codegen subgraph.verify.yaml",
+    "build:mappings": "npm run codegen:verify && graph build subgraph.verify.yaml",
+    "build:activated": "npm run render && npm run codegen && graph build subgraph.yaml",
+    "test": "node --test scripts/scaffold.test.mjs scripts/render-config.test.mjs"
+  },
+  "dependencies": {
+    "@contour/config": "workspace:*"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "0.98.1",
+    "@graphprotocol/graph-ts": "0.38.0"
+  }
+}

@@ -1,0 +1,2 @@
+# Hash-pinned public evidence must remain byte-identical on Windows and Linux.
+/apps/web/public/evidence/**/*.json text eol=lf

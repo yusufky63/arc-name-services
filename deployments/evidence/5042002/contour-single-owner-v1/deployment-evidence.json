@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "1.1.0",
+  "artifact": "contour-offline-deployment-evidence",
+  "chain": {
+    "id": 5042002,
+    "caip2": "eip155:5042002"
+  },
+  "config": {
+    "deployer": "0x78de409a6306550882328E2a67160471368387FF",
+    "governanceAccount": "0x78de409a6306550882328E2a67160471368387FF",
+    "permitSigner": "0x78de409a6306550882328E2a67160471368387FF",
+    "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+    "referralBps": 500,
+    "marketplaceFeeBps": 250
+  },
+  "contracts": {
+    "registry": {
+      "contractName": "ArcNameRegistry",
+      "address": "0xdD69B92f6fAE6da3825b7d126Fe058e78E7F8482",
+      "transactionHash": "0x76ab4cc0ded2bb292639fd43c1c04418bd43c9e783edc6334d16fe291c58b7e4",
+      "deploymentBlock": 52188612,
+      "runtimeCodeHash": "0x138f245a7247d5094b64f8512a5b3f8cf0502a3814a57430a8cb64f591accf27",
+      "creationCodeHash": "0x56f0df86ccbc419bb2e4bb6cd1c8675d306f32ef27341dbba76fbf891ece8305",
+      "canonicalAbiSha256": "0x907e91ffda47ed5b00f53ed03310c40d44f2c1f98a45a0ddd93f53a7dbe0416a",
+      "sourceKeccak256": "0x17916fe5cdf0cdb5b9fc7dd75d833fe5c6d39a642cbb41cbc3887e3636bf8a50",
+      "constructorArguments": {
+        "rootOwner": "0x78de409a6306550882328E2a67160471368387FF"
+      },
+      "immutableNames": []
+    },
+    "baseRegistrar": {
+      "contractName": "ArcBaseRegistrar",
+      "address": "0x0DF136b94f99CAfcC010723b51f8D8EC10A0B907",
+      "transactionHash": "0xc3192dfe63599b02216cbc5da68f507c6c8837b92c20d922af89fce6eef53ae0",
+      "deploymentBlock": 52188614,
+      "runtimeCodeHash": "0x64b3fe43e5cc5e9ceccb382b2282d035146158c63dd5fda2e86d3f6f46378e35",
+      "creationCodeHash": "0x17595dc4c73e46e305bba6dc3a0e839c825f027a90d806f2ec5ed3a0821e049a",
+      "canonicalAbiSha256": "0xc65f6c0bb518ad42f7ff765b28018264bc3551f46e8c931843d052f875a3fefd",
+      "sourceKeccak256": "0xaa350d93ef508ed55ab2035bd496b1e0c8f2cac96b211e25c7328206b6913325",
+      "constructorArguments": {
+        "registry_": "0xdD69B92f6fAE6da3825b7d126Fe058e78E7F8482",
+        "baseNode_": "0xb0622ac8c513b1e04f26418271b595fae314dbed2e3dea63916fc45cde7c5bbe",
+        "initialOwner": "0x78de409a6306550882328E2a67160471368387FF"
+      },
+      "immutableNames": [
+        "registry",
+        "baseNode"
+      ]
+    },
+    "controller": {
+      "contractName": "ArcRegistrarController",
+      "address": "0xFbA7618c929075728b82c69B0B2A8C8d98e4B6A3",
+      "transactionHash": "0x8d3792262076a955b9e47103d4c604231d30b7e07e6722aab56812a68815ad6b",
+      "deploymentBlock": 52188614,
+      "runtimeCodeHash": "0x19c00a6464ca88927b248a7a48b90e0b7f2be1ed053132a3abb7227739509341",
+      "creationCodeHash": "0x24e5ef0ff1ce26d3060bc1342fc541ee167cb916d74f4fb2049723a7c09a603b",
+      "canonicalAbiSha256": "0x55ff45ffe723147a15860fedcdc0abef863ce42c81ea27b4701b80e15ddf29ec",
+      "sourceKeccak256": "0xf75449f153c8a498d8004427f8c2cfa66c1e2087187ad659c7f6533231693717",
+      "constructorArguments": {
+        "registrar_": "0x0DF136b94f99CAfcC010723b51f8D8EC10A0B907",
+        "settlementAsset_": "0x3600000000000000000000000000000000000000",
+        "publicResolver_": "0x3Ea097FFc2089a5Ae24DF46F18d621D007577f5C",
+        "initialOwner": "0x78de409a6306550882328E2a67160471368387FF",
+        "permitSigner_": "0x78de409a6306550882328E2a67160471368387FF",
+        "treasury_": "0x78de409a6306550882328E2a67160471368387FF",
+        "releaseId_": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+        "normalizationProfileHash_": "0x0889fdb1d0500090d2c605094dd2bd30510a137778f641aca67d8d2fb491f89c",
+        "referralBps_": 500
+      },
+      "immutableNames": [
+        "registrar",
+        "settlementAsset",
+        "publicResolver",
+        "baseNode",
+        "releaseId",
+        "normalizationProfileHash"
+      ]
+    },
+    "publicResolver": {
+      "contractName": "ArcPublicResolver",
+      "address": "0x3Ea097FFc2089a5Ae24DF46F18d621D007577f5C",
+      "transactionHash": "0x8ca00c004c4f38667d32ddf36f5b7a2a01951683733b5250420141e44b7b4bf0",
+      "deploymentBlock": 52188614,
+      "runtimeCodeHash": "0x9028ed2ba2c558ecc2a727fef995c66636b74b3a43480116fec497efbeef0e42",
+      "creationCodeHash": "0x6601fb81d689e348ca385d6c38419b5fddfe70ed0ea954b2be387ee6c3972826",
+      "canonicalAbiSha256": "0x13d814823c48e771382c1c1ab781669c8c27afceee4bcb16492379591d341922",
+      "sourceKeccak256": "0x6106671ebbddd9642660e0b0f25c5d6d41deb6b7bca057c80d01a848c71b112d",
+      "constructorArguments": {
+        "registry_": "0xdD69B92f6fAE6da3825b7d126Fe058e78E7F8482"
+      },
+      "immutableNames": [
+        "registry"
+      ]
+    },
+    "reverseRegistrar": {
+      "contractName": "ArcReverseRegistrar",
+      "address": "0x5ecE3F5815813668307BdCe1405B5C765E526837",
+      "transactionHash": "0xca24e044f45ca85023b438ca02116b005981d898200f67edde6e89100bab9f14",
+      "deploymentBlock": 52188618,
+      "runtimeCodeHash": "0xb78f7716035d3add31db94439ee6f2733bb0f164be3fd0281b44eeab66a20aa7",
+      "creationCodeHash": "0xe04a5c15189ffe436f24b9dea42cbeb976042cd0c331e6fd178ac684a27d6cc7",
+      "canonicalAbiSha256": "0xa50582782e8af114297317450e9998cb67a8ab3adb52a075f01cc12a2bfcb181",
+      "sourceKeccak256": "0x861f982e552d95fb5bb32191c325963664cdacff87e8c41f32a35a0026a368b7",
+      "constructorArguments": {
+        "registry_": "0xdD69B92f6fAE6da3825b7d126Fe058e78E7F8482",
+        "defaultResolver_": "0x3Ea097FFc2089a5Ae24DF46F18d621D007577f5C",
+        "registrar_": "0x0DF136b94f99CAfcC010723b51f8D8EC10A0B907",
+        "reverseNode_": "0x91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2",
+        "baseNode_": "0xb0622ac8c513b1e04f26418271b595fae314dbed2e3dea63916fc45cde7c5bbe",
+        "suffix_": "contour"
+      },
+      "immutableNames": [
+        "registry",
+        "defaultResolver",
+        "registrar",
+        "reverseNode",
+        "baseNode"
+      ]
+    },
+    "universalResolver": {
+      "contractName": "ArcUniversalResolver",
+      "address": "0x3FAD66f9F3Ca165118D5b292Fa6036e273718Bf0",
+      "transactionHash": "0x60f9b83af792d449d811412290892ceb95fcbb24b2f645982f88643188bb20e0",
+      "deploymentBlock": 52188620,
+      "runtimeCodeHash": "0x30eb9b8d06cbe92bc91fb06af8a22bc73ba8a8619625bfdd78a18d337fcf6891",
+      "creationCodeHash": "0x4caa85d6d4f508ae8debbbfedd400ffdfcf8ad8ea9050dbdb0cbd82406f70508",
+      "canonicalAbiSha256": "0x764ac6e94b77bdddeedb9f8b9e1e70a67ebdfee98d5b5fba230c6ab313fa3052",
+      "sourceKeccak256": "0xe8d31ca484cd052d5cea7e0d803c3995a040e5c11af336dddd88bd9e64ea2c79",
+      "constructorArguments": {
+        "registry_": "0xdD69B92f6fAE6da3825b7d126Fe058e78E7F8482",
+        "reverseRegistrar_": "0x5ecE3F5815813668307BdCe1405B5C765E526837"
+      },
+      "immutableNames": [
+        "registry",
+        "reverseRegistrar"
+      ]
+    },
+    "marketplace": {
+      "contractName": "ArcNameMarketplace",
+      "address": "0xD63f77a01De40b3964051bA03F4158cceFf1ca46",
+      "transactionHash": "0x60dfd3c98857af2bf7f40dff9814910d2ffe2c65fcdc1fe83e6bac48f534ac42",
+      "deploymentBlock": 52188620,
+      "runtimeCodeHash": "0x41675e8c1155c91c315436d3fac034414170cd9b425f9ffd44e61964b0255507",
+      "creationCodeHash": "0x3c03fca5515c0b32de03a67b3fd7bb419cfedf7623ced20ef8b73e6250b7b701",
+      "canonicalAbiSha256": "0x0f393372a584c51f9bc4cc605c6ad799e0470c548e8cff7dd34cefdc7fa56cd7",
+      "sourceKeccak256": "0x46fb8473d6b3bfc1f76bb916b62614b9e619dd26c46a82eaa89a0658e8e9acaa",
+      "constructorArguments": {
+        "registrar_": "0x0DF136b94f99CAfcC010723b51f8D8EC10A0B907",
+        "settlementAsset_": "0x3600000000000000000000000000000000000000",
+        "initialOwner": "0x78de409a6306550882328E2a67160471368387FF",
+        "treasury_": "0x78de409a6306550882328E2a67160471368387FF",
+        "feeBps_": 250
+      },
+      "immutableNames": [
+        "registrar",
+        "settlementAsset"
+      ]
+    }
+  },
+  "wiring": {
+    "validated": true,
+    "transactionCount": 15,
+    "sequence": [
+      "CREATE ArcNameRegistry",
+      "CREATE ArcBaseRegistrar",
+      "CREATE ArcPublicResolver",
+      "CREATE ArcRegistrarController",
+      "registry.setSubnodeOwner(root, contour, baseRegistrar)",
+      "baseRegistrar.setController(controller, true)",
+      "registry.setSubnodeOwner(root, reverse, deployer)",
+      "CREATE ArcReverseRegistrar",
+      "registry.setSubnodeOwner(reverseRoot, addr, reverseRegistrar)",
+      "CREATE ArcUniversalResolver",
+      "CREATE ArcNameMarketplace",
+      "controller.setRegistrationsPaused(true)",
+      "marketplace.setPaused(true)",
+      "registry.setOwner(reverseRoot, governanceAccount)",
+      "registry.setOwner(root, governanceAccount)"
+    ],
+    "suffix": "contour",
+    "baseNode": "0xb0622ac8c513b1e04f26418271b595fae314dbed2e3dea63916fc45cde7c5bbe",
+    "reverseNode": "0x91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2",
+    "settlementAsset": "0x3600000000000000000000000000000000000000",
+    "normalizationProfileHash": "0x0889fdb1d0500090d2c605094dd2bd30510a137778f641aca67d8d2fb491f89c"
+  },
+  "offlineLimitations": [
+    "Runtime hashes are reconstructed from reviewed local artifacts and constructor immutables; promotion must compare them with live Arc code.",
+    "The governance account must be independently verified as a funded EOA with no runtime code during promotion.",
+    "Source verification, ABI publication, funded end-to-end evidence and unpausing are not performed here."
+  ],
+  "inputs": {
+    "broadcast": {
+      "sha256": "0xe603cb9a2a87d5dd43a442cc2379942d5f9c0211511042141bd835f2cb9d7e1f"
+    },
+    "artifacts": {
+      "registry": {
+        "file": "ArcNameRegistry.sol/ArcNameRegistry.json",
+        "sha256": "0xac99550bfb4e366b361e08342a879c5b670f6202aa0659eb9ff0b4d32b64a1b3"
+      },
+      "baseRegistrar": {
+        "file": "ArcBaseRegistrar.sol/ArcBaseRegistrar.json",
+        "sha256": "0xec8b40da4fad2101fd3c0d3f17603ea72a549cc2fb85a981be0e025070f2aa59"
+      },
+      "controller": {
+        "file": "ArcRegistrarController.sol/ArcRegistrarController.json",
+        "sha256": "0xb59dba0c987ee8f31108ea77e91565bf77f017cb92ab1244626e72fafa7e9f43"
+      },
+      "publicResolver": {
+        "file": "ArcPublicResolver.sol/ArcPublicResolver.json",
+        "sha256": "0xea5b0a5af03e3986daf343b1ad5d70a8e1607cc99d2015ad33b0b6e0ed20c38d"
+      },
+      "reverseRegistrar": {
+        "file": "ArcReverseRegistrar.sol/ArcReverseRegistrar.json",
+        "sha256": "0xd1631263b649c20f7e04d3cdf9663c1638d1086fdfa8c7cd0e48cb184c90689d"
+      },
+      "universalResolver": {
+        "file": "ArcUniversalResolver.sol/ArcUniversalResolver.json",
+        "sha256": "0x7db45d43f3882efedcc964b88e9be61e16c13237e9f5d2f3e457dc9fdbd1df9f"
+      },
+      "marketplace": {
+        "file": "ArcNameMarketplace.sol/ArcNameMarketplace.json",
+        "sha256": "0x90fcaefff5a194b2b23871840f7d6897127c0b5d3f69bbfee069e0de8540dd70"
+      }
+    },
+    "manifestTemplate": {
+      "sha256": "0x2f900fb6beddd3234a418ddc0de314c2f67e3c2b7523ab869ee4ec8982aeb0da"
+    }
+  }
+}

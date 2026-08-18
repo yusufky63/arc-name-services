@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "1.1.0",
+  "state": "active",
+  "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+  "testnet": true,
+  "chain": {
+    "id": 5042002,
+    "caip2": "eip155:5042002",
+    "rpcUrl": "https://rpc.testnet.arc.network",
+    "websocketUrl": "wss://rpc.testnet.arc.network",
+    "explorerUrl": "https://testnet.arcscan.app",
+    "multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "confirmations": 1
+  },
+  "settlement": {
+    "symbol": "USDC",
+    "erc20Address": "0x3600000000000000000000000000000000000000",
+    "applicationDecimals": 6,
+    "nativeInterfaceDecimals": 18,
+    "sharedUnderlyingBalance": true
+  },
+  "namespace": {
+    "brand": "Contour Name Protocol",
+    "suffix": "contour",
+    "baseNode": "0xb0622ac8c513b1e04f26418271b595fae314dbed2e3dea63916fc45cde7c5bbe"
+  },
+  "normalization": {
+    "profileId": "arc-ensip15-single-label-v1",
+    "implementation": "@adraffy/ens-normalize@1.11.1",
+    "unicodeVersion": "17.0.0",
+    "upstreamSpecSha256": "0x4febc8f5d285cbf80d2320fb0c1777ac25e378eb72910c34ec963d0a4e319c84",
+    "profileHash": "0x0889fdb1d0500090d2c605094dd2bd30510a137778f641aca67d8d2fb491f89c",
+    "corpusHash": "0xd25e274d718f468f1edbded13a5319a404d9e2dff39ded6ecf78ef88ea37cf60"
+  },
+  "contracts": {
+    "registry": {
+      "address": "0xdD69B92f6fAE6da3825b7d126Fe058e78E7F8482",
+      "deploymentBlock": 52188612,
+      "transactionHash": "0x76ab4cc0ded2bb292639fd43c1c04418bd43c9e783edc6334d16fe291c58b7e4",
+      "runtimeCodeHash": "0x138f245a7247d5094b64f8512a5b3f8cf0502a3814a57430a8cb64f591accf27",
+      "abiUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0xdd69b92f6fae6da3825b7d126fe058e78e7f8482",
+      "abiSha256": "0x98ece5e6e4037137e199de45c1799aa53660065bbaf6d103b3dbf8526f00abe1",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0xdd69b92f6fae6da3825b7d126fe058e78e7f8482",
+      "sourceVerificationSha256": "0x98ece5e6e4037137e199de45c1799aa53660065bbaf6d103b3dbf8526f00abe1"
+    },
+    "baseRegistrar": {
+      "address": "0x0DF136b94f99CAfcC010723b51f8D8EC10A0B907",
+      "deploymentBlock": 52188614,
+      "transactionHash": "0xc3192dfe63599b02216cbc5da68f507c6c8837b92c20d922af89fce6eef53ae0",
+      "runtimeCodeHash": "0x64b3fe43e5cc5e9ceccb382b2282d035146158c63dd5fda2e86d3f6f46378e35",
+      "abiUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0x0df136b94f99cafcc010723b51f8d8ec10a0b907",
+      "abiSha256": "0xb92d2fcdb045e74aaab582f62109d184c89ec5e4f944c6fc8cc7df19d282a9c8",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0x0df136b94f99cafcc010723b51f8d8ec10a0b907",
+      "sourceVerificationSha256": "0xb92d2fcdb045e74aaab582f62109d184c89ec5e4f944c6fc8cc7df19d282a9c8"
+    },
+    "controller": {
+      "address": "0xFbA7618c929075728b82c69B0B2A8C8d98e4B6A3",
+      "deploymentBlock": 52188614,
+      "transactionHash": "0x8d3792262076a955b9e47103d4c604231d30b7e07e6722aab56812a68815ad6b",
+      "runtimeCodeHash": "0x19c00a6464ca88927b248a7a48b90e0b7f2be1ed053132a3abb7227739509341",
+      "abiUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0xfba7618c929075728b82c69b0b2a8c8d98e4b6a3",
+      "abiSha256": "0x301a569ba72e6a5c8378b9327777958aeeb69dbcbce2179e7d44f613e560dbc8",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0xfba7618c929075728b82c69b0b2a8c8d98e4b6a3",
+      "sourceVerificationSha256": "0x301a569ba72e6a5c8378b9327777958aeeb69dbcbce2179e7d44f613e560dbc8"
+    },
+    "publicResolver": {
+      "address": "0x3Ea097FFc2089a5Ae24DF46F18d621D007577f5C",
+      "deploymentBlock": 52188614,
+      "transactionHash": "0x8ca00c004c4f38667d32ddf36f5b7a2a01951683733b5250420141e44b7b4bf0",
+      "runtimeCodeHash": "0x9028ed2ba2c558ecc2a727fef995c66636b74b3a43480116fec497efbeef0e42",
+      "abiUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0x3ea097ffc2089a5ae24df46f18d621d007577f5c",
+      "abiSha256": "0x1f0337e597a2ab7403fe0768a7dcfbe50402d07eda3722ee419f2c74853a6e43",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0x3ea097ffc2089a5ae24df46f18d621d007577f5c",
+      "sourceVerificationSha256": "0x1f0337e597a2ab7403fe0768a7dcfbe50402d07eda3722ee419f2c74853a6e43"
+    },
+    "reverseRegistrar": {
+      "address": "0x5ecE3F5815813668307BdCe1405B5C765E526837",
+      "deploymentBlock": 52188618,
+      "transactionHash": "0xca24e044f45ca85023b438ca02116b005981d898200f67edde6e89100bab9f14",
+      "runtimeCodeHash": "0xb78f7716035d3add31db94439ee6f2733bb0f164be3fd0281b44eeab66a20aa7",
+      "abiUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0x5ece3f5815813668307bdce1405b5c765e526837",
+      "abiSha256": "0x3cfb952a4201b0cc5c3b9598e25518a3c824eac0b2c161f655d643cae01e07df",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0x5ece3f5815813668307bdce1405b5c765e526837",
+      "sourceVerificationSha256": "0x3cfb952a4201b0cc5c3b9598e25518a3c824eac0b2c161f655d643cae01e07df"
+    },
+    "universalResolver": {
+      "address": "0x3FAD66f9F3Ca165118D5b292Fa6036e273718Bf0",
+      "deploymentBlock": 52188620,
+      "transactionHash": "0x60f9b83af792d449d811412290892ceb95fcbb24b2f645982f88643188bb20e0",
+      "runtimeCodeHash": "0x30eb9b8d06cbe92bc91fb06af8a22bc73ba8a8619625bfdd78a18d337fcf6891",
+      "abiUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0x3fad66f9f3ca165118d5b292fa6036e273718bf0",
+      "abiSha256": "0xc11cbd487d5f0b078d08159eea6f3a89f998513570a7b60ca0ee129ca5a8d51f",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0x3fad66f9f3ca165118d5b292fa6036e273718bf0",
+      "sourceVerificationSha256": "0xc11cbd487d5f0b078d08159eea6f3a89f998513570a7b60ca0ee129ca5a8d51f"
+    },
+    "marketplace": {
+      "address": "0xD63f77a01De40b3964051bA03F4158cceFf1ca46",
+      "deploymentBlock": 52188620,
+      "transactionHash": "0x60dfd3c98857af2bf7f40dff9814910d2ffe2c65fcdc1fe83e6bac48f534ac42",
+      "runtimeCodeHash": "0x41675e8c1155c91c315436d3fac034414170cd9b425f9ffd44e61964b0255507",
+      "abiUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0xd63f77a01de40b3964051ba03f4158cceff1ca46",
+      "abiSha256": "0x1a53bdef9c9477aae4b5512112102811b800699bb6a9780680bb97e566fcd182",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://testnet.arcscan.app/api/v2/smart-contracts/0xd63f77a01de40b3964051ba03f4158cceff1ca46",
+      "sourceVerificationSha256": "0x1a53bdef9c9477aae4b5512112102811b800699bb6a9780680bb97e566fcd182"
+    }
+  },
+  "activationEvidence": {
+    "productLive": false,
+    "verifiedAtBlock": 52322943,
+    "artifacts": {
+      "deploymentReceipts": {
+        "url": "https://contour-arc-names.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/deployment-receipts.json",
+        "sha256": "0xee7ff17c367b7dd5bfb2e44a601bf7d36816683a38bef12fd27fce4fd92e28c9"
+      },
+      "constructorWiring": {
+        "url": "https://contour-arc-names.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/constructor-wiring.json",
+        "sha256": "0x6a9e0014899e3088b8077c7c1c8335f14943bf45d3c777d07aaa910483573b39"
+      },
+      "governanceRoles": {
+        "url": "https://contour-arc-names.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/governance-roles.json",
+        "sha256": "0x8050376593338fd0de134cf7eeb71145e27658bf0a645bd8dfac225f907bf4d3"
+      },
+      "treasuryControls": {
+        "url": "https://contour-arc-names.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/treasury-controls.json",
+        "sha256": "0x7d08e029734a46d74b39c4a577ceb9ed68a6bcc3cd91878a7a927b639ffbdd75"
+      },
+      "signerPolicy": {
+        "url": "https://contour-arc-names.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/signer-policy.json",
+        "sha256": "0xbc7868b03f48474fbd9a721a52bdb559fa30e1945862b0f78cdf2cbbe9597358"
+      },
+      "releaseAttestation": {
+        "url": "https://contour-arc-names.vercel.app/evidence/846f7227ded6ec7d47748a6825558a317b7aca086c4e9f6a03a2e0534986ccba/release-attestation.json",
+        "sha256": "0x4b83ff10c7539b42e4ff6095fd6ca7fde42d9b37170774744de5799abb47c35a"
+      },
+      "fundedEndToEnd": {
+        "url": null,
+        "sha256": null
+      },
+      "operationsDrill": {
+        "url": null,
+        "sha256": null
+      }
+    },
+    "governance": {
+      "account": "0x78de409a6306550882328E2a67160471368387FF"
+    },
+    "controllerPolicy": {
+      "permitSigner": "0x78de409a6306550882328E2a67160471368387FF",
+      "signerPolicyVersion": "1",
+      "referralBps": 500,
+      "registrationsPaused": false
+    },
+    "marketplacePolicy": {
+      "feeBps": 250,
+      "paused": false
+    }
+  },
+  "permitIssuer": {
+    "url": "https://contour-arc-names.vercel.app/api/registration/issuer/",
+    "signerAddress": "0x78de409a6306550882328E2a67160471368387FF",
+    "publicKey": null,
+    "policyVersion": "1",
+    "active": true
+  },
+  "resolverCapabilities": {
+    "addr": true,
+    "multicoinAddr": true,
+    "text": true,
+    "name": true,
+    "contenthash": true,
+    "interface": true,
+    "ccipRead": false
+  },
+  "discovery": {
+    "manifestUrl": null,
+    "agentManifestUrl": null,
+    "mcpUrl": null,
+    "openApiUrl": null
+  },
+  "bens": {
+    "protocolConfigured": false,
+    "subgraphSynced": false,
+    "apiUrl": null,
+    "subgraphUrl": null,
+    "hostedArcscanActive": false
+  },
+  "x402": {
+    "active": true,
+    "network": "eip155:5042002",
+    "asset": "0x3600000000000000000000000000000000000000",
+    "scheme": "exact",
+    "facilitatorUrl": "https://gateway.circle.com"
+  }
+}

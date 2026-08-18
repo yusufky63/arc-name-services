@@ -1,0 +1,45 @@
+services:
+  graph-postgres:
+    image: "${GRAPH_POSTGRES_IMAGE:?Set an immutable PostgreSQL version@sha256 digest}"
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "${GRAPH_POSTGRES_USER:?required}"
+      POSTGRES_PASSWORD: "${GRAPH_POSTGRES_PASSWORD:?required}"
+      POSTGRES_DB: "${GRAPH_POSTGRES_DB:?required}"
+    volumes:
+      - graph-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  ipfs:
+    image: "${IPFS_IMAGE:?Set an immutable Kubo version@sha256 digest}"
+    restart: unless-stopped
+    volumes:
+      - ipfs-data:/data/ipfs
+
+  graph-node:
+    image: "${GRAPH_NODE_IMAGE:?Set an immutable Graph Node version@sha256 digest}"
+    restart: unless-stopped
+    depends_on:
+      graph-postgres: { condition: service_healthy }
+      ipfs: { condition: service_started }
+    environment:
+      postgres_host: graph-postgres
+      postgres_user: "${GRAPH_POSTGRES_USER:?required}"
+      postgres_pass: "${GRAPH_POSTGRES_PASSWORD:?required}"
+      postgres_db: "${GRAPH_POSTGRES_DB:?required}"
+      ipfs: ipfs:5001
+      ethereum: arc-testnet:https://rpc.testnet.arc.network
+      GRAPH_LOG: info
+    ports:
+      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:8020:8020"
+      - "127.0.0.1:8030:8030"
+      - "127.0.0.1:8040:8040"
+
+volumes:
+  graph-postgres-data:
+  ipfs-data:

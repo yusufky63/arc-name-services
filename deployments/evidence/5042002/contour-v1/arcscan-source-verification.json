@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.1.0",
+  "chainId": 5042002,
+  "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+  "explorer": "https://testnet.arcscan.app",
+  "verification": {
+    "compilerVersion": "v0.8.24+commit.e11b9ed9",
+    "optimizerEnabled": true,
+    "optimizerRuns": 10000,
+    "evmVersion": "cancun",
+    "status": "all-seven-verified",
+    "constructorArgumentsMatched": true
+  },
+  "contracts": {
+    "registry": {
+      "address": "0xdD69B92f6fAE6da3825b7d126Fe058e78E7F8482",
+      "url": "https://testnet.arcscan.app/api/v2/smart-contracts/0xdd69b92f6fae6da3825b7d126fe058e78e7f8482",
+      "uiUrl": "https://testnet.arcscan.app/address/0xdd69b92f6fae6da3825b7d126fe058e78e7f8482?tab=contract",
+      "verifiedAt": "2026-07-17T13:46:10.075681Z",
+      "sha256": "0x98ece5e6e4037137e199de45c1799aa53660065bbaf6d103b3dbf8526f00abe1"
+    },
+    "baseRegistrar": {
+      "address": "0x0DF136b94f99CAfcC010723b51f8D8EC10A0B907",
+      "url": "https://testnet.arcscan.app/api/v2/smart-contracts/0x0df136b94f99cafcc010723b51f8d8ec10a0b907",
+      "uiUrl": "https://testnet.arcscan.app/address/0x0df136b94f99cafcc010723b51f8d8ec10a0b907?tab=contract",
+      "verifiedAt": "2026-07-17T13:46:56.886612Z",
+      "sha256": "0xb92d2fcdb045e74aaab582f62109d184c89ec5e4f944c6fc8cc7df19d282a9c8"
+    },
+    "controller": {
+      "address": "0xFbA7618c929075728b82c69B0B2A8C8d98e4B6A3",
+      "url": "https://testnet.arcscan.app/api/v2/smart-contracts/0xfba7618c929075728b82c69b0b2a8c8d98e4b6a3",
+      "uiUrl": "https://testnet.arcscan.app/address/0xfba7618c929075728b82c69b0b2a8c8d98e4b6a3?tab=contract",
+      "verifiedAt": "2026-07-17T13:46:57.071081Z",
+      "sha256": "0x301a569ba72e6a5c8378b9327777958aeeb69dbcbce2179e7d44f613e560dbc8"
+    },
+    "publicResolver": {
+      "address": "0x3Ea097FFc2089a5Ae24DF46F18d621D007577f5C",
+      "url": "https://testnet.arcscan.app/api/v2/smart-contracts/0x3ea097ffc2089a5ae24df46f18d621d007577f5c",
+      "uiUrl": "https://testnet.arcscan.app/address/0x3ea097ffc2089a5ae24df46f18d621d007577f5c?tab=contract",
+      "verifiedAt": "2026-07-17T13:46:57.251391Z",
+      "sha256": "0x1f0337e597a2ab7403fe0768a7dcfbe50402d07eda3722ee419f2c74853a6e43"
+    },
+    "reverseRegistrar": {
+      "address": "0x5ecE3F5815813668307BdCe1405B5C765E526837",
+      "url": "https://testnet.arcscan.app/api/v2/smart-contracts/0x5ece3f5815813668307bdce1405b5c765e526837",
+      "uiUrl": "https://testnet.arcscan.app/address/0x5ece3f5815813668307bdce1405b5c765e526837?tab=contract",
+      "verifiedAt": "2026-07-17T13:46:57.495687Z",
+      "sha256": "0x3cfb952a4201b0cc5c3b9598e25518a3c824eac0b2c161f655d643cae01e07df"
+    },
+    "universalResolver": {
+      "address": "0x3FAD66f9F3Ca165118D5b292Fa6036e273718Bf0",
+      "url": "https://testnet.arcscan.app/api/v2/smart-contracts/0x3fad66f9f3ca165118d5b292fa6036e273718bf0",
+      "uiUrl": "https://testnet.arcscan.app/address/0x3fad66f9f3ca165118d5b292fa6036e273718bf0?tab=contract",
+      "verifiedAt": "2026-07-17T13:46:57.586027Z",
+      "sha256": "0xc11cbd487d5f0b078d08159eea6f3a89f998513570a7b60ca0ee129ca5a8d51f"
+    },
+    "marketplace": {
+      "address": "0xD63f77a01De40b3964051bA03F4158cceFf1ca46",
+      "url": "https://testnet.arcscan.app/api/v2/smart-contracts/0xd63f77a01de40b3964051ba03f4158cceff1ca46",
+      "uiUrl": "https://testnet.arcscan.app/address/0xd63f77a01de40b3964051ba03f4158cceff1ca46?tab=contract",
+      "verifiedAt": "2026-07-17T13:46:57.846528Z",
+      "sha256": "0x1a53bdef9c9477aae4b5512112102811b800699bb6a9780680bb97e566fcd182"
+    }
+  }
+}

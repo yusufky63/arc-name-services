@@ -1,0 +1,24 @@
+{
+  "subgraphs_reader": {
+    "networks": {
+      "5042002": {
+        "blockscout": { "url": "https://testnet.arcscan.app" },
+        "use_protocols": ["contour"],
+        "rpc_url": "https://rpc.testnet.arc.network"
+      }
+    },
+    "protocols": {
+      "contour": {
+        "tld_list": ["{{suffix}}"],
+        "network_id": 5042002,
+        "subgraph_name": "{{subgraphName}}",
+        "address_resolve_technique": "reverse_registry",
+        "specific": {
+          "type": "ens_like",
+          "native_token_contract": "{{baseRegistrarAddress}}",
+          "registry_contract": "{{registryAddress}}"
+        }
+      }
+    }
+  }
+}

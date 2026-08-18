@@ -1,0 +1,55 @@
+{
+  "name": "contour-sdk",
+  "version": "0.1.1",
+  "description": "Manifest-validated TypeScript SDK for Contour names on Arc Testnet.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./config": {
+      "types": "./dist/config/index.d.ts",
+      "import": "./dist/config/index.js"
+    },
+    "./normalization": {
+      "types": "./dist/normalization/index.d.ts",
+      "import": "./dist/normalization/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "pnpm --dir ../.. run sdk:build-public",
+    "prepack": "pnpm run build"
+  },
+  "dependencies": {
+    "@adraffy/ens-normalize": "1.11.1",
+    "viem": "2.55.2"
+  },
+  "engines": {
+    "node": ">=20.9 <25"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "homepage": "https://contour-arc.vercel.app/developers",
+  "keywords": [
+    "arc",
+    "blockchain",
+    "contour",
+    "ens",
+    "names",
+    "sdk",
+    "typescript",
+    "viem"
+  ]
+}

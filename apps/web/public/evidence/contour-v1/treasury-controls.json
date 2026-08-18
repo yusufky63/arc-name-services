@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.1.0",
+  "chainId": 5042002,
+  "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+  "captureBlock": 52190647,
+  "status": "CONFIGURED_PAUSED_SOURCE_VERIFIED",
+  "artifact": "treasuryControls",
+  "governanceAccount": "0x78de409a6306550882328E2a67160471368387FF",
+  "controller": {
+    "treasury": "0x78de409a6306550882328E2a67160471368387FF",
+    "referralBps": 500,
+    "registrationsPaused": true
+  },
+  "marketplace": {
+    "treasury": "0x78de409a6306550882328E2a67160471368387FF",
+    "feeBps": 250,
+    "paused": true
+  }
+}

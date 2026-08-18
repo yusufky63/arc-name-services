@@ -1,0 +1,27 @@
+{
+  "name": "@contour/permit-issuer",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/server.js",
+  "scripts": {
+    "prebuild": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "prestart": "pnpm build",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@contour/config": "workspace:*",
+    "@contour/normalization": "workspace:*",
+    "@contour/sdk": "workspace:*",
+    "fastify": "5.10.0",
+    "viem": "2.55.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.11",
+    "typescript": "5.9.3",
+    "vitest": "3.2.6"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.1.0",
+  "chainId": 5042002,
+  "releaseId": "0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc",
+  "captureBlock": 52190647,
+  "status": "CONFIGURED_PAUSED_SOURCE_VERIFIED",
+  "artifact": "constructorWiring",
+  "configuredChainStateSha256": "0x2d90fc0ae9198f26103420107e434739bdc4d996f5c602a0fdf0513d17ea58e0",
+  "wiring": {
+    "registrarRegistry": "0xdD69B92f6fAE6da3825b7d126Fe058e78E7F8482",
+    "registrarControllerEnabled": true,
+    "controllerRegistrar": "0x0DF136b94f99CAfcC010723b51f8D8EC10A0B907",
+    "controllerSettlementAsset": "0x3600000000000000000000000000000000000000",
+    "controllerPublicResolver": "0x3Ea097FFc2089a5Ae24DF46F18d621D007577f5C",
+    "resolverRegistry": "0xdD69B92f6fAE6da3825b7d126Fe058e78E7F8482",
+    "reverseRegistry": "0xdD69B92f6fAE6da3825b7d126Fe058e78E7F8482",
+    "reverseDefaultResolver": "0x3Ea097FFc2089a5Ae24DF46F18d621D007577f5C",
+    "reverseBaseRegistrar": "0x0DF136b94f99CAfcC010723b51f8D8EC10A0B907",
+    "reverseNode": "0x91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2",
+    "reverseBaseNode": "0xb0622ac8c513b1e04f26418271b595fae314dbed2e3dea63916fc45cde7c5bbe",
+    "reverseSuffix": "contour",
+    "universalRegistry": "0xdD69B92f6fAE6da3825b7d126Fe058e78E7F8482",
+    "universalReverseRegistrar": "0x5ecE3F5815813668307BdCe1405B5C765E526837",
+    "marketplaceRegistrar": "0x0DF136b94f99CAfcC010723b51f8D8EC10A0B907",
+    "marketplaceSettlementAsset": "0x3600000000000000000000000000000000000000"
+  }
+}
