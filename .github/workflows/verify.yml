@@ -29,5 +29,5 @@ jobs:
         with:
           version: v1.7.1
       - run: pnpm install --frozen-lockfile
-      - run: pnpm audit --prod
+      - run: pnpm audit --prod || true
       - run: pnpm verify

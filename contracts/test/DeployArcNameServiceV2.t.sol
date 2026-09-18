@@ -21,8 +21,7 @@ contract DeployArcNameServiceV2Test is TestBase, DeployArcNameServiceV2 {
     uint256 private constant _SIGNER_KEY = 0xC0170;
     uint256 private constant _REFERRAL_BPS = 500;
     uint256 private constant _MARKETPLACE_FEE_BPS = 250;
-    string private constant _METADATA_BASE_URI =
-        "https://contour-arc.vercel.app/api/metadata/";
+    string private constant _METADATA_BASE_URI = "https://contour-arc.vercel.app/api/metadata/";
 
     address private governance;
     address private alice = address(0xA11CE);

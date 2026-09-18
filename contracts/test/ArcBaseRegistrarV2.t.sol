@@ -25,8 +25,7 @@ interface VmArtifactAssertions {
 }
 
 contract ArcBaseRegistrarV2Test is TestBase {
-    string private constant _METADATA_BASE_URI =
-        "https://contour-arc.vercel.app/api/metadata/";
+    string private constant _METADATA_BASE_URI = "https://contour-arc.vercel.app/api/metadata/";
     bytes32 private constant _V1_RUNTIME_HASH =
         0x7b16068d61b0aca48772054892b76f043b45092449bc3ea1837ef0d3402acb2f;
     uint256 private constant _TOKEN_ID =
