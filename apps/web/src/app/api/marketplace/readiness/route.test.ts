@@ -26,7 +26,7 @@ const ready = {
   ready: true,
   reasons: [],
   releaseId: "0xrelease",
-  chainId: 5_042_002,
+  chainId: 5_042,
   marketplace: "0x1111111111111111111111111111111111111111",
   asOfBlock: "100",
   paused: false,

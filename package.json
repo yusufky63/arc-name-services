@@ -2,7 +2,7 @@
   "name": "contour-name-protocol",
   "version": "0.1.0",
   "private": true,
-  "description": "Independent name infrastructure built for Arc Testnet.",
+  "description": "Independent name infrastructure built for Arc Mainnet.",
   "license": "MIT",
   "packageManager": "pnpm@11.9.0",
   "scripts": {

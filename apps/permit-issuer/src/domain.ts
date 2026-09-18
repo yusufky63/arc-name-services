@@ -60,7 +60,7 @@ export interface LeaseStore {
 }
 
 /**
- * Process-local Arc Testnet coordination store.
+ * Process-local Arc Mainnet coordination store.
  *
  * Keep the issuer at one replica: leases, idempotency records and rate-limit
  * buckets intentionally live in this process, are retention-bounded, and reset

@@ -1,6 +1,6 @@
 # Arc BENS subgraph
 
-Current status: the seven-contract Arc Testnet suite and canonical manifest are `active`,
+Current status: the seven-contract Arc Mainnet suite and canonical manifest are `active`,
 but `activationEvidence.productLive` and every BENS capability remain false. This subgraph
 has not been activated, deployed or synced.
 All seven contracts are source-verified on ArcScan and its v2 API returns their ABIs.

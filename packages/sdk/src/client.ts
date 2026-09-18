@@ -74,7 +74,7 @@ export class ArcNameClient {
     this.manifest = manifest;
   }
 
-  /** Proves this transport is serving Arc Testnet before any contract read. */
+  /** Proves this transport is serving Arc Mainnet before any contract read. */
   async assertChain(): Promise<void> {
     if (!this.chainAssertion) {
       const assertion = this.publicClient.getChainId().then((chainId) => {

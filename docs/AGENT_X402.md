@@ -1,7 +1,7 @@
 # Agent, MCP, ERC-8004 ve x402
 
 > Release 1: registration, marketplace, hosted MCP reads and unsigned plans are
-> operational on Arc Testnet. ERC-8004 remains optional; no Contour-owned x402
+> operational on Arc Mainnet. ERC-8004 remains optional; no Contour-owned x402
 > payment endpoint is advertised without a durable service.
 
 ## Yetki ayrımı
@@ -85,9 +85,9 @@ protocol payment için sıfırdır; native USDC yalnız network fee katmanıdır
 
 ## ERC-8004 opsiyonel agent kimliği
 
-Arc Testnet resmî tutorial'ındaki registry adresleri:
+Arc Mainnet resmî tutorial'ındaki registry adresleri:
 
-| Registry | Arc Testnet adresi |
+| Registry | Arc Mainnet adresi |
 | --- | --- |
 | IdentityRegistry | `0x8004A818BFB912233c491871b3d84c89A494BD9e` |
 | ReputationRegistry | `0x8004B663056A597Dffe9eCcC1965A193B7388713` |
@@ -118,11 +118,11 @@ Kaynak: [Arc agentic economy](https://docs.arc.io/build/agentic-economy).
 
 ## Arc üzerindeki Gateway/x402 profili
 
-Circle Gateway Nanopayments Arc Testnet'i destekler:
+Circle Gateway Nanopayments Arc Mainnet'i destekler:
 
 ```text
 chain: arcTestnet
-network: eip155:5042002
+network: eip155:5042
 Gateway domain: 26
 scheme: exact
 asset: 0x3600000000000000000000000000000000000000
@@ -263,8 +263,8 @@ Arc USDC proxy implementation ABI'sinde `transferWithAuthorization`,
 `receiveWithAuthorization`, `cancelAuthorization`, `authorizationState`, EIP-2612
 `permit`, `nonces` ve `DOMAIN_SEPARATOR` görülür:
 
-- [Arc USDC proxy](https://testnet.arcscan.app/address/0x3600000000000000000000000000000000000000)
-- [Verified implementation](https://testnet.arcscan.app/address/0x3910B7cbb3341f1F4bF4cEB66e4A2C8f204FE2b8)
+- [Arc USDC proxy](https://explorer.arc.io/address/0x3600000000000000000000000000000000000000)
+- [Verified implementation](https://explorer.arc.io/address/0x3910B7cbb3341f1F4bF4cEB66e4A2C8f204FE2b8)
 
 Bu capability x402/Gateway ile aynı değildir. Release 1'de direct EIP-3009 da
 disabled'dır. Enable gate EOA/EIP-1271 fallback, nonce/replay, cancel/expiry,

@@ -43,13 +43,13 @@ const draft: any = {
   schemaVersion: "1.1.0",
   state: "draft",
   releaseId: null,
-  testnet: true,
+  testnet: false,
   chain: {
-    id: 5042002,
-    caip2: "eip155:5042002",
-    rpcUrl: "https://rpc.testnet.arc.network",
-    websocketUrl: "wss://rpc.testnet.arc.network",
-    explorerUrl: "https://testnet.arcscan.app",
+    id: 5042,
+    caip2: "eip155:5042",
+    rpcUrl: "https://rpc.mainnet.arc.io",
+    websocketUrl: "wss://rpc.quicknode.mainnet.arc.io",
+    explorerUrl: "https://explorer.arc.io",
     multicall3: "0xcA11bde05977b3631167028862bE2a173976CA11",
     confirmations: 1,
   },
@@ -104,7 +104,7 @@ const draft: any = {
   resolverCapabilities: Object.fromEntries(Object.keys(EXPECTED_RESOLVER_CAPABILITIES).map((key) => [key, false])),
   discovery: { manifestUrl: null, agentManifestUrl: null, mcpUrl: null, openApiUrl: null },
   bens: { protocolConfigured: false, subgraphSynced: false, apiUrl: null, subgraphUrl: null, hostedArcscanActive: false },
-  x402: { active: false, network: "eip155:5042002", asset: "0x3600000000000000000000000000000000000000", scheme: "exact", facilitatorUrl: null },
+  x402: { active: false, network: "eip155:5042", asset: "0x3600000000000000000000000000000000000000", scheme: "exact", facilitatorUrl: null },
 };
 
 function activated() {
@@ -126,7 +126,7 @@ function activated() {
     deployment.abiUrl = `https://example.com/contract-${index}.json`;
     deployment.abiSha256 = `0x${(index + 20).toString(16).padStart(64, "0")}`;
     deployment.sourceVerified = true;
-    deployment.sourceVerificationUrl = `https://testnet.arcscan.app/api/v2/smart-contracts/${deployment.address}`;
+    deployment.sourceVerificationUrl = `https://explorer.arc.io/api/v2/smart-contracts/${deployment.address}`;
     deployment.sourceVerificationSha256 = `0x${(index + 30).toString(16).padStart(64, "0")}`;
     index += 1;
   }
@@ -191,7 +191,7 @@ function retainedLegacyManifest() {
       ...legacy.contracts[key],
       ...contract,
       sourceVerificationUrl:
-        `https://testnet.arcscan.app/api/v2/smart-contracts/${contract.address}`,
+        `https://explorer.arc.io/api/v2/smart-contracts/${contract.address}`,
     };
   }
   return legacy;
@@ -310,7 +310,7 @@ describe("deployment manifest", () => {
   it("rejects the wrong chain", () => {
     const wrong = structuredClone(draft);
     wrong.chain.id = 84532;
-    expect(() => parseDeploymentManifest(wrong)).toThrow(/Arc Testnet/);
+    expect(() => parseDeploymentManifest(wrong)).toThrow(/Arc Mainnet/);
   });
   it("rejects an unknown activation state", () => {
     const unknown = structuredClone(draft);
@@ -342,7 +342,7 @@ describe("deployment manifest", () => {
     const splitSigner = activated();
     splitSigner.activationEvidence.controllerPolicy.permitSigner = "0xa100000000000000000000000000000000000001";
     splitSigner.permitIssuer.signerAddress = "0xa100000000000000000000000000000000000001";
-    expect(() => parseDeploymentManifest(splitSigner)).toThrow(/single Arc Testnet governance account/);
+    expect(() => parseDeploymentManifest(splitSigner)).toThrow(/single Arc Mainnet governance account/);
   });
   it("requires the normative Release 1 issuer before active promotion", () => {
     const inactiveIssuer = activated();
@@ -356,7 +356,7 @@ describe("deployment manifest", () => {
     const health = {
       ok: true,
       productLive: true,
-      chainId: 5_042_002,
+      chainId: 5_042,
       controller,
       releaseId: live.releaseId,
       normalizationProfileHash: live.normalization.profileHash,
@@ -941,7 +941,7 @@ describe("deployment manifest", () => {
       schemaVersion: "1.0.0" as const,
       artifact: "fundedEndToEnd" as const,
       verdict: "PASS" as const,
-      chainId: 5_042_002 as const,
+      chainId: 5_042 as const,
       releaseId: live.releaseId!,
       promotionSubjectSha256: originalSubject,
       verifiedAtBlock: live.activationEvidence.verifiedAtBlock!,
@@ -968,7 +968,7 @@ describe("deployment manifest", () => {
       schemaVersion: "1.1.0" as const,
       artifact: "fundedEndToEnd" as const,
       verdict: "PASS" as const,
-      chainId: 5_042_002 as const,
+      chainId: 5_042 as const,
       releaseId: live.releaseId!,
       promotionSubjectSha256: originalSubject,
       verifiedAtBlock: live.activationEvidence.verifiedAtBlock!,
@@ -1157,7 +1157,7 @@ describe("deployment manifest", () => {
         schemaVersion: "1.0.0" as const,
         artifact: "operationsDrill" as const,
         verdict: "PASS" as const,
-        chainId: 5_042_002 as const,
+        chainId: 5_042 as const,
         releaseId: live.releaseId!,
         promotionSubjectSha256,
         verifiedAtBlock: live.activationEvidence.verifiedAtBlock!,
@@ -1177,7 +1177,7 @@ describe("deployment manifest", () => {
         schemaVersion: "1.1.0" as const,
         artifact: "operationsDrill" as const,
         verdict: "PASS" as const,
-        chainId: 5_042_002 as const,
+        chainId: 5_042 as const,
         releaseId: live.releaseId!,
         promotionSubjectSha256,
         verifiedAtBlock: live.activationEvidence.verifiedAtBlock!,

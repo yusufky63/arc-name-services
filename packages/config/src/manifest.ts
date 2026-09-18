@@ -74,7 +74,7 @@ export interface ActivationEvidence {
   artifacts: Record<ActivationArtifactKey, HashedEvidenceArtifact>;
   governance: {
     /**
-     * Arc Testnet Release 1 deliberately uses one funded EOA for deployment,
+     * Arc Mainnet Release 1 uses one funded EOA for deployment,
      * protocol ownership, treasury settlement and EIP-712 permit signing.
      * Promotion proves that this address has no runtime code and has a
      * positive native-USDC balance; no multisig/KMS assumption is encoded.
@@ -141,7 +141,7 @@ export interface DeploymentManifest {
   nftMetadata?: NftMetadataConfiguration | null;
   /** Immutable references retained across a clean V2 cutover. */
   legacyReleases?: readonly LegacyReleaseReference[];
-  testnet: true;
+  testnet: false;
   chain: {
     id: typeof ARC_TESTNET_CHAIN_ID;
     caip2: typeof ARC_TESTNET_CAIP2;
@@ -502,15 +502,15 @@ export function assertDeploymentManifest(value: unknown): asserts value is Deplo
     fail("state must be draft, configured, verified or active");
   }
   if (manifest.chain?.id !== ARC_TESTNET_CHAIN_ID || manifest.chain.caip2 !== ARC_TESTNET_CAIP2) {
-    fail("manifest is not for Arc Testnet");
+    fail("manifest is not for Arc Mainnet");
   }
-  if (manifest.testnet !== true) fail("testnet must be true");
+  if (manifest.testnet !== false) fail("testnet must be false for Arc Mainnet");
   if (manifest.releaseId !== null && !isNonZeroHex32(manifest.releaseId)) {
     fail("releaseId must be a non-zero bytes32 value or null");
   }
   assertRegistrarMetadata(manifest);
-  if (manifest.chain.rpcUrl !== ARC_TESTNET_RPC_URL) fail("canonical Arc Testnet RPC mismatch");
-  if (manifest.chain.websocketUrl !== "wss://rpc.testnet.arc.network") fail("canonical Arc Testnet WebSocket mismatch");
+  if (manifest.chain.rpcUrl !== ARC_TESTNET_RPC_URL) fail("canonical Arc Mainnet RPC mismatch");
+  if (manifest.chain.websocketUrl !== "wss://rpc.quicknode.mainnet.arc.io") fail("canonical Arc Mainnet WebSocket mismatch");
   if (manifest.chain.explorerUrl !== ARC_TESTNET_EXPLORER_URL) fail("Arc explorer mismatch");
   if (manifest.chain.multicall3 !== ARC_TESTNET_MULTICALL3) fail("Arc Multicall3 mismatch");
   if (manifest.chain.confirmations !== 1) fail("receipt confirmation policy mismatch");
@@ -610,11 +610,15 @@ export function assertDeploymentManifest(value: unknown): asserts value is Deplo
       assertPublicEvidenceUrl(deployment.abiUrl, `contracts.${key}.abiUrl`);
       assertPublicEvidenceUrl(deployment.sourceVerificationUrl, `contracts.${key}.sourceVerificationUrl`);
       const sourceUrl = new URL(deployment.sourceVerificationUrl);
-      if (
-        sourceUrl.hostname !== "testnet.arcscan.app" ||
-        !sourceUrl.pathname.toLowerCase().includes(getAddress(deployment.address!).toLowerCase())
-      ) {
-        fail(`${key} source verification must use the matching ArcScan contract endpoint`);
+      const normalizedAddress = getAddress(deployment.address!).toLowerCase();
+      const path = sourceUrl.pathname.toLowerCase();
+      const explorerEndpoint =
+        sourceUrl.hostname === "explorer.arc.io" && path.includes(normalizedAddress);
+      const sourcifyEndpoint =
+        sourceUrl.hostname === "sourcify.dev" &&
+        path === `/server/v2/contract/${manifest.chain.id}/${normalizedAddress}`;
+      if (!explorerEndpoint && !sourcifyEndpoint) {
+        fail(`${key} source verification must use a matching Arc Explorer or Sourcify endpoint`);
       }
     }
   }
@@ -705,7 +709,7 @@ export function assertDeploymentManifest(value: unknown): asserts value is Deplo
       !evidence.governance.account ||
       getAddress(controllerPolicy.permitSigner) !== getAddress(evidence.governance.account)
     ) {
-      fail("permit signer must match the single Arc Testnet governance account");
+      fail("permit signer must match the single Arc Mainnet governance account");
     }
   }
   if (evidence.productLive && (controllerPolicy.registrationsPaused || marketplacePolicy.paused)) {

@@ -189,7 +189,7 @@ export function createContourStdioServer(
   server.registerResource(
     "deployment-manifest",
     "contour://manifest",
-    { title: "Arc Testnet canonical and legacy release manifests", mimeType: "application/json" },
+    { title: "Arc Mainnet canonical and legacy release manifests", mimeType: "application/json" },
     async (uri) => ({
       contents: [{
         uri: uri.href,

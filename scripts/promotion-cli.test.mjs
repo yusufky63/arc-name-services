@@ -70,7 +70,7 @@ test("rejects ambiguous or malformed candidate-origin CLI syntax", () => {
 test("threads only the explicit candidate origin into verifier options", () => {
   withCleanPromotionEnvironment(() => {
     const options = promotionVerifierOptions({
-      chain: { rpcUrl: "https://rpc.testnet.arc.network" },
+      chain: { rpcUrl: "https://rpc.mainnet.arc.io" },
     }, {
       candidateOrigin: "https://unaliased-candidate.vercel.app",
     });

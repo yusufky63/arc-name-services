@@ -3,9 +3,9 @@ import { localSignerPrivateKey, requiredServiceSecret } from "./config.js";
 import { canonicalArcRpcUrl } from "./arc-rpc.js";
 
 describe("permit issuer server secret policy", () => {
-  it("accepts only the canonical Arc Testnet RPC", () => {
-    expect(canonicalArcRpcUrl("https://rpc.testnet.arc.network")).toBe(
-      "https://rpc.testnet.arc.network",
+  it("accepts only the canonical Arc Mainnet RPC", () => {
+    expect(canonicalArcRpcUrl("https://rpc.mainnet.arc.io")).toBe(
+      "https://rpc.mainnet.arc.io",
     );
     expect(() => canonicalArcRpcUrl("https://rpc.example")).toThrow(/must exactly equal/);
   });

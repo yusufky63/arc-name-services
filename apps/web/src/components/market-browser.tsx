@@ -139,7 +139,7 @@ async function fetchMarket(fresh = false): Promise<MarketSnapshot> {
   });
   const payload = await readJson<MarketSnapshot>(response);
   if (!response.ok) throw new Error(payload.error ?? "Marketplace read failed.");
-  if (payload.chainId !== 5_042_002 || !Array.isArray(payload.listings)) {
+  if (payload.chainId !== 5_042 || !Array.isArray(payload.listings)) {
     throw new Error("The marketplace API returned an invalid Arc snapshot.");
   }
   return payload;

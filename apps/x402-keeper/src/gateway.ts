@@ -2,7 +2,7 @@ import { BatchFacilitatorClient } from "@circle-fin/x402-batching/server";
 
 export interface GatewayRequirements {
   scheme: "exact";
-  network: "eip155:5042002";
+  network: "eip155:5042";
   asset: string;
   amount: string;
   payTo: string;
@@ -17,7 +17,7 @@ export class ArcGateway {
 
   async discover() {
     const supported = await this.client.getSupported();
-    const profile = supported.kinds.find((kind) => kind.scheme === "exact" && kind.network === "eip155:5042002");
+    const profile = supported.kinds.find((kind) => kind.scheme === "exact" && kind.network === "eip155:5042");
     if (!profile?.extra?.verifyingContract) throw new Error("Circle facilitator does not advertise the required Arc exact profile");
     this.supportedExtra = profile.extra;
   }
@@ -25,7 +25,7 @@ export class ArcGateway {
   requirements(amount: bigint, asset: string, payTo: string): GatewayRequirements {
     if (!this.supportedExtra) throw new Error("facilitator profile has not been discovered");
     return {
-      scheme: "exact", network: "eip155:5042002", asset, amount: amount.toString(), payTo,
+      scheme: "exact", network: "eip155:5042", asset, amount: amount.toString(), payTo,
       maxTimeoutSeconds: 120, extra: this.supportedExtra,
     };
   }

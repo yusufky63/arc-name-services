@@ -29,7 +29,7 @@ import {
 } from "./registration-smoke-evidence.test-helper.mjs";
 
 const canonicalManifest = JSON.parse(
-  await readFile(new URL("../deployments/5042002.json", import.meta.url), "utf8"),
+  await readFile(new URL("../deployments/5042.json", import.meta.url), "utf8"),
 );
 const governance = canonicalManifest.activationEvidence.governance.account;
 const zeroAddress = "0x0000000000000000000000000000000000000000";
@@ -401,7 +401,7 @@ test("validates release identities from the selected deployment manifest", () =>
 
   const wrongChain = structuredClone(canonicalManifest);
   wrongChain.chain.id = 1;
-  assert.throws(() => validateCanonicalAdminManifest(wrongChain), /chain ID is not Arc Testnet/);
+  assert.throws(() => validateCanonicalAdminManifest(wrongChain), /chain ID is not Arc Mainnet/);
 
   const zeroController = structuredClone(canonicalManifest);
   zeroController.contracts.controller.address = zeroAddress;
@@ -437,7 +437,7 @@ test("injects one selected transport into public and wallet clients", () => {
   const account = { address: governance };
   const seen = [];
   const clients = createAdminClients({
-    rpcUrl: "https://rpc.testnet.arc.network",
+    rpcUrl: "https://rpc.mainnet.arc.io",
     account,
     transport,
     publicClientFactory: (config) => {
@@ -718,7 +718,7 @@ test("rejects the wrong connected chain and the wrong administration account", a
       publicClient: wrongChain.publicClient,
       walletClient: wrongChain.walletClient,
     }),
-    (error) => error instanceof AdminActivationFailure && /not Arc Testnet/.test(error.report.error.message),
+    (error) => error instanceof AdminActivationFailure && /not Arc Mainnet/.test(error.report.error.message),
   );
 
   const clients = createFakeClients();

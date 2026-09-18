@@ -19,7 +19,7 @@ const snapshot: NameNftSnapshot = {
   releaseId: `0x${"ab".repeat(32)}`,
   releaseKey: "canonical",
   registrarVersion: "v2",
-  chainId: 5_042_002,
+  chainId: 5_042,
   chainName: "Arc Testnet",
   explorerUrl: "https://testnet.arcscan.app",
   registrarAddress: "0x1111111111111111111111111111111111111111",

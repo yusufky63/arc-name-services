@@ -868,7 +868,7 @@ export function describeAdminEvent(
     case "OwnershipTransferred":
       return { category: "ownership", title: "Ownership transferred", detail: `${addressArg(args, "previousOwner")} → ${addressArg(args, "newOwner")}.` };
     default:
-      return { category: "configuration", title: eventName, detail: "Contract event confirmed on Arc Testnet." };
+      return { category: "configuration", title: eventName, detail: "Contract event confirmed on Arc Mainnet." };
   }
 }
 

@@ -6,7 +6,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SITE_URL = "https://contour-arc.vercel.app";
-const RPC_URL = "https://rpc.testnet.arc.network";
+const RPC_URL = "https://rpc.mainnet.arc.io";
 const DEFAULT_CANDIDATE_SECRET_FILE = resolve(".local-keystores", "release-activation.env");
 const PRIVATE_KEY_PATTERN = /(?:0x)?[0-9a-fA-F]{64}/g;
 const LIVE_BINDING_PATTERN = /^0x[0-9a-fA-F]{64}:0x[0-9a-fA-F]{64}:[1-9][0-9]*$/;

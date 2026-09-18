@@ -32,7 +32,7 @@ services:
       postgres_pass: "${GRAPH_POSTGRES_PASSWORD:?required}"
       postgres_db: "${GRAPH_POSTGRES_DB:?required}"
       ipfs: ipfs:5001
-      ethereum: arc-testnet:https://rpc.testnet.arc.network
+      ethereum: arc-mainnet:https://rpc.mainnet.arc.io
       GRAPH_LOG: info
     ports:
       - "127.0.0.1:8000:8000"

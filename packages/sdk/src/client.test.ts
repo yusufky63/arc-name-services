@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { zeroAddress, type Address, type PublicClient } from "viem";
-import deployment from "../../../deployments/5042002.json" with { type: "json" };
+import deployment from "../../../deployments/5042.json" with { type: "json" };
 import { EXPECTED_RESOLVER_CAPABILITIES, parseDeploymentManifest } from "@contour/config";
 import { ArcNameClient } from "./client.js";
 
@@ -18,7 +18,7 @@ function activeManifest() {
     contract.abiUrl = `https://example.com/contract-${index}.json`;
     contract.abiSha256 = `0x${(index + 20).toString(16).padStart(64, "0")}`;
     contract.sourceVerified = true;
-    contract.sourceVerificationUrl = `https://testnet.arcscan.app/api/v2/smart-contracts/${contract.address}`;
+    contract.sourceVerificationUrl = `https://sourcify.dev/server/v2/contract/5042/${contract.address.toLowerCase()}`;
     contract.sourceVerificationSha256 = `0x${(index + 30).toString(16).padStart(64, "0")}`;
     index += 1;
   }
@@ -74,19 +74,19 @@ function multicallFrom(
 }
 
 describe("ArcNameClient live chain identity", () => {
-  it("fails closed before a contract read when RPC is not Arc Testnet", async () => {
+  it("fails closed before a contract read when RPC is not Arc Mainnet", async () => {
     const readContract = vi.fn();
     const client = new ArcNameClient({
       getChainId: vi.fn(async () => 1),
       readContract,
     } as unknown as PublicClient, activeManifest());
 
-    await expect(client.quote("alice", 1n)).rejects.toThrow(/expected 5042002, received 1/);
+    await expect(client.quote("alice", 1n)).rejects.toThrow(/expected 5042, received 1/);
     expect(readContract).not.toHaveBeenCalled();
   });
 
   it("caches a successful assertion for the immutable client transport", async () => {
-    const getChainId = vi.fn(async () => 5_042_002);
+    const getChainId = vi.fn(async () => 5_042);
     const readContract = vi.fn(async () => 1n);
     const client = new ArcNameClient({ getChainId, readContract } as unknown as PublicClient, activeManifest());
 
@@ -100,7 +100,7 @@ describe("ArcNameClient live chain identity", () => {
     const readContract = vi.fn(async () => 1n);
     const manifest = configuredManifest();
     const client = new ArcNameClient({
-      getChainId: vi.fn(async () => 5_042_002),
+      getChainId: vi.fn(async () => 5_042),
       readContract,
     } as unknown as PublicClient, manifest);
 
@@ -117,7 +117,7 @@ describe("ArcNameClient live chain identity", () => {
     const manifest = parseDeploymentManifest(value);
     const readContract = vi.fn();
     const client = new ArcNameClient({
-      getChainId: vi.fn(async () => 5_042_002),
+      getChainId: vi.fn(async () => 5_042),
       readContract,
     } as unknown as PublicClient, manifest);
 
@@ -144,7 +144,7 @@ describe("ArcNameClient live chain identity", () => {
     const multicall = multicallFrom(read);
     const readContract = vi.fn();
     const client = new ArcNameClient({
-      getChainId: vi.fn(async () => 5_042_002),
+      getChainId: vi.fn(async () => 5_042),
       multicall,
       readContract,
     } as unknown as PublicClient, manifest);
@@ -181,7 +181,7 @@ describe("ArcNameClient live chain identity", () => {
     const multicall = multicallFrom(read);
     const readContract = vi.fn(async () => "alice.contour");
     const client = new ArcNameClient({
-      getChainId: vi.fn(async () => 5_042_002),
+      getChainId: vi.fn(async () => 5_042),
       multicall,
       readContract,
     } as unknown as PublicClient, manifest);
@@ -229,7 +229,7 @@ describe("ArcNameClient live chain identity", () => {
     });
     const multicall = multicallFrom(read);
     const client = new ArcNameClient({
-      getChainId: vi.fn(async () => 5_042_002),
+      getChainId: vi.fn(async () => 5_042),
       multicall,
       readContract: vi.fn(),
     } as unknown as PublicClient, manifest);
@@ -258,7 +258,7 @@ describe("ArcNameClient live chain identity", () => {
       }
     });
     const client = new ArcNameClient({
-      getChainId: vi.fn(async () => 5_042_002),
+      getChainId: vi.fn(async () => 5_042),
       multicall: multicallFrom(read),
       readContract: vi.fn(),
     } as unknown as PublicClient, activeManifest());
@@ -285,7 +285,7 @@ describe("ArcNameClient live chain identity", () => {
     });
     const readContract = vi.fn(read);
     const client = new ArcNameClient({
-      getChainId: vi.fn(async () => 5_042_002),
+      getChainId: vi.fn(async () => 5_042),
       multicall: multicallFrom(read),
       readContract,
     } as unknown as PublicClient, activeManifest());

@@ -54,7 +54,7 @@ export function requireBoundSubgraphName(subgraphUrl, suffix) {
     fail("bens.subgraphUrl path must be valid UTF-8");
   }
   const segments = path.split("/").filter(Boolean);
-  const expected = `${suffix}-arc-testnet`;
+  const expected = `${suffix}-arc-mainnet`;
   const tail = segments.slice(-3);
   if (tail[0] !== "subgraphs" || tail[1] !== "name" || tail[2] !== expected) {
     fail(`bens.subgraphUrl must end with /subgraphs/name/${expected}`);

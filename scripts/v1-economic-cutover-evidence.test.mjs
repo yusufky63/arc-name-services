@@ -166,8 +166,8 @@ function manifestFixture() {
       releaseId: RELEASE_ID,
       testnet: true,
       chain: {
-        id: 5_042_002,
-        rpcUrl: "https://rpc.testnet.arc.network",
+        id: 5_042,
+        rpcUrl: "https://rpc.mainnet.arc.io",
       },
       settlement: { erc20Address: ASSET },
       namespace: { suffix: "contour", baseNode: BASE_NODE },
@@ -462,7 +462,7 @@ function buildFixture(options = {}) {
   };
 
   const client = {
-    getChainId: async () => 5_042_002,
+    getChainId: async () => 5_042,
     getBlock: async ({ blockNumber }) => {
       const key = blockNumber.toString();
       const count = (blockCalls.get(key) ?? 0) + 1;

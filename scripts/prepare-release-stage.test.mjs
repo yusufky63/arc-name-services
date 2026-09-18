@@ -25,7 +25,7 @@ const HASH = (value) => `0x${value.toString(16).padStart(64, "0")}`;
 const URL = (name) => `https://evidence.example.com/releases/contour/${name}.json`;
 
 async function configuredFixture() {
-  const value = JSON.parse(await readFile(resolve("deployments/5042002.json"), "utf8"));
+  const value = JSON.parse(await readFile(resolve("deployments/5042.json"), "utf8"));
   value.state = "configured";
   value.activationEvidence.productLive = false;
   value.activationEvidence.verifiedAtBlock = null;

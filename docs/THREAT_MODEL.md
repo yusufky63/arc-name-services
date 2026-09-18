@@ -1,6 +1,6 @@
 # Tehdit Modeli
 
-> Kapsam: Contour Name Protocol'ün Arc Testnet ilk release'i.  
+> Kapsam: Contour Name Protocol'ün Arc Mainnet ilk release'i.  
 > Bu belge preventive controls ve release gate'lerini tanımlar; audit sonucu değildir.
 
 Canonical public UI, OpenAPI, hosted MCP ve funded acceptance akışı tek adımda
@@ -204,7 +204,7 @@ Forge live release
 ## Kabul edilen residual riskler
 
 - Permit issuer sansür ve liveness authority'sidir.
-- Arc Testnet ve Circle test infrastructure production SLA/finality/fund guarantee
+- Arc Mainnet ve Circle test infrastructure production SLA/finality/fund guarantee
   sağlamaz.
 - 180 saniyelik aktif permit expire olana kadar risk taşır; signer aynı admin EOA olduğu
   için secret compromise'ı yalnız permit kapsamıyla sınırlı değildir.

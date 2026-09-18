@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getAddress, keccak256, zeroAddress } from "viem";
 import type { DeploymentManifest } from "@contour/config";
-import deploymentManifest from "../../../../deployments/5042002.json";
+import deploymentManifest from "../../../../deployments/5042.json";
 
 const mocks = vi.hoisted(() => ({
   createPublicClient: vi.fn(),
@@ -9,7 +9,7 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock("server-only", () => ({}));
 vi.mock("@/lib/network", () => ({
-  arcTestnet: { id: 5_042_002 },
+  arcTestnet: { id: 5_042 },
 }));
 vi.mock("viem", async () => {
   const actual = await vi.importActual<typeof import("viem")>("viem");
@@ -109,7 +109,7 @@ describe("marketplace readiness", () => {
     });
   });
 
-  it("fails before contract reads when the RPC is not Arc Testnet", async () => {
+  it("fails before contract reads when the RPC is not Arc Mainnet", async () => {
     const manifest = activeManifest();
     const client = installClient(manifest);
     client.getChainId.mockResolvedValue(1);

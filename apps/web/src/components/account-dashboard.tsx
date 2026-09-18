@@ -69,7 +69,7 @@ async function fetchAccount(owner: Address, fresh = false): Promise<AccountSnaps
   const payload = await readJson<AccountSnapshot>(response);
   if (!response.ok) throw new Error(payload.error ?? "Account read failed.");
   if (
-    payload.chainId !== 5_042_002 ||
+    payload.chainId !== 5_042 ||
     !isAddress(payload.owner) ||
     getAddress(payload.owner) !== owner ||
     !Array.isArray(payload.names) ||
@@ -272,8 +272,8 @@ export function AccountDashboard({ actionsEnabled }: { actionsEnabled: boolean }
     return (
       <section className="account-gate-surface">
         <div className="account-gate content-shell">
-          <span>WRONG NETWORK</span><h2>Arc Testnet required.</h2>
-          <p>Switch your wallet to Arc Testnet to continue.</p>
+          <span>WRONG NETWORK</span><h2>Arc Mainnet required.</h2>
+          <p>Switch your wallet to Arc Mainnet to continue.</p>
           <button type="button" onClick={() => void wallet.switchToArc().catch(() => undefined)} disabled={wallet.busy}>Switch to Arc</button>
           {wallet.message ? <p role="status">{wallet.message}</p> : null}
         </div>

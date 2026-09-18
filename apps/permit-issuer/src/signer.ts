@@ -12,7 +12,7 @@ export interface PermitSigner {
 }
 
 /**
- * Signs Arc Testnet registration permits with the canonical governance EOA's
+ * Signs Arc Mainnet registration permits with the canonical governance EOA's
  * server-only secret. Release 1 intentionally uses that same EOA for protocol
  * ownership, treasury settlement and permit signing.
  *

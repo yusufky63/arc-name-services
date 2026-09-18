@@ -9,7 +9,7 @@ import {
 import { privateKeyToAccount } from "viem/accounts";
 import type { DeploymentManifest } from "@contour/config";
 import { resolverDataHash } from "@contour/sdk";
-import deploymentManifest from "../../../../deployments/5042002.json";
+import deploymentManifest from "../../../../deployments/5042.json";
 
 const { createPublicClientMock } = vi.hoisted(() => ({
   createPublicClientMock: vi.fn(),
@@ -50,6 +50,7 @@ type ArcState = {
 function activeFixture(): DeploymentManifest {
   const value = structuredClone(deploymentManifest) as unknown as DeploymentManifest;
   value.state = "active";
+  value.activationEvidence.controllerPolicy.registrationsPaused = false;
   value.permitIssuer.active = true;
   value.permitIssuer.url = ISSUER_URL;
   value.permitIssuer.signerAddress = signerAccount.address;

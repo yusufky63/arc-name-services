@@ -286,8 +286,8 @@ export function accountsFromEnvironment(env = process.env) {
 }
 
 function assertManifestForCandidate(manifest, candidateOrigin) {
-  if (manifest.chain.id !== ARC_TESTNET_CHAIN_ID || manifest.testnet !== true) {
-    fail("funded acceptance is restricted to Arc Testnet chain 5042002");
+  if (manifest.chain.id !== ARC_TESTNET_CHAIN_ID || manifest.testnet !== false) {
+    fail("funded acceptance is restricted to Arc Mainnet chain 5042");
   }
   if (manifest.state !== "active" || manifest.activationEvidence.productLive !== false) {
     fail("manifest must be an active private candidate with productLive=false");
@@ -814,7 +814,7 @@ export async function verifyV2NftMetadataAcceptance({
   ], "candidate NFT metadata properties");
   if (
     metadata.name !== identity.name ||
-    metadata.description !== `${identity.name} is a Contour name registered on Arc Testnet.` ||
+    metadata.description !== `${identity.name} is a Contour name registered on Arc Mainnet.` ||
     metadata.image !== expectedPublicImageUrl ||
     metadata.external_url !== expectedExternalUrl ||
     metadata.background_color !== "000B24" ||
@@ -839,7 +839,7 @@ export async function verifyV2NftMetadataAcceptance({
     fail("candidate NFT metadata attributes are incomplete");
   }
   exactMetadataAttribute(metadata.attributes, "Namespace", `.${manifest.namespace.suffix}`, undefined);
-  exactMetadataAttribute(metadata.attributes, "Network", "Arc Testnet", undefined);
+  exactMetadataAttribute(metadata.attributes, "Network", "Arc Mainnet", undefined);
   exactMetadataAttribute(metadata.attributes, "Length", Array.from(identity.normalized).length, undefined);
   exactMetadataAttribute(metadata.attributes, "Status", "ACTIVE", undefined);
   const expectedExpiry = expiry <= BigInt(Number.MAX_SAFE_INTEGER)

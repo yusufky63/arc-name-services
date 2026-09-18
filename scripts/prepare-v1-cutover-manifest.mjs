@@ -24,8 +24,8 @@ import {
 } from "../packages/config/dist/index.js";
 import { rateLimitedArcHttp } from "./lib/arc-rpc-transport.mjs";
 
-const ARC_TESTNET_CHAIN_ID = 5_042_002;
-const ARC_RPC_URL = "https://rpc.testnet.arc.network";
+const ARC_TESTNET_CHAIN_ID = 5_042;
+const ARC_RPC_URL = "https://rpc.mainnet.arc.io";
 const MULTICALL3 = "0xcA11bde05977b3631167028862bE2a173976CA11";
 const REVERSE_NODE =
   "0x91d1777781884d03a6757a803996e38de2a42967fb37eeaca72729271025a9e2";
@@ -548,7 +548,7 @@ export async function prepareV1CutoverManifest({
   if (typeof runtimeCodeHasher !== "function") fail("runtime code hasher is invalid");
   const identity = sourceIdentity(sourceValue, cutoverBlock);
   const chainId = await client.getChainId();
-  if (chainId !== ARC_TESTNET_CHAIN_ID) fail("connected chain is not Arc Testnet");
+  if (chainId !== ARC_TESTNET_CHAIN_ID) fail("connected chain is not Arc Mainnet");
   const head = await client.getBlockNumber();
   const confirmations = BigInt(identity.manifest.chain.confirmations);
   if (head < cutoverBlock + confirmations - 1n) {

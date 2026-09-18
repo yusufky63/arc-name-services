@@ -50,7 +50,7 @@ contract ArcNameServiceTest is TestBase {
         0x0889fdb1d0500090d2c605094dd2bd30510a137778f641aca67d8d2fb491f89c;
 
     function setUp() public {
-        vm.chainId(5_042_002);
+        vm.chainId(5_042);
         vm.warp(1_800_000_000);
         permitSigner = vm.addr(_SIGNER_KEY);
 
@@ -691,7 +691,7 @@ contract ArcNameServiceTest is TestBase {
         data = new bytes[](2);
         data[0] = abi.encodeWithSignature("setAddr(bytes32,address)", node, resolvedAddress);
         data[1] = abi.encodeWithSignature(
-            "setText(bytes32,string,string)", node, "network", "arc-testnet"
+            "setText(bytes32,string,string)", node, "network", "arc-mainnet"
         );
     }
 

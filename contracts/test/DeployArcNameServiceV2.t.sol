@@ -8,7 +8,7 @@ import { ArcRegistrarController } from "../src/ArcRegistrarController.sol";
 import { MockUSDC } from "./mocks/MockUSDC.sol";
 
 contract DeployArcNameServiceV2Test is TestBase, DeployArcNameServiceV2 {
-    uint256 private constant _ARC_TESTNET_CHAIN_ID = 5_042_002;
+    uint256 private constant _ARC_MAINNET_CHAIN_ID = 5_042;
     address private constant _USDC = 0x3600000000000000000000000000000000000000;
     bytes32 private constant _NORMALIZATION_PROFILE_HASH =
         0x0889fdb1d0500090d2c605094dd2bd30510a137778f641aca67d8d2fb491f89c;
@@ -31,7 +31,7 @@ contract DeployArcNameServiceV2Test is TestBase, DeployArcNameServiceV2 {
     bytes32 private releaseId = keccak256("contour-metadata-release-2");
 
     function setUp() public {
-        vm.chainId(_ARC_TESTNET_CHAIN_ID);
+        vm.chainId(_ARC_MAINNET_CHAIN_ID);
         vm.warp(1_800_000_000);
         governance = vm.addr(_SIGNER_KEY);
 

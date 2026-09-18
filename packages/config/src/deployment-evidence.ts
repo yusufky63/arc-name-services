@@ -24,8 +24,8 @@ import {
   type RegistrarVersion,
 } from "./manifest.js";
 
-export const ARC_DEPLOYMENT_CHAIN_ID = 5_042_002;
-export const ARC_DEPLOYMENT_CAIP2 = "eip155:5042002";
+export const ARC_DEPLOYMENT_CHAIN_ID = 5_042;
+export const ARC_DEPLOYMENT_CAIP2 = "eip155:5042";
 export const ARC_DEPLOYMENT_USDC = "0x3600000000000000000000000000000000000000" as Address;
 export const ARC_DEPLOYMENT_BASE_NODE =
   "0xb0622ac8c513b1e04f26418271b595fae314dbed2e3dea63916fc45cde7c5bbe" as Hex;
@@ -617,7 +617,7 @@ export function prepareDeploymentEvidence(
     if (deployer === undefined) deployer = from;
     else if (!sameAddress(deployer, from)) fail("all broadcast transactions must use one deployer");
     if (quantity(transaction.chainId, `transactions[${index}].transaction.chainId`) !== ARC_DEPLOYMENT_CHAIN_ID) {
-      fail(`transaction ${index + 1} is not for Arc Testnet`);
+      fail(`transaction ${index + 1} is not for Arc Mainnet`);
     }
     if (quantity(transaction.value ?? 0, `transactions[${index}].transaction.value`, true) !== 0) {
       fail(`transaction ${index + 1} unexpectedly transfers native value`);
@@ -793,7 +793,7 @@ export function prepareDeploymentEvidence(
     !sameAddress(treasury, governanceAccount) ||
     !sameAddress(permitSigner, governanceAccount)
   ) {
-    fail("deployer, protocol owner, treasury and permit signer must be the same Arc Testnet account");
+    fail("deployer, protocol owner, treasury and permit signer must be the same Arc Mainnet account");
   }
 
   const contractEvidence = {} as Record<ContractKey, PreparedContractEvidence>;
@@ -1027,7 +1027,7 @@ export function prepareConfiguredDeploymentManifest(
     releaseId: evidence.config.releaseId,
     ...releaseIdentity,
     ...legacyIdentity,
-    testnet: true,
+    testnet: false,
     chain: {
       id: template.chain.id,
       caip2: template.chain.caip2,

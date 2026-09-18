@@ -80,9 +80,9 @@ function assertRegistrationSmokeManifest(manifest, candidateOrigin) {
   if (
     manifest.chain.id !== ARC_TESTNET_CHAIN_ID ||
     manifest.chain.rpcUrl !== REGISTRATION_SMOKE_RPC_URL ||
-    manifest.testnet !== true
+    manifest.testnet !== false
   ) {
-    fail("registration smoke is restricted to Arc Testnet and the canonical Arc RPC");
+    fail("registration smoke is restricted to Arc Mainnet and the canonical Arc RPC");
   }
   if (manifest.state !== "active" || manifest.activationEvidence.productLive !== false) {
     fail("manifest must be an active private candidate with productLive=false");
@@ -883,5 +883,5 @@ Runtime secrets:
   are never included in the report.
 
 Without --broadcast the runner is read-only. Both modes require registrations
-open and the marketplace still paused on Arc Testnet.
+open and the marketplace still paused on Arc Mainnet.
 `;

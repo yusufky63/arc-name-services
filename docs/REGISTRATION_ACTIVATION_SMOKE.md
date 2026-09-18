@@ -2,10 +2,10 @@
 
 Run this gate after the controller-open candidate is deployed and verified, and
 before the marketplace is opened. The runner refuses any RPC other than
-`https://rpc.testnet.arc.network`, requires registrations to be open, and
+`https://rpc.mainnet.arc.io`, requires registrations to be open, and
 requires the marketplace to remain paused both before and after registration.
 
-The checked-in canonical `deployments/5042002.json` can represent different release stages
+The checked-in canonical `deployments/5042.json` can represent different release stages
 over time. For this gate, use the exact controller-open private-candidate manifest that is
 currently deployed and verified. The read-only check is:
 

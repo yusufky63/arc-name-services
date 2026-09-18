@@ -139,7 +139,7 @@ function legacyReferenceFrom(source) {
   });
 }
 
-const [input = "deployments/5042002.json", output, ...rawOptions] = process.argv.slice(2);
+const [input = "deployments/5042.json", output, ...rawOptions] = process.argv.slice(2);
 if (!output) {
   throw new Error(
     "usage: node scripts/create-fresh-deployment-template.mjs <input> <output> [--registrar-version <v1|v2>]",
@@ -189,7 +189,7 @@ const template = {
           : {}),
       }
     : {}),
-  testnet: true,
+  testnet: source.testnet ?? false,
   chain: source.chain,
   settlement: source.settlement,
   namespace: source.namespace,

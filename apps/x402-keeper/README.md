@@ -3,7 +3,7 @@
 This package contains the durable order state machine and PostgreSQL CAS store
 for paid agent registration. It pins Circle's
 `@circle-fin/x402-batching@3.2.0` and restricts discovery to `exact`,
-`eip155:5042002` and Arc's application USDC address.
+`eip155:5042` and Arc's application USDC address.
 
 The keeper is deliberately fail-closed. `X402_ENABLED=false` and an emergency
 pause are the shipped defaults, while the public deployment manifest has

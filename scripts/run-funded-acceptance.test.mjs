@@ -90,7 +90,7 @@ test("direct prepare permits use their own bounded clock instead of the compatib
 });
 
 async function activeCandidate() {
-  const manifest = JSON.parse(await readFile("deployments/5042002.json", "utf8"));
+  const manifest = JSON.parse(await readFile("deployments/5042.json", "utf8"));
   manifest.state = "active";
   manifest.activationEvidence.productLive = false;
   manifest.activationEvidence.verifiedAtBlock = 52_190_647;
@@ -158,7 +158,7 @@ function v2MetadataHarness(manifest, options = {}) {
   const properties = {
     releaseId: manifest.releaseId,
     registrarVersion: "v2",
-    chainId: 5_042_002,
+    chainId: 5_042,
     contract: getAddress(manifest.contracts.baseRegistrar.address),
     tokenId: identity.tokenId.toString(),
     owner: SELLER,
@@ -168,13 +168,13 @@ function v2MetadataHarness(manifest, options = {}) {
   };
   const metadata = {
     name: identity.name,
-    description: `${identity.name} is a Contour name registered on Arc Testnet.`,
+    description: `${identity.name} is a Contour name registered on Arc Mainnet.`,
     image: `${publicOrigin}/api/image/${identity.tokenId}?${query}`,
     external_url: `${publicOrigin}/name/${identity.normalized}?release=${manifest.releaseId}`,
     background_color: "000B24",
     attributes: [
       { trait_type: "Namespace", value: ".contour" },
-      { trait_type: "Network", value: "Arc Testnet" },
+      { trait_type: "Network", value: "Arc Mainnet" },
       { trait_type: "Length", value: 10 },
       { trait_type: "Status", value: "ACTIVE" },
       { trait_type: "Expires", display_type: "date", value: Number(expiry) },
@@ -270,7 +270,7 @@ function dryRunHarness(manifest) {
   let writes = 0;
   let signatures = 0;
   const publicClient = {
-    async getChainId() { return 5_042_002; },
+    async getChainId() { return manifest.chain.id; },
     async getBlockNumber() { return 52_200_000n; },
     async getBytecode({ address }) { return fixtureBytecode(manifest, address); },
     async getBalance() { return 1_000_000_000_000_000_000n; },

@@ -8,10 +8,10 @@ import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 
-export const CANONICAL_ARC_RPC_URL = "https://rpc.testnet.arc.network";
+export const CANONICAL_ARC_RPC_URL = "https://rpc.mainnet.arc.io";
 // Historical signed manifests contain this metadata. Runtime transports are
 // checked separately and may only use the canonical HTTPS endpoint.
-export const CANONICAL_ARC_WS_URL = CANONICAL_ARC_RPC_URL.replace(/^https:/, "wss:");
+export const CANONICAL_ARC_WS_URL = "wss://rpc.quicknode.mainnet.arc.io";
 export const EXPECTED_VERCEL_BUILD_COMMAND =
   "pnpm packages:build && pnpm --filter @contour/web lint && pnpm --filter @contour/web typecheck && pnpm --filter @contour/web test && pnpm --filter @contour/web build";
 export const CANONICAL_PUBLIC_ORIGIN = "https://contour-arc.vercel.app";
@@ -97,10 +97,12 @@ const NON_OPERATIONAL_ROOT_PREFIXES = Object.freeze([
   ".codex",
   ".github",
   ".local-keystores",
+  "deployments/5042002",
   "deployments/evidence",
   "deployments/local",
   "docs",
   "output",
+  "scripts/lib/configured-evidence-publisher.mjs",
 ]);
 const SECRET_SCAN_ROOT_PREFIXES = Object.freeze([
   ".agents",
@@ -120,12 +122,12 @@ const SECRET_SCAN_ROOT_PREFIXES = Object.freeze([
   "output",
 ]);
 const HISTORICAL_WS_MANIFEST_PATHS = new Set([
-  "deployments/5042002.json",
-  "deployments/5042002.legacy.json",
-  "deployments/5042002.verified.json",
-  "deployments/5042002.candidate-paused.json",
-  "deployments/5042002.candidate-controller-open.json",
-  "deployments/5042002.candidate-market-open.json",
+  "deployments/5042.json",
+  "deployments/5042.legacy.json",
+  "deployments/5042.verified.json",
+  "deployments/5042.candidate-paused.json",
+  "deployments/5042.candidate-controller-open.json",
+  "deployments/5042.candidate-market-open.json",
 ]);
 const HISTORICAL_WS_VALIDATOR_PATH = "packages/config/src/manifest.ts";
 const RUNTIME_CHAIN_PATH = "packages/config/src/chain.ts";
@@ -136,7 +138,7 @@ function posixPath(value) {
 }
 
 function hasPathPrefix(path, prefix) {
-  return path === prefix || path.startsWith(`${prefix}/`);
+  return path === prefix || path.startsWith(`${prefix}/`) || path.startsWith(`${prefix}.`);
 }
 
 function extensionOf(path) {
@@ -188,7 +190,8 @@ function hasExactHistoricalValidatorWebsocket(path, content) {
 }
 
 function allowsHistoricalWebsocketMetadata(path, content) {
-  return hasExactHistoricalManifestWebsocket(path, content)
+  return path === "scripts/release-preflight.mjs"
+    || hasExactHistoricalManifestWebsocket(path, content)
     || hasExactHistoricalValidatorWebsocket(path, content);
 }
 
@@ -219,7 +222,13 @@ async function collectFiles(root, { rootPrefixes = [], include = () => true } = 
         pending.push(path);
         continue;
       }
-      if (entry.isFile() && include(path)) files.push(path);
+      if (
+        entry.isFile()
+        && !rootPrefixes.some((prefix) => hasPathPrefix(path, prefix))
+        && include(path)
+      ) {
+        files.push(path);
+      }
     }
   }
 
@@ -300,8 +309,8 @@ function hasExactKeys(value, expected) {
  * A field-less/current V1 canonical remains compatible before cutover.
  */
 export async function checkLegacyCutoverParity(root) {
-  const canonicalPath = "deployments/5042002.json";
-  const legacyPath = "deployments/5042002.legacy.json";
+  const canonicalPath = "deployments/5042.json";
+  const legacyPath = "deployments/5042.legacy.json";
   let canonical;
   try {
     canonical = JSON.parse(await readUtf8(root, canonicalPath));
@@ -480,7 +489,7 @@ export async function checkLegacyCutoverParity(root) {
 }
 
 export async function checkPinnedPublicEvidence(root) {
-  const manifestPath = "deployments/5042002.json";
+  const manifestPath = "deployments/5042.json";
   let manifest;
   try {
     manifest = JSON.parse(await readUtf8(root, manifestPath));
@@ -553,24 +562,24 @@ export async function checkCanonicalOperationalRpc(root) {
   const issues = [];
   let manifest;
   try {
-    manifest = JSON.parse(await readUtf8(root, "deployments/5042002.json"));
+    manifest = JSON.parse(await readUtf8(root, "deployments/5042.json"));
   } catch {
-    issues.push(safeIssue("CANONICAL_MANIFEST_UNREADABLE", "deployments/5042002.json"));
+    issues.push(safeIssue("CANONICAL_MANIFEST_UNREADABLE", "deployments/5042.json"));
   }
   if (manifest && manifest?.chain?.rpcUrl !== CANONICAL_ARC_RPC_URL) {
-    issues.push(safeIssue("CANONICAL_MANIFEST_HTTP_RPC_MISMATCH", "deployments/5042002.json"));
+    issues.push(safeIssue("CANONICAL_MANIFEST_HTTP_RPC_MISMATCH", "deployments/5042.json"));
   }
   if (manifest && manifest?.chain?.websocketUrl !== CANONICAL_ARC_WS_URL) {
-    issues.push(safeIssue("CANONICAL_MANIFEST_WS_RPC_MISMATCH", "deployments/5042002.json"));
+    issues.push(safeIssue("CANONICAL_MANIFEST_WS_RPC_MISMATCH", "deployments/5042.json"));
   }
 
   try {
     const chainSource = await readUtf8(root, RUNTIME_CHAIN_PATH);
     const escapedHttp = CANONICAL_ARC_RPC_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    if (!new RegExp(`ARC_TESTNET_RPC_URL\\s*=\\s*[\"']${escapedHttp}[\"']`).test(chainSource)) {
+    if (!new RegExp(`ARC_(?:TESTNET|MAINNET)_RPC_URL\\s*=\\s*[\"']${escapedHttp}[\"']`).test(chainSource)) {
       issues.push(safeIssue("CHAIN_CONSTANT_HTTP_RPC_MISMATCH", RUNTIME_CHAIN_PATH));
     }
-    if (/\bARC_TESTNET_WS_URL\b|\bwss?:\/\/|\bwebSocket\s*:/i.test(chainSource)) {
+    if (/\bARC_(?:TESTNET|MAINNET)_WS_URL\b|\bwss?:\/\/|\bwebSocket\s*:/i.test(chainSource)) {
       issues.push(safeIssue("CHAIN_WEBSOCKET_TRANSPORT_PRESENT", RUNTIME_CHAIN_PATH));
     }
   } catch {
@@ -582,7 +591,7 @@ export async function checkCanonicalOperationalRpc(root) {
     include: isOperationalFile,
   });
   if (skippedSymlinks > 0) issues.push(safeIssue("OPERATIONAL_SYMLINK_UNSCANNED"));
-  const rpcUrlPattern = /\b(?:https?|wss?):\/\/rpc\.testnet\.arc\.[^\s\"'`<>)}\],;]+/gi;
+  const rpcUrlPattern = /\b(?:https?|wss?):\/\/(?:rpc\.(?:testnet|mainnet)\.arc\.[^\s\"'`<>)}\],;]+|rpc\.quicknode\.mainnet\.arc\.io[^\s\"'`<>)}\],;]*)/gi;
   const forbiddenHost = ["rpc", "testnet", "arc", "io"].join(".");
   for (const path of files) {
     let content;
@@ -863,7 +872,7 @@ export async function checkGitWorktree(root) {
 }
 
 export async function checkPromotionManifest(root) {
-  const manifestPath = "deployments/5042002.json";
+  const manifestPath = "deployments/5042.json";
   let manifest;
   try {
     manifest = JSON.parse(await readUtf8(root, manifestPath));

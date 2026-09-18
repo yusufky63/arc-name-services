@@ -22,11 +22,11 @@ const {
   outputPath: OUTPUT_PATH,
 } = parseConfiguredChainStateArguments(process.argv.slice(2));
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, "utf8"));
-const RPC_URL = "https://rpc.testnet.arc.network";
+const RPC_URL = "https://rpc.mainnet.arc.io";
 if (manifest.chain.rpcUrl !== RPC_URL || (process.env.ARC_RPC_URL?.trim() || RPC_URL) !== RPC_URL) {
   throw new Error(`ARC_RPC_URL must exactly equal ${RPC_URL}`);
 }
-const CHAIN_ID = 5_042_002;
+const CHAIN_ID = 5_042;
 const MULTICALL3 = "0xcA11bde05977b3631167028862bE2a173976CA11";
 
 const addresses = {
@@ -145,7 +145,7 @@ async function main() {
   const client = createPublicClient({
     chain: {
       id: CHAIN_ID,
-      name: "Arc Testnet",
+      name: "Arc Mainnet",
       nativeCurrency: { name: "USDC", symbol: "USDC", decimals: 18 },
       rpcUrls: { default: { http: [RPC_URL] } },
     },

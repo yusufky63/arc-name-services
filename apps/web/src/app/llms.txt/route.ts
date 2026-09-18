@@ -29,7 +29,7 @@ export function GET() {
     ).join("\n");
     const text = `# ${BRAND.protocolName}
 
-> Independent name infrastructure built for Arc Testnet. Read configuration from the manifest before making RPC calls.
+> Independent name infrastructure built for Arc Mainnet. Read configuration from the manifest before making RPC calls.
 
 ## Machine-readable integration
 
@@ -61,7 +61,7 @@ ${metadataStatement}${retainedMetadataStatement}
 
 ## Current deployment
 
-- Chain: Arc Testnet (${manifest.chain.caip2})
+- Chain: Arc Mainnet (${manifest.chain.caip2})
 - Namespace: .${suffix}
 - Manifest schema: ${manifest.schemaVersion}
 - Manifest SHA-256: ${deploymentManifestDigest(manifest)}

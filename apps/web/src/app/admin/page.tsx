@@ -5,7 +5,7 @@ import { getReadableReleases } from "@/lib/manifest";
 
 export const metadata: Metadata = {
   title: "Administration",
-  description: "Live Contour protocol authority, activity, and owner-authorized Arc Testnet controls.",
+  description: "Live Contour protocol authority, activity, and owner-authorized Arc Mainnet controls.",
   robots: { index: false, follow: false },
 };
 

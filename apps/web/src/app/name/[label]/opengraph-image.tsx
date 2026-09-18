@@ -90,7 +90,7 @@ export default async function OpenGraphImage({
           }}
         >
           <span>REGISTER · MANAGE · SHARE</span>
-          <span style={{ color: "#326796" }}>BUILT FOR ARC TESTNET</span>
+          <span style={{ color: "#326796" }}>BUILT FOR ARC MAINNET</span>
         </div>
       </div>
     ),

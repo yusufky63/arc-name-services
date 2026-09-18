@@ -2,7 +2,7 @@
 
 > Baseline tarihi: 16 Temmuz 2026; deployment snapshot'ı 17 Temmuz 2026.  
 > Bu belge test planıdır. “Kod mevcut” veya “unit test yazıldı” kanıtın çalıştırıldığı
-> anlamına gelmez. Yeni tek-EOA suite Arc Testnet'e 15/15 successful transaction ile
+> anlamına gelmez. Yeni tek-EOA suite Arc Mainnet'e 15/15 successful transaction ile
 > deploy edilmiştir. Bu exact yedi adres için ArcScan source/ABI doğrulaması 7/7 PASS'tir;
 > aşağıdaki 17 Temmuz tablosu aktivasyon öncesi tarihsel baseline'dır, güncel runtime
 > özeti değildir. 18 Temmuz canonical manifesti `active`; controller/marketplace unpaused
@@ -33,7 +33,7 @@ RPC durumuna bağlıdır.
 
 Bu tablo release gate sonucu veya güncel runtime durumu değildir; 17 Temmuz'da elde olan
 configured-state girdilerini o tarihte eksik promotion girdilerinden ayırır. Güncel capability
-durumu her zaman [`deployments/5042002.json`](../deployments/5042002.json) ve Arc RPC'den okunur.
+durumu her zaman [`deployments/5042.json`](../deployments/5042.json) ve Arc RPC'den okunur.
 
 | Alan | 17 Temmuz 2026 durumu | Release etkisi |
 | --- | --- | --- |
@@ -163,7 +163,7 @@ aynı sertlikle geçerlidir; ancak public UI/OpenAPI/hosted MCP/funded flow chal
 
 | ID | Senaryo | Kabul | Durum |
 | --- | --- | --- | --- |
-| A01 | RPC chain profile | `5042002`, canonical RPC/WS/explorer | `BLOCKED` |
+| A01 | RPC chain profile | `5042`, canonical RPC/WS/explorer | `BLOCKED` |
 | A02 | MetaMask add/switch | exact-pinned config, chain doğru | `BLOCKED` |
 | A03 | Rabby add/switch | exact-pinned config, chain doğru | `BLOCKED` |
 | A04 | wrong chain | tx yok; switch/disconnect erişilebilir | `SPECIFIED` |
@@ -261,7 +261,7 @@ Her PASS kaydı aşağıdaki metadata'yı taşımalıdır:
 {
   "gateId": "A06",
   "commit": "<git-sha>",
-  "chainId": 5042002,
+  "chainId": 5042,
   "blockNumber": null,
   "timestamp": "<RFC3339>",
   "command": "<exact command>",
@@ -290,7 +290,7 @@ değil, doğrulayıcının kabul ettiği exact signed envelope olmalıdır:
   "schemaVersion": "1.1.0",
   "artifact": "fundedEndToEnd",
   "verdict": "PASS",
-  "chainId": 5042002,
+  "chainId": 5042,
   "releaseId": "<bytes32>",
   "promotionSubjectSha256": "<bytes32>",
   "verifiedAtBlock": 1,
@@ -331,7 +331,7 @@ için ayrıca G61 gerekir. G80 ve G81 disabled kalmalıdır.
 Herhangi required gate `FAIL`, `BLOCKED` veya yalnız `SPECIFIED` ise operatör
 `activationEvidence.productLive:true` yayımlamamalı ve README “product-live” veya
 “evidence-complete” diyemez. Canonical `active` state, unpaused policy ve active issuer
-operasyonel public Arc Testnet erişimini dürüstçe belgeleyebilir; bu, G99 PASS iddiası değildir.
+operasyonel public Arc Mainnet erişimini dürüstçe belgeleyebilir; bu, G99 PASS iddiası değildir.
 `active` + `productLive:false` operasyonel olabilir fakat product-live kanıtı değildir. Promotion
 verifier chain/runtime/receipt/wiring/role/policy, controller history, bağımsız hash trust
 root'ları ve signed PASS envelope'larını yeniden doğrular; fonlu run'ın kendisi yine

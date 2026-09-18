@@ -9,8 +9,8 @@
 
 Bu belge, Contour Name Protocol'ün yerel geliştirmeden public-live aktivasyona kadar
 izlenecek fail-closed yolunu tanımlar. Güncel V1 adresleri ve capability durumu için
-[`deployments/5042002.json`](../deployments/5042002.json), kesim öncesi V1 kopyası için
-[`deployments/5042002.legacy.json`](../deployments/5042002.legacy.json), kabul kapıları için
+[`deployments/5042.json`](../deployments/5042.json), kesim öncesi V1 kopyası için
+[`deployments/5042.legacy.json`](../deployments/5042.legacy.json), kabul kapıları için
 [`ACCEPTANCE_MATRIX.md`](ACCEPTANCE_MATRIX.md), incident ve rollback adımları için
 [`OPERATIONS_RUNBOOK.md`](OPERATIONS_RUNBOOK.md)'dir.
 
@@ -33,7 +33,7 @@ izlenecek fail-closed yolunu tanımlar. Güncel V1 adresleri ve capability durum
 | Hosted ArcScan names | Kapalı | Haricî operator aktivasyon kanıtı yok |
 | x402 / EIP-3009 | Release 1'de kapalı | Ayrı gelecek release ve funded security review gerekir |
 
-Checked-in `5042002.legacy.json` henüz immutable kesim snapshot'ı değildir; açık V1'in
+Checked-in `5042.legacy.json` henüz immutable kesim snapshot'ı değildir; açık V1'in
 kesim öncesi kopyasıdır. `registrationsPaused:true` değeri elle yazılmaz. Exact V1 pause
 receipt'i ve block hash'i `pnpm prepare:v1-cutover-manifest` tarafından RPC'de doğrulanıp
 yeni bir dosyaya yazıldıktan sonra bu çıktı retained snapshot ve V2 `legacyReleases[]`
@@ -47,11 +47,11 @@ Gereksinimler:
 - Node.js `>=22.13 <25` for repository tooling (`contour-sdk` remains `>=20.9 <25`);
 - repository'de `packageManager` alanıyla pinlenen pnpm;
 - contract testleri için Foundry;
-- yalnız canonical Arc Testnet HTTP RPC'sine salt-okunur erişim:
-  `https://rpc.testnet.arc.network`.
+- yalnız canonical Arc Mainnet HTTP RPC'sine salt-okunur erişim:
+  `https://rpc.mainnet.arc.io`.
 
 Canonical manifestteki tek RPC endpoint'i
-`https://rpc.testnet.arc.network`'tür. WebSocket transportu kapalıdır ve bu release başka
+`https://rpc.mainnet.arc.io`'tür. WebSocket transportu kapalıdır ve bu release başka
 bir operational fallback host kullanmaz. Web ve operator HTTP transport'larının normal profili
 process başına istekleri 2.100 ms aralıkla sıraya koyar; yalnız JSON-RPC `-32011` veya HTTP
 `429` rate-limit sinyalinde en fazla üç deneme yapar ve alttaki Viem retry'sini kapatır.
@@ -92,7 +92,7 @@ deployment, server signer readiness veya funded acceptance kanıtının yerine g
 
 Root `.env`, `.env.deployment.local`, `apps/web/.env.local` ve `.local-keystores/`
 public deployment paketine, git'e, browser bundle'a veya evidence dosyasına eklenmez.
-Bu Arc Testnet-only profil aynı funded EOA key'ini deployer, owner, treasury ve permit
+Bu Arc Mainnet-only profil aynı funded EOA key'ini deployer, owner, treasury ve permit
 signer olarak kullanır. Deploy/admin key dosyası yalnız yerel operator secret'ında tutulur.
 Permit imzalama için gereken aynı key değeri deployment platformunun server secret
 store'undadır; public issuer/readiness `200` sonucu derived signer'ın canonical ve on-chain
@@ -189,7 +189,7 @@ Web ile aynı Vercel runtime'ında çalışan canonical direct issuer şu server
 challenge secret yalnız compatibility route'u ayrıca etkinse gerekir:
 
 ```dotenv
-ARC_RPC_URL=https://rpc.testnet.arc.network
+ARC_RPC_URL=https://rpc.mainnet.arc.io
 REGISTRATION_PERMIT_SIGNER_PRIVATE_KEY=0x<64-hex-funded-owner-eoa-key>
 REGISTRATION_PERMIT_TTL_SECONDS=180
 REGISTRATION_CHALLENGE_ORIGIN=https://<public-host>
@@ -269,7 +269,7 @@ route'ları request state'i saklamadan çalışır. Aktivasyon öncesinde:
    `REGISTRATION_CHALLENGE_SECRET` yalnız compatibility challenge route'u ayrıca
    etkin tutulacaksa en az 32 karakterlik rastgele secret olarak oluşturulur;
 2. `REGISTRATION_PERMIT_SIGNER_PRIVATE_KEY` exact funded deployer/owner/treasury EOA
-   key'idir; bu bilinçli Arc Testnet sadeleştirmesi manifest ve on-chain state'te açıkça
+   key'idir; bu bilinçli Arc Mainnet sadeleştirmesi manifest ve on-chain state'te açıkça
    doğrulanır;
 3. derived signer address canonical manifest ve controller `permitSigner()` ile exact
    eşleşir;
@@ -290,7 +290,7 @@ route'ları request state'i saklamadan çalışır. Aktivasyon öncesinde:
 10. Vercel secret erişimi minimum proje üyeleriyle sınırlandırılır, değerler build/runtime
     loglarında redacted tutulur ve rotation sonrası eski deployment'lar kapatılır.
 
-Bu profil normal Arc Testnet runtime'ıdır; ayrı bir execution-mode flag'i yoktur.
+Bu profil normal Arc Mainnet runtime'ıdır; ayrı bir execution-mode flag'i yoktur.
 Activation canonical manifest, exact release binding, readiness ve on-chain pause
 kapılarıyla yönetilir.
 
@@ -315,53 +315,53 @@ on-chain kesimden üretilir. Kesim öncesi template, boş `legacyReleases[]` vey
 # 1. Kesim öncesi baseline ve owner calldata kontrolü (transaction göndermez).
 pnpm preflight:release
 pnpm admin:activation \
-  --manifest deployments/5042002.legacy.json \
+  --manifest deployments/5042.legacy.json \
   --action controller-pause
 
 # 2. Yalnız V1 registration'ı pause et; V1 marketplace açık kalır.
 pnpm admin:activation \
-  --manifest deployments/5042002.legacy.json \
+  --manifest deployments/5042.legacy.json \
   --action controller-pause \
   --broadcast \
   --confirm-release <exact-v1-release-id>
 
 # 3. Exact receipt tx/block/block-hash ile create-new retained snapshot üret.
 pnpm prepare:v1-cutover-manifest \
-  --manifest deployments/5042002.legacy.json \
+  --manifest deployments/5042.legacy.json \
   --pause-transaction <v1-pause-transaction-hash> \
   --cutover-block <confirmed-cutover-block> \
   --cutover-block-hash <confirmed-cutover-block-hash> \
-  --output deployments/local/5042002-v1-cutover.json
+  --output deployments/local/5042-v1-cutover.json
 
 # 4. Aynı block'ta inventory/listing/liability/balance ekonomik snapshot'ını al.
 pnpm capture:v1-economic-cutover \
-  --manifest deployments/local/5042002-v1-cutover.json \
+  --manifest deployments/local/5042-v1-cutover.json \
   --cutover-block <confirmed-cutover-block> \
-  --output deployments/local/5042002-v1-economic-cutover.json
+  --output deployments/local/5042-v1-economic-cutover.json
 
 # 5. V2 draft'ı yalnız doğrulanmış paused V1 snapshot'ından üret.
 node scripts/create-fresh-deployment-template.mjs \
-  deployments/local/5042002-v1-cutover.json \
-  deployments/local/5042002-v2-draft.json \
+  deployments/local/5042-v1-cutover.json \
+  deployments/local/5042-v2-draft.json \
   --registrar-version v2
 
 # 6. Keystore/hardware signer ile V2'yi deploy et; iki execution surface paused kalır.
 forge script --root contracts \
   script/DeployArcNameServiceV2.s.sol:DeployArcNameServiceV2 \
-  --rpc-url https://rpc.testnet.arc.network \
+  --rpc-url https://rpc.mainnet.arc.io \
   --account <foundry-keystore-account> \
   --sender <exact-governance-eoa> \
   --broadcast
 
 # 7. Receipt-bound configured manifest ve exact selected-manifest chain snapshot'ı üret.
 pnpm prepare:deployment-evidence \
-  --broadcast contracts/broadcast/DeployArcNameServiceV2.s.sol/5042002/run-latest.json \
-  --manifest deployments/local/5042002-v2-draft.json \
-  --output-dir deployments/local/5042002-v2-prepared \
+  --broadcast contracts/broadcast/DeployArcNameServiceV2.s.sol/5042/run-latest.json \
+  --manifest deployments/local/5042-v2-draft.json \
+  --output-dir deployments/local/5042-v2-prepared \
   --registrar-version v2
 pnpm capture:configured-state \
-  --manifest deployments/local/5042002-v2-prepared/manifest.configured.json \
-  --output deployments/local/5042002-v2-configured-chain-state.json
+  --manifest deployments/local/5042-v2-prepared/manifest.configured.json \
+  --output deployments/local/5042-v2-configured-chain-state.json
 ```
 
 `prepare:v1-cutover-manifest` pause receipt'inin success, target, sender, calldata, value,
@@ -684,7 +684,7 @@ backup/restore policy'si ve ayrı operatör erişimiyle kurulmalıdır. Açılab
 6. aynı pinned block'ta direct RPC ownership/resolver/expiry parity;
 7. backup/restore ve reorg drill'i;
 8. public HTTPS BENS ve exact
-   `/subgraphs/name/contour-arc-testnet` endpoint bağları gerekir.
+   `/subgraphs/name/contour-arc-mainnet` endpoint bağları gerekir.
 
 `ops/bens/render-config.mjs`, yalnız product-live ve live-verified manifest ile bu config'i
 üretir; configured/paused manifesti bilinçli olarak reddeder. Hosted ArcScan names

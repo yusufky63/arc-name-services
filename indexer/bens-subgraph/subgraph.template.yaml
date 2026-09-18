@@ -4,7 +4,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Registry
-    network: arc-testnet
+    network: arc-mainnet
     context:
       suffix: { type: String, data: "{{suffix}}" }
       baseNode: { type: Bytes, data: "{{baseNode}}" }
@@ -32,7 +32,7 @@ dataSources:
       file: ./src/registry.ts
   - kind: ethereum/contract
     name: BaseRegistrar
-    network: arc-testnet
+    network: arc-mainnet
     context:
       suffix: { type: String, data: "{{suffix}}" }
       baseNode: { type: Bytes, data: "{{baseNode}}" }
@@ -58,7 +58,7 @@ dataSources:
       file: ./src/registrar.ts
   - kind: ethereum/contract
     name: Controller
-    network: arc-testnet
+    network: arc-mainnet
     context:
       suffix: { type: String, data: "{{suffix}}" }
       baseNode: { type: Bytes, data: "{{baseNode}}" }
@@ -82,7 +82,7 @@ dataSources:
       file: ./src/controller.ts
   - kind: ethereum/contract
     name: PublicResolver
-    network: arc-testnet
+    network: arc-mainnet
     context:
       suffix: { type: String, data: "{{suffix}}" }
       baseNode: { type: Bytes, data: "{{baseNode}}" }

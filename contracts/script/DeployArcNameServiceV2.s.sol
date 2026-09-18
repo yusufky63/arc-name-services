@@ -26,7 +26,7 @@ interface IERC20MetadataV2 {
     function decimals() external view returns (uint8);
 }
 
-/// @notice Fail-closed Arc Testnet deployment script for a metadata-capable seven-contract release.
+/// @notice Fail-closed Arc Mainnet deployment script for a metadata-capable seven-contract release.
 /// @dev This script performs a clean release; it never mutates or migrates the existing V1 suite.
 ///      Run it with a hardware/keystore-backed broadcaster. Registration and the marketplace remain
 ///      paused until the new source, runtime, wiring, signer and metadata endpoint are verified.
@@ -40,7 +40,7 @@ contract DeployArcNameServiceV2 {
 
     VmV2 private constant _VM = VmV2(address(uint160(uint256(keccak256("hevm cheat code")))));
 
-    uint256 private constant _ARC_TESTNET_CHAIN_ID = 5_042_002;
+    uint256 private constant _ARC_MAINNET_CHAIN_ID = 5_042;
     uint256 private constant _MAX_REFERRAL_BPS = 3_000;
     uint256 private constant _MAX_MARKETPLACE_FEE_BPS = 1_000;
     address private constant _ARC_USDC = 0x3600000000000000000000000000000000000000;
@@ -107,7 +107,7 @@ contract DeployArcNameServiceV2 {
     }
 
     function _assertReleaseEnvironment() private view {
-        if (block.chainid != _ARC_TESTNET_CHAIN_ID) revert InvalidChain(block.chainid);
+        if (block.chainid != _ARC_MAINNET_CHAIN_ID) revert InvalidChain(block.chainid);
         if (
             BoundedNamehash.namehash(_SUFFIX, 255, 10) != _BASE_NODE
                 || BoundedNamehash.namehash("addr.reverse", 255, 10) != _REVERSE_NODE

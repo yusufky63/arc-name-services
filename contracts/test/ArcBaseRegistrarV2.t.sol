@@ -28,7 +28,7 @@ contract ArcBaseRegistrarV2Test is TestBase {
     string private constant _METADATA_BASE_URI =
         "https://contour-arc.vercel.app/api/metadata/";
     bytes32 private constant _V1_RUNTIME_HASH =
-        0xcfd71a52e25e0f786933d9891d364e3f1fb71f7e2d6956f270c53e735f458430;
+        0x7b16068d61b0aca48772054892b76f043b45092449bc3ea1837ef0d3402acb2f;
     uint256 private constant _TOKEN_ID =
         32540854028373530199979267381508191878139842538060205354946260187502743967163;
 
@@ -63,7 +63,7 @@ contract ArcBaseRegistrarV2Test is TestBase {
         assertTrue(registrar.supportsInterface(0x80ac58cd));
         assertTrue(registrar.supportsInterface(0x5b5e139f));
         assertFalse(registrar.supportsInterface(0x49064906));
-        assertEq(registrar.name(), "Arc Testnet Names");
+        assertEq(registrar.name(), "Contour Names");
         assertEq(registrar.symbol(), "ARCN");
         assertEq(
             registrar.tokenURI(_TOKEN_ID),

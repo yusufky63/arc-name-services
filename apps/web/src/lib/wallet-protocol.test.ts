@@ -64,7 +64,7 @@ describe("wallet RPC errors", () => {
   it("classifies a reverted receipt as terminal", async () => {
     const account = "0x1111111111111111111111111111111111111111";
     const request = vi.fn(async ({ method }: { method: string }) => {
-      if (method === "eth_chainId") return "0x4cef52";
+      if (method === "eth_chainId") return "0x13b2";
       if (method === "eth_accounts") return [account];
       if (method === "eth_getTransactionReceipt") return { status: "0x0" };
       throw new Error(`unexpected method ${method}`);

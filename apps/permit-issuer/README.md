@@ -14,12 +14,12 @@ It intentionally uses process-local memory for challenge, lease, idempotency,
 rate-limit and submission state. PostgreSQL is not required. Run exactly one
 issuer replica so every request shares the same atomic maps and requester locks.
 Restarting the process clears this coordination state; ownership and consumed
-permit state remain authoritative on Arc Testnet. Expired process-local state is
+permit state remain authoritative on Arc Mainnet. Expired process-local state is
 removed after a bounded retry-retention window. This package therefore provides
 neither multi-replica coordination nor an exclusive reservation guarantee.
 
 The signing key is also local to the server. This testnet release intentionally
-uses the same funded Arc Testnet EOA as deployer, protocol owner, treasury and
+uses the same funded Arc Mainnet EOA as deployer, protocol owner, treasury and
 permit signer. Set `REGISTRATION_PERMIT_SIGNER_PRIVATE_KEY` to that canonical
 EOA's key in the hosting platform's encrypted server environment. Do not commit
 it, expose it through a public environment variable or return it from an
@@ -28,7 +28,7 @@ endpoint. Managed KMS/HSM and remote signer endpoints are not required.
 At startup the derived signer address must exactly equal
 `manifest.permitIssuer.signerAddress`. Each generated signature is verified
 locally against that address before it can be returned. The server also refuses
-issuance unless Arc reports chain ID `5042002`, the exact controller signer and
+issuance unless Arc reports chain ID `5042`, the exact controller signer and
 policy version from the active manifest, and unpaused registrations.
 
 ## Endpoints

@@ -2,12 +2,12 @@
 
 > Sürüm: draft `0.1`  
 > Kanıt tarihi: 18 Temmuz 2026
-> Hedef ağ: yalnız Arc Testnet (`5042002`)  
+> Hedef ağ: yalnız Arc Mainnet (`5042`)  
 > Deployment durumu: canonical manifest **`active`** durumundadır; controller ve marketplace
 > unpaused, stateless permit issuer active ve public web/API/MCP yüzeyleri açıktır.
 > `activationEvidence.productLive` hâlâ `false`; funded E2E ve operations-drill artefaktları
 > eksiktir. BENS ve x402 inactive kalır. Önceki Safe-owned adresler retired tarihsel
-> evidence'dır. Bu ayrım, operasyonel Arc Testnet erişimini product-live/evidence-complete
+> evidence'dır. Bu ayrım, operasyonel Arc Mainnet erişimini product-live/evidence-complete
 > iddiasıyla karıştırmaz.
 
 Bu belge normatiftir. “MUST/ZORUNLU”, “MUST NOT/YASAK” ve “SHOULD/ÖNERİLEN”
@@ -16,7 +16,7 @@ ifadeleri ürünün release davranışını tanımlar. Kod veya başka bir belge
 
 ## 1. Kimlik ve kapsam
 
-Ürün adı **Contour Name Protocol**, Arc Testnet'e deploy edilen suffix **`.contour`**'dur.
+Ürün adı **Contour Name Protocol**, Arc Mainnet'e deploy edilen suffix **`.contour`**'dur.
 Trademark, domain ve mevcut namespace çakışma kontrolü henüz PASS artefaktına
 bağlanmamıştır; bu eksik product-live/evidence-complete iddiasını bloke eder. Ürün bağımsızdır; Arc/Circle
 sponsorluğu veya resmîlik iddia edemez.
@@ -41,16 +41,16 @@ sponsorluğu veya resmîlik iddia edemez.
   güvenen kayıt güvenliği;
 - direct EIP-3009, aktif x402 paid execution veya BENS'i ownership kaynağı yapmak.
 
-## 2. Arc Testnet profili
+## 2. Arc Mainnet profili
 
 | Alan | Normatif değer |
 | --- | --- |
-| Chain ID | `5042002` |
+| Chain ID | `5042` |
 | Hex chain ID | `0x4CEF52` |
-| CAIP-2 | `eip155:5042002` |
-| HTTP RPC | `https://rpc.testnet.arc.network` |
+| CAIP-2 | `eip155:5042` |
+| HTTP RPC | `https://rpc.mainnet.arc.io` |
 | WebSocket | Disabled; HTTPS JSON-RPC only |
-| Explorer | `https://testnet.arcscan.app` |
+| Explorer | `https://explorer.arc.io` |
 | Faucet | `https://faucet.circle.com` |
 | ERC-20 USDC | `0x3600000000000000000000000000000000000000` |
 | ERC-20 decimals | `6` |
@@ -69,7 +69,7 @@ Receipt'in bulunması başarı demek değildir. Success için en az
 Arc deterministic finality nedeniyle “2/12 confirmations” gibi sayaç gösterilmez.
 
 Bu release'in tek operational RPC endpoint'i tablodaki
-`https://rpc.testnet.arc.network` HTTPS adresidir; WebSocket transportu kapalıdır ve runtime
+`https://rpc.mainnet.arc.io` HTTPS adresidir; WebSocket transportu kapalıdır ve runtime
 fallback host'u yoktur. Normal web/operator HTTP profili process-local 2.100 ms
 pacing, yalnız JSON-RPC `-32011` veya HTTP `429` için en fazla üç deneme ve kapalı Viem
 nested retry kullanır. Uzun, salt-okunur promotion audit'i aynı host üzerinde 6.000 ms
@@ -155,7 +155,7 @@ aynı sabitle test edilir.
 ## 5. On-chain topoloji
 
 Suite no-proxy ve kaynak doğrulanabilir yedi kontrattan oluşur. Aşağıdaki adresler canonical
-tek-EOA Arc Testnet `active` deployment'ıdır. Adres tablosu tek başına source, runtime,
+tek-EOA Arc Mainnet `active` deployment'ıdır. Adres tablosu tek başına source, runtime,
 operasyonel readiness veya product-live kanıtı değildir; güncel policy alanları canonical
 manifestten ve doğrudan Arc RPC'den okunur.
 
@@ -274,7 +274,7 @@ secret store'da bulunur. Compatibility route'u etkinse challenge HMAC secret'i a
 kontrol global abuse limiti değildir; public ingress ayrıca edge/WAF kapasite ve
 wallet/client rate policy uygulamalıdır.
 
-Bu Arc Testnet-only release, kullanıcının sade operasyon tercihi gereği aynı fonlanmış
+Bu Arc Mainnet-only release, kullanıcının sade operasyon tercihi gereği aynı fonlanmış
 secp256k1 EOA'yı deployer, owner, treasury ve permit signer olarak kullanabilir. Server her
 imzadan sonra EIP-712 recovery'yi canonical manifest ve on-chain `permitSigner` ile
 karşılaştırır. Multisig, rol ayrımı veya KMS/HSM zorunlu değildir; ancak controller'ın
@@ -328,7 +328,7 @@ Direct EIP-3009 Arc USDC implementation'ında mevcut olsa da release 1'de disabl
 EOA, EIP-1271/smart-wallet fallback, replay, blocklist, proxy upgrade ve exact-delta
 fixture'ları tamamlanmadan etkinleştirilemez.
 
-x402 Arc Testnet'i desteklese de release 1'de `active: false` ve fail-closed'dur.
+x402 Arc Mainnet'i desteklese de release 1'de `active: false` ve fail-closed'dur.
 Circle'ın production seller akışı payment settlement'ı service delivery öncesi
 önerirken on-chain registration geri alınamaz; spec'teki registration-first akışta
 ise payment failure riski vardır. Durable idempotency, funded E2E, açık compensation
@@ -375,11 +375,11 @@ Görsel sistem “Modular Typography” olmalıdır:
 
 ## 10. Manifest ve aktivasyon
 
-`deployments/5042002.json` tek public deployment truth kaydıdır. Draft state'te
+`deployments/5042.json` tek public deployment truth kaydıdır. Draft state'te
 product brand kararı dokümanda sabit olsa bile bütün yedi ürün adresi, tx hash'i,
 block, ABI URL/hash ve release ID deployment kanıtı gelene kadar `null` kalabilir.
 
-Yeni Arc Testnet deployment clean deployment'ı 15/15 işlemle tamamlamış, yedi adres ve tek
+Yeni Arc Mainnet deployment clean deployment'ı 15/15 işlemle tamamlamış, yedi adres ve tek
 EOA authority belirlenmiş, ArcScan source/ABI ve constructor eşleşmesi 7/7 doğrulanmış ve
 canonical manifestte `active` duruma geçirilmiştir. Controller/marketplace unpaused ve issuer
 active'dir. Manifest release ID/adres/receipt/runtime/source URL+hash setini atomik taşır.
@@ -428,7 +428,7 @@ Manifest geçişi atomik olmalıdır:
 12. `draft -> configured -> verified -> active` geçişleri operasyonel capability'yi belirler.
    Public read/register/market; canonical manifest `active`, ilgili on-chain policy unpaused
    ve permit issuer active olduğunda açılabilir. `activationEvidence.productLive` ayrı,
-   daha güçlü evidence-complete promotion seviyesidir ve mevcut operasyonel Arc Testnet
+   daha güçlü evidence-complete promotion seviyesidir ve mevcut operasyonel Arc Mainnet
    erişiminin önkoşulu değildir.
 13. Product-live web ve issuer başlangıcı ayrıca exact
       `PRODUCT_LIVE_RELEASE=<releaseId>:<manifestSha256>:<verifiedAtBlock>` binding'ini
@@ -452,7 +452,7 @@ artefaktlarda reviewer-allowlisted signed `PASS` envelope'u, bağlı run raporu 
 zorunlu transaction receipt'lerini doğrular fakat fonlu browser/BENS/operasyon run'ını
 kendi başına üretemez; bunlar
 [ACCEPTANCE_MATRIX.md](docs/ACCEPTANCE_MATRIX.md) sözleşmesine uygun immutable kanıt
-olarak kalır. `productLive:false` bir `active` release'in public Arc Testnet üzerinde
+olarak kalır. `productLive:false` bir `active` release'in public Arc Mainnet üzerinde
 operasyonel olmasına engel değildir; yalnız product-live/evidence-complete iddiasını engeller.
 
 ## 11. Release kapıları
@@ -489,7 +489,7 @@ belgelenemez. Core state semantiği gelecekte değişse bile Release 1 direct-re
 
 ## 12. Birincil kaynaklar
 
-- [Arc Testnet bağlantı bilgileri](https://docs.arc.io/arc/references/connect-to-arc)
+- [Arc Mainnet bağlantı bilgileri](https://docs.arc.io/arc/references/connect-to-arc)
 - [Arc stablecoin-native modeli](https://docs.arc.io/arc/concepts/stablecoin-native-model)
 - [Arc transaction lifecycle](https://docs.arc.io/integrate/wallets/transaction-lifecycle)
 - [Arc USDC system event'leri](https://docs.arc.io/arc/references/usdc-system-events)

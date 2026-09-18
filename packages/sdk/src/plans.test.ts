@@ -1,7 +1,6 @@
 import { decodeFunctionData, zeroAddress } from "viem";
 import { describe, expect, it } from "vitest";
-import deployment from "../../../deployments/5042002.json" with { type: "json" };
-import verifiedDeployment from "../../../deployments/5042002.verified.json" with { type: "json" };
+import deployment from "../../../deployments/5042.json" with { type: "json" };
 import {
   CANONICAL_NFT_METADATA_BASE_URI,
   EXPECTED_RESOLVER_CAPABILITIES,
@@ -43,7 +42,7 @@ function activeManifest(productLive = true) {
     contract.abiUrl = `https://example.com/contract-${index}.json`;
     contract.abiSha256 = `0x${(index + 20).toString(16).padStart(64, "0")}`;
     contract.sourceVerified = true;
-    contract.sourceVerificationUrl = `https://testnet.arcscan.app/api/v2/smart-contracts/${contract.address}`;
+    contract.sourceVerificationUrl = `https://sourcify.dev/server/v2/contract/5042/${contract.address.toLowerCase()}`;
     contract.sourceVerificationSha256 = `0x${(index + 30).toString(16).padStart(64, "0")}`;
     index += 1;
   }
@@ -83,7 +82,7 @@ function activeManifest(productLive = true) {
   value.legacyReleases = [{
     registrarVersion: "v1",
     releaseId: deployment.releaseId,
-    verifiedAtBlock: deployment.activationEvidence.verifiedAtBlock,
+    verifiedAtBlock: Math.max(...Object.values(deployment.contracts).map((contract) => contract.deploymentBlock!)),
     contracts: Object.fromEntries(
       Object.entries(deployment.contracts).map(([key, contract]: [string, any]) => [
         key,
@@ -115,13 +114,16 @@ describe("unsigned plans", () => {
     const manifest = activeManifest();
     const result = prepareApprovalPlan(manifest, 1_000_000n);
     expect(result.value).toBe(0n);
-    expect(result.chainId).toBe(5_042_002);
+    expect(result.chainId).toBe(5_042);
     expect(result.releaseId).toBe(manifest.releaseId);
     expect(result.to).toBe("0x3600000000000000000000000000000000000000");
   });
 
   it("cannot emit an approval from a non-active manifest", () => {
-    const verified = parseDeploymentManifest(structuredClone(verifiedDeployment));
+    const value = structuredClone(activeManifest(false)) as any;
+    value.state = "verified";
+    value.permitIssuer.active = false;
+    const verified = parseDeploymentManifest(value);
     expect(() => prepareApprovalPlan(verified, 1_000_000n)).toThrow(/active/);
   });
 
@@ -136,7 +138,7 @@ describe("unsigned plans", () => {
     const account = "0x1111111111111111111111111111111111111111";
     const identity = deriveNameIdentity("atlas", manifest.namespace.suffix!);
     const permit: RegistrationPermit = {
-      chainId: 5_042_002n,
+      chainId: 5_042n,
       controller: manifest.contracts.controller.address!,
       releaseId: manifest.releaseId!,
       normalizationProfileHash: manifest.normalization.profileHash,
@@ -184,7 +186,7 @@ describe("unsigned plans", () => {
       prepareClaimReferralPlan(manifest),
     ];
     expect(plans.every((item) => item.value === 0n)).toBe(true);
-    expect(plans.every((item) => item.chainId === 5_042_002)).toBe(true);
+    expect(plans.every((item) => item.chainId === 5_042)).toBe(true);
     expect(plans.every((item) => item.releaseId === manifest.releaseId)).toBe(true);
   });
 
@@ -209,19 +211,46 @@ describe("unsigned plans", () => {
     expect(prepareClaimProceedsPlan(marketPaused).kind).toBe("market");
   });
 
-  it("never prepares a new registration against a legacy V1 manifest", () => {
+  it("uses live registration policy rather than a hardcoded registrar version gate", () => {
     const value = structuredClone(activeManifest()) as any;
     value.registrarVersion = "v1";
     delete value.nftMetadata;
     delete value.legacyReleases;
     const legacy = parseDeploymentManifest(value);
-    expect(() => prepareRegistrationPlan({
+    const account = "0x1111111111111111111111111111111111111111";
+    const identity = deriveNameIdentity("alice", legacy.namespace.suffix!);
+    const permit: RegistrationPermit = {
+      chainId: 5_042n,
+      controller: legacy.contracts.controller.address!,
+      releaseId: legacy.releaseId!,
+      normalizationProfileHash: legacy.normalization.profileHash,
+      normalizedLabelHash: identity.labelhash,
+      namehash: identity.namehash,
+      requester: account,
+      recipient: account,
+      payer: account,
+      authorizedExecutor: account,
+      durationYears: 1n,
+      resolverDataHash: resolverDataHash([]),
+      referrer: zeroAddress,
+      settlementAsset: legacy.settlement.erc20Address,
+      expectedAmount: 25_000_000n,
+      expectedReferralBps: 500n,
+      permitId: `0x${"34".repeat(32)}`,
+      nonce: 8n,
+      issuedAt: 1_000n,
+      validAfter: 995n,
+      validUntil: 1_200n,
+    };
+    const plan = prepareRegistrationPlan({
       manifest: legacy,
       rawLabel: "alice",
       normalizationAccepted: true,
-      permit: {} as RegistrationPermit,
-      signature: "0x",
-    })).toThrow(/registration is not active/);
+      permit,
+      signature: `0x${"22".repeat(65)}`,
+    });
+    expect(plan.to).toBe(legacy.contracts.controller.address);
+    expect(plan.chainId).toBe(5_042);
   });
 
   it("builds paused-safe marketplace approval revocation and stale-listing cleanup plans", () => {
@@ -310,7 +339,7 @@ describe("unsigned plans", () => {
 
 describe("permit window parity", () => {
   const permit = {
-    chainId: 5_042_002n,
+    chainId: 5_042n,
     validAfter: 995n,
     issuedAt: 1_000n,
     validUntil: 1_200n,

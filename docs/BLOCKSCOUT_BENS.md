@@ -130,7 +130,7 @@ parity ve canonical corpus mapping testleri zorunludur.
 Her data source gerçek deployment transaction'ından alınan pozitif block ile başlar:
 
 ```yaml
-network: arc-testnet
+network: arc-mainnet
 dataSources:
   - name: Registry
     source:
@@ -189,17 +189,17 @@ Configured adreslerle, bütün BENS gate'leri geçtikten sonra üretilecek hedef
 {
   "subgraphs_reader": {
     "networks": {
-      "5042002": {
-        "blockscout": { "url": "https://testnet.arcscan.app" },
+      "5042": {
+        "blockscout": { "url": "https://explorer.arc.io" },
         "use_protocols": ["contour"],
-        "rpc_url": "https://rpc.testnet.arc.network"
+        "rpc_url": "https://rpc.mainnet.arc.io"
       }
     },
     "protocols": {
       "contour": {
         "tld_list": ["contour"],
-        "network_id": 5042002,
-        "subgraph_name": "contour-arc-testnet",
+        "network_id": 5042,
+        "subgraph_name": "contour-arc-mainnet",
         "address_resolve_technique": "reverse_registry",
         "specific": {
           "type": "ens_like",
@@ -221,7 +221,7 @@ evidence'i hazır olduğunda kontrollü olarak true yapılır.
 Server environment:
 
 ```env
-BENS__CONFIG=/config/contour-arc-testnet.json
+BENS__CONFIG=/config/contour-arc-mainnet.json
 BENS__DATABASE__CONNECT__URL=postgresql://...
 BENS__DATABASE__RUN_MIGRATIONS=true
 BENS__SERVER__HTTP__ADDR=0.0.0.0:8050
@@ -290,7 +290,7 @@ ArcScan tarafında configuration PR veya operator onayı alınmadan
 ürün discovery'si olarak kullanılabilir; resmî ArcScan yalnız tx/contract linki olur.
 
 Contour kontratları source-verified'dır; her adres için
-`https://testnet.arcscan.app/api/v2/smart-contracts/{address}` API cevabı source ve ABI
+`https://explorer.arc.io/api/v2/smart-contracts/{address}` API cevabı source ve ABI
 döndürür. Operator handoff yine bu response'ların immutable URL/hash paketini ve diğer
 BENS kanıtlarını ister; yalnız adres veya transaction sayfası bu maddeyi karşılamaz.
 Publication ve checksum kuralları

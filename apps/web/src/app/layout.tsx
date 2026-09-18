@@ -12,13 +12,13 @@ import { getOptionalDeploymentManifest } from "@/lib/manifest";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3002"),
   title: {
-    default: `${BRAND.name} — Names for Arc Testnet`,
+    default: `${BRAND.name} — Names for Arc Mainnet`,
     template: `%s — ${BRAND.name}`,
   },
   description:
-    "Search, register, and use Contour names with USDC on Arc Testnet.",
+    "Search, register, and use Contour names with USDC on Arc Mainnet.",
   openGraph: {
-    title: `${BRAND.name} — Names for Arc Testnet`,
+    title: `${BRAND.name} — Names for Arc Mainnet`,
     description: BRAND.tagline,
     type: "website",
   },

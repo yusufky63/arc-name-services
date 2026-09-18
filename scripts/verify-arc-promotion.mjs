@@ -8,7 +8,7 @@ import {
 } from "./promotion-cli.mjs";
 
 const cli = parsePromotionCliArguments(process.argv.slice(2));
-const manifestPath = resolve(cli.manifestArgument ?? "deployments/5042002.json");
+const manifestPath = resolve(cli.manifestArgument ?? "deployments/5042.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const attestationPath = resolve(cli.attestationArgument ?? defaultAttestationPath(manifestPath));
 

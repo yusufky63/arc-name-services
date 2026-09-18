@@ -1,4 +1,4 @@
-network: arc-testnet
+network: arc-mainnet
 registry_address: null
 registry_start_block: null
 resolver_address: null

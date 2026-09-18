@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "node --test scripts/scaffold.test.mjs && npm run build:mappings",
-    "render": "node scripts/render-manifest.mjs ../../deployments/5042002.json",
+    "render": "node scripts/render-manifest.mjs ../../deployments/5042.json",
     "codegen": "graph codegen subgraph.yaml",
     "render:verify": "node scripts/render-verify.mjs",
     "codegen:verify": "npm run render:verify && graph codegen subgraph.verify.yaml",

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { privateKeyToAccount } from "viem/accounts";
 import type { DeploymentManifest } from "@contour/config";
-import deploymentManifest from "../../../../deployments/5042002.json";
+import deploymentManifest from "../../../../deployments/5042.json";
 
 vi.mock("server-only", () => ({}));
 
@@ -21,6 +21,7 @@ const fixtureAccount = privateKeyToAccount(fixturePrivateKey);
 function activeFixture(): DeploymentManifest {
   const value = structuredClone(deploymentManifest) as unknown as DeploymentManifest;
   value.state = "active";
+  value.activationEvidence.controllerPolicy.registrationsPaused = false;
   value.permitIssuer.active = true;
   value.permitIssuer.signerAddress = fixtureAccount.address;
   value.permitIssuer.policyVersion = "1";

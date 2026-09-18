@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
 
-const DEFAULT_MANIFEST = resolve("deployments", "5042002.json");
+const DEFAULT_MANIFEST = resolve("deployments", "5042.json");
 
 function fail(message) {
   throw new Error(

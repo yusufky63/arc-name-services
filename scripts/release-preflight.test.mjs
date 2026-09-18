@@ -51,7 +51,7 @@ async function createFixture(context) {
   );
   await write(
     root,
-    "deployments/5042002.json",
+    "deployments/5042.json",
     `${JSON.stringify({
       state: "active",
       chain: { rpcUrl: CANONICAL_ARC_RPC_URL, websocketUrl: CANONICAL_ARC_WS_URL },
@@ -104,7 +104,7 @@ async function writeProductLiveManifest(
   }
   await write(
     root,
-    "deployments/5042002.json",
+    "deployments/5042.json",
     `${JSON.stringify({
       state: "active",
       chain: { rpcUrl: CANONICAL_ARC_RPC_URL, websocketUrl: CANONICAL_ARC_WS_URL },
@@ -174,12 +174,12 @@ async function writeV2CutoverManifests(
   mutateLegacy(legacy);
   await write(
     root,
-    "deployments/5042002.json",
+    "deployments/5042.json",
     `${JSON.stringify(canonical, null, 2)}\n`,
   );
   await write(
     root,
-    "deployments/5042002.legacy.json",
+    "deployments/5042.legacy.json",
     `${JSON.stringify(legacy, null, 2)}\n`,
   );
 }
@@ -269,7 +269,7 @@ test("V2 baseline rejects an empty reference directory and stale full V1 cutover
   assert.equal(report.ok, false);
   assert.deepEqual(report.issues, [{
     code: "LEGACY_CUTOVER_REFERENCE_COUNT_INVALID",
-    path: "deployments/5042002.json",
+    path: "deployments/5042.json",
   }]);
 
   await writeV2CutoverManifests(root, {
@@ -468,7 +468,7 @@ test("hash-pinned public evidence is LF-only and byte-identical to the manifest"
   await write(root, `apps/web/public/${evidencePath}`, evidence);
   await write(
     root,
-    "deployments/5042002.json",
+    "deployments/5042.json",
     `${JSON.stringify({
       chain: { rpcUrl: CANONICAL_ARC_RPC_URL, websocketUrl: CANONICAL_ARC_WS_URL },
       activationEvidence: {
@@ -599,7 +599,7 @@ test("canonical signed manifest requires exact historical websocket metadata", a
   const root = await createFixture(context);
   await write(
     root,
-    "deployments/5042002.json",
+    "deployments/5042.json",
     JSON.stringify({
       chain: { rpcUrl: CANONICAL_ARC_RPC_URL, websocketUrl: null },
     }, null, 2) + "\n",
@@ -615,7 +615,7 @@ test("retained V1 manifest may preserve only the exact historical websocket meta
   const root = await createFixture(context);
   await write(
     root,
-    "deployments/5042002.legacy.json",
+    "deployments/5042.legacy.json",
     `${JSON.stringify({
       chain: {
         rpcUrl: CANONICAL_ARC_RPC_URL,
@@ -629,7 +629,7 @@ test("retained V1 manifest may preserve only the exact historical websocket meta
 
   await write(
     root,
-    "deployments/5042002.legacy.json",
+    "deployments/5042.legacy.json",
     `${JSON.stringify({
       chain: {
         rpcUrl: CANONICAL_ARC_RPC_URL,
@@ -641,7 +641,7 @@ test("retained V1 manifest may preserve only the exact historical websocket meta
   assert.equal(report.checks.operationalRpc.ok, false);
   assert.ok(report.checks.operationalRpc.issues.some((issue) =>
     issue.code === "NON_CANONICAL_ARC_RPC_URL"
-    && issue.path === "deployments/5042002.legacy.json"));
+    && issue.path === "deployments/5042.legacy.json"));
 });
 
 test("required Vercel exclusions and the focused web build are fail-closed", async (context) => {

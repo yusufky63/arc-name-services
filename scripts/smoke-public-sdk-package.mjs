@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const packageRoot = join(root, "npm", "sdk");
 const npmCacheRoot = join(root, ".npm-cache");
-const deploymentManifestPath = join(root, "deployments", "5042002.json");
+const deploymentManifestPath = join(root, "deployments", "5042.json");
 const deploymentManifestBytes = await readFile(deploymentManifestPath);
 const deploymentManifestValue = JSON.parse(deploymentManifestBytes.toString("utf8"));
 const deploymentManifestSha256 =
@@ -107,7 +107,7 @@ try {
       'import { ARC_TESTNET, ArcNameClient, controllerAbi, deriveNameIdentity, erc20Abi, fetchDeploymentManifest, marketplaceAbi, normalizeLabel, parseDeploymentManifest, prepareApprovalPlan, prepareBuyPlan, prepareListingPlan, prepareRegistrationPlan, resolverDataHash } from "contour-sdk";',
       'import { ARC_TESTNET as CONFIG_ARC_TESTNET } from "contour-sdk/config";',
       'import { normalizeLabel as normalizeFromSubpath } from "contour-sdk/normalization";',
-      'if (ARC_TESTNET.id !== 5_042_002) throw new Error("unexpected Arc chain id");',
+      'if (ARC_TESTNET.id !== 5_042) throw new Error("unexpected Arc chain id");',
       'if (CONFIG_ARC_TESTNET.id !== ARC_TESTNET.id) throw new Error("config subpath export mismatch");',
       'if (normalizeLabel("Atlas").normalized !== "atlas") throw new Error("normalization failed");',
       'if (normalizeFromSubpath("Atlas").normalized !== "atlas") throw new Error("normalization subpath export failed");',

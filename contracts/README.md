@@ -1,6 +1,6 @@
-# Arc Testnet Name Service — Contracts
+# Arc Mainnet Name Service — Contracts
 
-Self-contained Foundry implementation of the seven-contract, no-proxy Arc Testnet name-service
+Self-contained Foundry implementation of the seven-contract, no-proxy Arc Mainnet name-service
 suite described by the project specification. This package is deployable source, not evidence of a
 live deployment. It does not claim to be an official Arc or Circle name service.
 
@@ -10,7 +10,7 @@ deployment, but a release manifest using another suffix is not compliant with `P
 
 ## Network and accounting boundary
 
-- Target chain: Arc Testnet (`5042002`, `eip155:5042002`).
+- Target chain: Arc Mainnet (`5042`, `eip155:5042`).
 - Settlement asset at deployment: Arc application USDC
   (`0x3600000000000000000000000000000000000000`, 6 decimals).
 - Every application price and liability is a 6-decimal ERC-20 base-unit amount.
@@ -149,7 +149,7 @@ and marketplace fee remain explicit deployment inputs.
 
 Permit signer replacement is a two-step 24-hour delayed proposal/activation. The owner can revoke a
 compromised signer immediately, which fail-closes new registration. `signerPolicyVersion` and events
-make proposals, activations, and revocations observable. This Arc Testnet release uses one funded EOA
+make proposals, activations, and revocations observable. This Arc Mainnet release uses one funded EOA
 as deployer, protocol owner, treasury, and initial permit signer. One compromised key therefore
 controls administration, treasury, and permit issuance; this is an accepted Testnet tradeoff rather
 than a production custody recommendation. Referral BPS and
@@ -176,7 +176,7 @@ practical and record each actual deployment block in the public manifest:
 9. Verify source, constructor arguments, controller allowlist, suffix/reverse ownership, permit signer,
    treasury, price/fee/grace values, and settlement address before enabling issuance.
 
-The checked-in `script/DeployArcNameService.s.sol` enforces Arc Testnet, the canonical 6-decimal
+The checked-in `script/DeployArcNameService.s.sol` enforces Arc Mainnet, the canonical 6-decimal
 USDC interface, a non-zero role configuration, and one EOA shared exactly by the deployer, protocol
 owner, treasury, and initial permit signer before it broadcasts. Contract accounts and every split
 role configuration are rejected. The script reads only public configuration values:
@@ -190,13 +190,13 @@ For a fresh Foundry deployment, prefer a Foundry keystore or hardware wallet:
 
 ```bash
 forge script --root contracts script/DeployArcNameService.s.sol:DeployArcNameService \
-  --rpc-url https://rpc.testnet.arc.network \
+  --rpc-url https://rpc.mainnet.arc.io \
   --account <foundry-keystore-account> \
   --sender "$DEPLOYER_ADDRESS" \
   --broadcast
 ```
 
-The Arc Testnet operator utilities also support the deliberately simplified, gitignored root
+The Arc Mainnet operator utilities also support the deliberately simplified, gitignored root
 `.env` model documented in the repository deployment guide. That local exception never permits a
 private key in a CLI argument, Vercel source upload, browser variable, build log, source map or
 evidence file. A key read by an operator utility is normalized in memory and never printed.
@@ -208,8 +208,8 @@ transaction, or overwrite the canonical manifest:
 
 ```bash
 pnpm prepare:deployment-evidence \
-  --broadcast contracts/broadcast/DeployArcNameService.s.sol/5042002/run-latest.json \
-  --output-dir deployments/local/5042002-prepared
+  --broadcast contracts/broadcast/DeployArcNameService.s.sol/5042/run-latest.json \
+  --output-dir deployments/local/5042-prepared
 ```
 
 The parser requires the exact 15-transaction deployment/wiring sequence and successful receipts. It
@@ -235,7 +235,7 @@ owner; no acceptance transaction is required and each `pendingOwner` must be zer
 unpause only after source verification, manifest evidence, permit-signer readiness, and funded
 acceptance gates pass.
 
-### Superseded Arc Testnet Safe deployment
+### Superseded Arc Mainnet Safe deployment
 
 Release ID:
 `0xcb31300ed4857f0ffdb9c3c613818182ea920d1547c58d3beb8cfdb821056bf6`

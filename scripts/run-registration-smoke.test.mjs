@@ -34,7 +34,7 @@ const REGISTRANT = getAddress("0x2222222222222222222222222222222222222222");
 const HASH = (value) => `0x${value.toString(16).padStart(64, "0")}`;
 
 async function registrationCandidate() {
-  const manifest = JSON.parse(await readFile("deployments/5042002.json", "utf8"));
+  const manifest = JSON.parse(await readFile("deployments/5042.json", "utf8"));
   manifest.state = "active";
   manifest.activationEvidence.productLive = false;
   manifest.activationEvidence.verifiedAtBlock = 52_200_000;
@@ -90,7 +90,7 @@ function dryRunHarness(manifest, {
   let signatures = 0;
   const controller = getAddress(manifest.contracts.controller.address);
   const publicClient = {
-    async getChainId() { return 5_042_002; },
+    async getChainId() { return manifest.chain.id; },
     async getBlockNumber() { return 52_200_100n; },
     async getBytecode({ address }) { return fixtureBytecode(manifest, address); },
     async getBalance() { return 1_000_000_000_000_000_000n; },

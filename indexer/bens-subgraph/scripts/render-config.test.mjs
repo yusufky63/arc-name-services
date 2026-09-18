@@ -10,11 +10,11 @@ import {
 import { renderBensArtifacts } from "../../../ops/bens/render-config-lib.mjs";
 
 const manifestValue = JSON.parse(await readFile(
-  new URL("../../../deployments/5042002.json", import.meta.url),
+  new URL("../../../deployments/5042.json", import.meta.url),
   "utf8",
 ));
 const configuredAttestation = JSON.parse(await readFile(
-  new URL("../../../deployments/5042002.promotion.json", import.meta.url),
+  new URL("../../../deployments/5042.promotion.json", import.meta.url),
   "utf8",
 ));
 const template = await readFile(
@@ -40,7 +40,7 @@ function productLiveManifest() {
     contract.sourceVerified = true;
     contract.abiUrl = `https://evidence.example.com/contour-v1/abi/${contract.address}.json`;
     contract.abiSha256 = evidenceHash;
-    contract.sourceVerificationUrl = `https://testnet.arcscan.app/address/${contract.address}`;
+    contract.sourceVerificationUrl = `https://explorer.arc.io/address/${contract.address}`;
     contract.sourceVerificationSha256 = evidenceHash;
   }
   value.activationEvidence.controllerPolicy.registrationsPaused = false;
@@ -52,7 +52,7 @@ function productLiveManifest() {
     protocolConfigured: true,
     subgraphSynced: false,
     apiUrl: "https://bens.example.com",
-    subgraphUrl: "https://graph.example.com/subgraphs/name/contour-arc-testnet",
+    subgraphUrl: "https://graph.example.com/subgraphs/name/contour-arc-mainnet",
     hostedArcscanActive: false,
   };
   return parseDeploymentManifest(value);
@@ -79,7 +79,7 @@ test("product-live render binds config, manifest endpoints and attestation", () 
   const config = JSON.parse(configText);
   const binding = JSON.parse(bindingText);
 
-  assert.equal(config.subgraphs_reader.protocols.contour.subgraph_name, "contour-arc-testnet");
+  assert.equal(config.subgraphs_reader.protocols.contour.subgraph_name, "contour-arc-mainnet");
   assert.equal(config.subgraphs_reader.protocols.contour.specific.registry_contract, manifest.contracts.registry.address);
   assert.equal(binding.manifestSha256, attestation.manifestSha256);
   assert.equal(binding.productLive, true);
@@ -117,6 +117,6 @@ test("product-live BENS endpoints must be public and bind the configured subgrap
       productLiveAttestation(wrongSubgraph),
       template,
     ),
-    /subgraphs\/name\/contour-arc-testnet/,
+    /subgraphs\/name\/contour-arc-mainnet/,
   );
 });

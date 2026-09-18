@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { arcTestnet } from "viem/chains";
+import { arc as arcTestnet } from "viem/chains";
 import {
   registrarVersionOf,
   type DeploymentManifest,
@@ -51,7 +51,7 @@ export function GET(request: NextRequest) {
         title: "Contour Name Protocol API",
         version: manifest.schemaVersion,
         description:
-          `Live read and wallet-plan APIs for .${suffix} names on Arc Testnet. ` +
+          `Live read and wallet-plan APIs for .${suffix} names on Arc Mainnet. ` +
           "The server never submits a user wallet transaction. " +
           `${metadata.canonicalStatement}${metadata.retainedStatement}`,
       },
@@ -806,7 +806,7 @@ export function GET(request: NextRequest) {
                       ],
                       properties: {
                         scheme: { type: "string", const: "exact" },
-                        network: { type: "string", const: "eip155:5042002" },
+                        network: { type: "string", const: "eip155:5042" },
                         asset: {
                           type: "string",
                           const: "0x3600000000000000000000000000000000000000",

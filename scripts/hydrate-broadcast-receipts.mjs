@@ -4,7 +4,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const HASH_PATTERN = /^0x[0-9a-fA-F]{64}$/;
-const ARC_RPC_URL = "https://rpc.testnet.arc.network";
+const ARC_RPC_URL = "https://rpc.mainnet.arc.io";
 const MAX_RPC_RESPONSE_BYTES = 2 * 1024 * 1024;
 const MAX_RPC_ATTEMPTS = 3;
 const RPC_REQUEST_INTERVAL_MS = 2_100;

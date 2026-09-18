@@ -22,9 +22,9 @@ Configure a stdio-capable MCP client with absolute paths:
       "command": "node",
       "args": ["C:/absolute/path/arc-name-services/packages/mcp/dist/server.js"],
       "env": {
-        "MCP_MANIFEST_PATH": "C:/absolute/path/arc-name-services/deployments/5042002.json",
-        "MCP_LEGACY_MANIFEST_PATHS": "[\"C:/absolute/path/arc-name-services/deployments/5042002.legacy.json\"]",
-        "ARC_RPC_URL": "https://rpc.testnet.arc.network"
+        "MCP_MANIFEST_PATH": "C:/absolute/path/arc-name-services/deployments/5042.json",
+        "MCP_LEGACY_MANIFEST_PATHS": "[\"C:/absolute/path/arc-name-services/deployments/5042.legacy.json\"]",
+        "ARC_RPC_URL": "https://rpc.mainnet.arc.io"
       }
     },
     "arc-docs": { "url": "https://docs.arc.io/mcp" }
@@ -76,7 +76,7 @@ prepares a new registration against legacy V1.
 | `prepare_transfer` | `releaseId`, non-zero, distinct EVM `from`/`to` and uint256 decimal token ID | unsigned safe registrar-token `transfer` plan |
 | `prepare_market_invalidate` | `releaseId`, uint256 decimal token ID | permissionless stale-listing cleanup plan; available while paused |
 
-Unsigned plans have the exact shape `kind`, `chainId` (`5042002`), `releaseId`, `to`,
+Unsigned plans have the exact shape `kind`, `chainId` (`5042`), `releaseId`, `to`,
 `data`, `value` (`"0"`), and `description`. Addresses use `0x` plus 40 hex characters,
 bytes32 values use `0x` plus 64 hex characters, and request IDs match
 `[A-Za-z0-9._:-]{8,128}`. Integer inputs use canonical decimal strings without signs

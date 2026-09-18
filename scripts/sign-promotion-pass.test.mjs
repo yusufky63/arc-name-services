@@ -45,7 +45,7 @@ function retainedV1ReferenceFixture(manifest) {
 }
 
 async function productLiveTarget() {
-  const value = JSON.parse(await readFile(resolve("deployments/5042002.json"), "utf8"));
+  const value = JSON.parse(await readFile(resolve("deployments/5042.json"), "utf8"));
   value.state = "active";
   value.activationEvidence.productLive = true;
   value.activationEvidence.verifiedAtBlock = 52_200_000;

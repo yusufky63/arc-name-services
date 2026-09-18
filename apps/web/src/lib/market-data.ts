@@ -15,7 +15,7 @@ export type LiveMarketListing = {
 };
 
 export type MarketSnapshot = {
-  chainId: 5_042_002;
+  chainId: 5_042;
   asOfBlock: string;
   asOfTimestamp: string;
   listings: LiveMarketListing[];
@@ -41,7 +41,7 @@ export type AccountReleaseBalance = {
 };
 
 export type AccountSnapshot = {
-  chainId: 5_042_002;
+  chainId: 5_042;
   asOfBlock: string;
   asOfTimestamp: string;
   owner: `0x${string}`;

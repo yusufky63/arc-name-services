@@ -31,12 +31,12 @@ const payTo = payToRaw as Address;
 let manifestRaw: unknown;
 try {
   manifestRaw = JSON.parse(
-    readFileSync(resolve(process.cwd(), "../../deployments/5042002.json"), "utf8"),
+    readFileSync(resolve(process.cwd(), "../../deployments/5042.json"), "utf8"),
   );
 } catch {
   try {
     manifestRaw = JSON.parse(
-      readFileSync(resolve(process.cwd(), "deployments/5042002.json"), "utf8"),
+      readFileSync(resolve(process.cwd(), "deployments/5042.json"), "utf8"),
     );
   } catch {
     manifestRaw = {};

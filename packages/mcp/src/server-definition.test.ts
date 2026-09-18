@@ -11,6 +11,22 @@ import {
 import { baseRegistrarAbi, controllerAbi, erc20Abi, marketplaceAbi } from "@contour/sdk";
 import { createContourStdioServer, stdioToolNames } from "./server-definition.js";
 
+function mainnetFixture() {
+  const value = structuredClone(legacyDeployment) as any;
+  value.testnet = false;
+  value.chain.id = 5_042;
+  value.chain.caip2 = "eip155:5042";
+  value.chain.rpcUrl = "https://rpc.mainnet.arc.io";
+  value.chain.websocketUrl = "wss://rpc.quicknode.mainnet.arc.io";
+  value.chain.explorerUrl = "https://explorer.arc.io";
+  value.x402.network = "eip155:5042";
+  for (const contract of Object.values(value.contracts) as any[]) {
+    contract.sourceVerificationUrl =
+      `https://sourcify.dev/server/v2/contract/5042/${contract.address.toLowerCase()}`;
+  }
+  return value;
+}
+
 function unusedReader() {
   return {
     async name() {
@@ -26,7 +42,7 @@ function v2ReleaseManifests(marketPaused = false): {
   canonical: DeploymentManifest;
   legacy: DeploymentManifest;
 } {
-  const legacyInput = structuredClone(legacyDeployment) as any;
+  const legacyInput = mainnetFixture();
   legacyInput.releaseId = `0x${"11".repeat(32)}`;
   legacyInput.registrarVersion = "v1";
   delete legacyInput.nftMetadata;
@@ -36,7 +52,7 @@ function v2ReleaseManifests(marketPaused = false): {
   legacyInput.activationEvidence.marketplacePolicy.paused = false;
   const legacy = parseDeploymentManifest(legacyInput);
 
-  const canonicalInput = structuredClone(legacyDeployment) as any;
+  const canonicalInput = mainnetFixture();
   canonicalInput.releaseId = `0x${"22".repeat(32)}`;
   canonicalInput.registrarVersion = "v2";
   canonicalInput.nftMetadata = { metadataBaseURI: CANONICAL_NFT_METADATA_BASE_URI };
@@ -48,7 +64,7 @@ function v2ReleaseManifests(marketPaused = false): {
   for (const contract of Object.values(canonicalInput.contracts) as any[]) {
     contract.address = `0x${addressIndex.toString(16).padStart(40, "0")}`;
     contract.sourceVerificationUrl =
-      `https://testnet.arcscan.app/api/v2/smart-contracts/${contract.address}`;
+      `https://sourcify.dev/server/v2/contract/5042/${contract.address.toLowerCase()}`;
     addressIndex += 1;
   }
   canonicalInput.legacyReleases = [{
@@ -314,7 +330,7 @@ describe("stdio MCP tool contract", () => {
         ).not.toBe(true);
         expect(result.structuredContent).toMatchObject({
           kind,
-          chainId: 5_042_002,
+          chainId: 5_042,
           releaseId,
           to: expect.stringMatching(/^0x[0-9a-fA-F]{40}$/),
           data: expect.stringMatching(/^0x[0-9a-fA-F]+$/),

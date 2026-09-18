@@ -38,7 +38,7 @@ import {
 const ZERO_NODE = `0x${"00".repeat(32)}` as Hex;
 const MAX_ARTIFACT_BYTES = 4 * 1024 * 1024;
 const MAX_ISSUER_HEALTH_BYTES = 64 * 1024;
-const IMPLICIT_EVIDENCE_HOSTS = ["testnet.arcscan.app"] as const;
+const IMPLICIT_EVIDENCE_HOSTS = ["explorer.arc.io"] as const;
 
 const registryAbi = parseAbi(["function owner(bytes32 node) view returns (address)"]);
 const registrarAbi = parseAbi([
@@ -1693,7 +1693,7 @@ async function verifyArcScanSource(
   }
   const url = assertAllowedPromotionUrl(deployment.sourceVerificationUrl, policy.allowedFetchHosts);
   if (
-    url.hostname.toLowerCase() !== "testnet.arcscan.app" || url.search ||
+    url.hostname.toLowerCase() !== "explorer.arc.io" || url.search ||
     url.pathname.toLowerCase() !== `/api/v2/smart-contracts/${address(manifest, key).toLowerCase()}`
   ) fail(`${key} source-verification URL is not the canonical ArcScan contract API`);
   const bytes = await fetchBounded(fetcher, url, policy);
@@ -1715,7 +1715,7 @@ export function assertApprovedContractRuntimeHash(
 }
 
 /**
- * Release 1 is Arc Testnet-only and intentionally uses one externally owned
+ * Release 1 is Arc Mainnet-only and intentionally uses one externally owned
  * account for every privileged role. Promotion still rejects contract wallets
  * and empty accounts so a stale or mistyped authority cannot go live.
  */

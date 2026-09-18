@@ -1,6 +1,6 @@
-# Tek sahipli Arc Testnet yönetim modeli
+# Tek sahipli Arc Mainnet yönetim modeli
 
-Contour Name Protocol'ün yeni Arc Testnet release'i tek bir fonlanmış EOA'yı deployer,
+Contour Name Protocol'ün yeni Arc Mainnet release'i tek bir fonlanmış EOA'yı deployer,
 protocol owner, treasury ve kısa ömürlü registration permit'lerinin signer'ı olarak
 kullanır. Multisig Safe, ikinci/üçüncü owner, threshold imzası, rol ayrımı, managed
 KMS/HSM veya Safe keystore parolası release gereksinimi değildir.

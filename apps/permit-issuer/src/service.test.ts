@@ -15,7 +15,7 @@ import type { PermitSigner } from "./signer.js";
 
 function permitFixture(requester: Address, labelHash: Hex, permitId: Hex): RegistrationPermit {
   return {
-    chainId: 5_042_002n,
+    chainId: 5_042n,
     controller: "0x2222222222222222222222222222222222222222",
     releaseId: `0x${"10".repeat(32)}`,
     normalizationProfileHash: `0x${"11".repeat(32)}`,
@@ -51,16 +51,16 @@ function activeManifest(signerAddress: Address) {
         abiUrl: `https://example.com/${key}.json`,
         abiSha256: `0x${(index + 20).toString(16).padStart(64, "0")}`,
         sourceVerified: true,
-        sourceVerificationUrl: `https://testnet.arcscan.app/api/v2/smart-contracts/0x${(index + 1).toString(16).padStart(40, "0")}`,
+        sourceVerificationUrl: `https://sourcify.dev/server/v2/contract/5042/0x${(index + 1).toString(16).padStart(40, "0")}`,
         sourceVerificationSha256: `0x${(index + 30).toString(16).padStart(64, "0")}`,
       },
     ]),
   );
   return parseDeploymentManifest({
-    schemaVersion: "1.1.0", state: "active", releaseId: `0x${"99".repeat(32)}`, testnet: true,
+    schemaVersion: "1.1.0", state: "active", releaseId: `0x${"99".repeat(32)}`, testnet: false,
     chain: {
-      id: 5_042_002, caip2: "eip155:5042002", rpcUrl: "https://rpc.testnet.arc.network",
-      websocketUrl: "wss://rpc.testnet.arc.network", explorerUrl: "https://testnet.arcscan.app",
+      id: 5_042, caip2: "eip155:5042", rpcUrl: "https://rpc.mainnet.arc.io",
+      websocketUrl: "wss://rpc.quicknode.mainnet.arc.io", explorerUrl: "https://explorer.arc.io",
       multicall3: "0xcA11bde05977b3631167028862bE2a173976CA11", confirmations: 1,
     },
     settlement: {
@@ -104,7 +104,7 @@ function activeManifest(signerAddress: Address) {
     discovery: { manifestUrl: null, agentManifestUrl: null, mcpUrl: null, openApiUrl: null },
     bens: { protocolConfigured: false, subgraphSynced: false, apiUrl: null, subgraphUrl: null, hostedArcscanActive: false },
     x402: {
-      active: false, network: "eip155:5042002", asset: "0x3600000000000000000000000000000000000000",
+      active: false, network: "eip155:5042", asset: "0x3600000000000000000000000000000000000000",
       scheme: "exact", facilitatorUrl: null,
     },
   });
@@ -118,7 +118,7 @@ function chainPolicy(overrides: Partial<ChainPolicyReader> = {}): ChainPolicyRea
     allowance: async () => 100_000_000n,
     referralBps: async () => 250n,
     health: async () => ({
-      chainId: 5_042_002,
+      chainId: 5_042,
       permitSigner: signerAccount.address,
       signerPolicyVersion: 1n,
       registrationsPaused: false,
@@ -336,7 +336,7 @@ describe("intent-bound permit issuance", () => {
     let paused = false;
     const chain = chainPolicy({
       health: async () => ({
-        chainId: 5_042_002,
+        chainId: 5_042,
         permitSigner: signerAccount.address,
         signerPolicyVersion: 1n,
         registrationsPaused: paused,

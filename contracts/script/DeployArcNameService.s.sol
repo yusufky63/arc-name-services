@@ -25,11 +25,11 @@ interface IERC20Metadata {
     function decimals() external view returns (uint8);
 }
 
-/// @notice Fail-closed Arc Testnet deployment script for the seven protocol contracts.
+/// @notice Fail-closed Arc Mainnet deployment script for the seven protocol contracts.
 /// @dev Run with `forge script` and a hardware/keystore-backed broadcaster. The script never
 ///      reads a raw private key environment variable. It leaves registration and the market
 ///      paused. Deployer, protocol owner, treasury and the initial EIP-712 permit signer must all
-///      be the same funded EOA for this Arc Testnet release.
+///      be the same funded EOA for this Arc Mainnet release.
 contract DeployArcNameService {
     error InvalidChain(uint256 actual);
     error InvalidInput();
@@ -40,7 +40,7 @@ contract DeployArcNameService {
 
     Vm private constant _VM = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
 
-    uint256 private constant _ARC_TESTNET_CHAIN_ID = 5_042_002;
+    uint256 private constant _ARC_MAINNET_CHAIN_ID = 5_042;
     uint256 private constant _MAX_REFERRAL_BPS = 3_000;
     uint256 private constant _MAX_MARKETPLACE_FEE_BPS = 1_000;
     address private constant _ARC_USDC = 0x3600000000000000000000000000000000000000;
@@ -106,7 +106,7 @@ contract DeployArcNameService {
     }
 
     function _assertReleaseEnvironment() private view {
-        if (block.chainid != _ARC_TESTNET_CHAIN_ID) revert InvalidChain(block.chainid);
+        if (block.chainid != _ARC_MAINNET_CHAIN_ID) revert InvalidChain(block.chainid);
         if (
             BoundedNamehash.namehash(_SUFFIX, 255, 10) != _BASE_NODE
                 || BoundedNamehash.namehash("addr.reverse", 255, 10) != _REVERSE_NODE

@@ -25,8 +25,8 @@ const HELP = `Usage:
 Options:
   --broadcast <path>   Completed Foundry run-latest JSON (required)
   --artifacts <dir>    Foundry artifact root (default: contracts/out)
-  --manifest <path>    Draft or receipt-matching configured manifest (default: deployments/5042002.json)
-  --output-dir <dir>   New output directory (default: deployments/local/5042002-prepared)
+  --manifest <path>    Draft or receipt-matching configured manifest (default: deployments/5042.json)
+  --output-dir <dir>   New output directory (default: deployments/local/5042-prepared)
   --registrar-version <v1|v2>
                        Registrar artifact/release profile (default: v1; V2 must be explicit)
   --help               Show this message
@@ -41,8 +41,8 @@ The output directory must not already exist.
 function parseArguments(argv) {
   const result = {
     artifacts: "contracts/out",
-    manifest: "deployments/5042002.json",
-    outputDir: "deployments/local/5042002-prepared",
+    manifest: "deployments/5042.json",
+    outputDir: "deployments/local/5042-prepared",
     registrarVersion: "v1",
   };
   for (let index = 0; index < argv.length; index += 1) {

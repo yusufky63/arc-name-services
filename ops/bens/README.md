@@ -12,7 +12,7 @@ the canonical manifest and its matching promotion attestation through
 product-live, live-verified and explicitly marks the BENS protocol configured.
 It emits both `config.generated.json` and a checksummed
 `config.generated.binding.json` sidecar. The sidecar binds the exact public BENS
-API and `/subgraphs/name/contour-arc-testnet` URLs because the upstream BENS
+API and `/subgraphs/name/contour-arc-mainnet` URLs because the upstream BENS
 runtime schema has no self-URL or direct subgraph-URL fields.
 In BENS terminology `native_token_contract` is the name registrar NFT, never
 Arc USDC.

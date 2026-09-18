@@ -113,7 +113,7 @@ export async function ensureArcWallet(provider: EthereumProvider): Promise<void>
     typeof selected !== "string" ||
     selected.toLowerCase() !== ARC_CHAIN_HEX.toLowerCase()
   ) {
-    throw new Error("Switch your wallet to Arc Testnet before continuing.");
+    throw new Error("Switch your wallet to Arc Mainnet before continuing.");
   }
 }
 

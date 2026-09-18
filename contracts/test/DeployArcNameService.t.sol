@@ -6,7 +6,7 @@ import { DeployArcNameService } from "../script/DeployArcNameService.s.sol";
 import { MockUSDC } from "./mocks/MockUSDC.sol";
 
 contract DeployArcNameServiceTest is TestBase, DeployArcNameService {
-    uint256 private constant _ARC_TESTNET_CHAIN_ID = 5_042_002;
+    uint256 private constant _ARC_MAINNET_CHAIN_ID = 5_042;
     address private constant _USDC = 0x3600000000000000000000000000000000000000;
     bytes32 private constant _BASE_NODE =
         0xb0622ac8c513b1e04f26418271b595fae314dbed2e3dea63916fc45cde7c5bbe;
@@ -20,7 +20,7 @@ contract DeployArcNameServiceTest is TestBase, DeployArcNameService {
     bytes32 private releaseId = keccak256("contour-release-1");
 
     function setUp() public {
-        vm.chainId(_ARC_TESTNET_CHAIN_ID);
+        vm.chainId(_ARC_MAINNET_CHAIN_ID);
         MockUSDC settlementAsset = new MockUSDC();
         vm.etch(_USDC, address(settlementAsset).code);
     }

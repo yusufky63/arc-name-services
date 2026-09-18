@@ -63,7 +63,7 @@ describe("keeper workflow transitions", () => {
     const expected = order();
     expected.permitId = `0x${"66".repeat(32)}`;
     const proof: Extract<RegistrationReceiptProof, { state: "success" }> = {
-      state: "success", chainId: 5042002, receiptStatus: "success",
+      state: "success", chainId: 5042, receiptStatus: "success",
       transactionTo: expected.controller, decodedFunction: "register", decodedLabel: expected.normalizedLabel,
       decodedPermitId: expected.permitId, decodedReleaseId: expected.releaseId, decodedNamehash: expected.namehash,
       decodedRecipient: expected.recipient, decodedAuthorizedExecutor: "0x3333333333333333333333333333333333333333",

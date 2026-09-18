@@ -15,7 +15,7 @@ describe("site footer", () => {
     expect(markup).toContain('href="/status"');
     expect(markup).not.toContain('href="/admin"');
     expect(markup).not.toContain("Operations");
-    expect(markup).toContain("ARC TESTNET");
-    expect(markup).toContain("CHAIN 5042002");
+    expect(markup).toContain("ARC MAINNET");
+    expect(markup).toContain("CHAIN 5042");
   });
 });

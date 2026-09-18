@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
-import deploymentManifest from "../../deployments/5042002.json";
-import promotionAttestation from "../../deployments/5042002.promotion.json";
+import deploymentManifest from "../../deployments/5042.json";
+import promotionAttestation from "../../deployments/5042.promotion.json";
 import { candidateReleaseEnvironmentPresent } from "./release-runtime-boundary";
 
 const productLive = deploymentManifest.state === "active" && deploymentManifest.activationEvidence.productLive;

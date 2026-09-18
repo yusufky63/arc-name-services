@@ -45,7 +45,7 @@ const controllerAbi = parseAbi([
 ]);
 
 export async function registrationControllerOpenManifest() {
-  const manifest = JSON.parse(await readFile("deployments/5042002.json", "utf8"));
+  const manifest = JSON.parse(await readFile("deployments/5042.json", "utf8"));
   manifest.state = "active";
   manifest.activationEvidence.productLive = false;
   manifest.activationEvidence.verifiedAtBlock = TEST_VERIFIED_BLOCK;

@@ -1,8 +1,8 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
-const manifest = JSON.parse(await readFile(resolve(process.argv[2] ?? "../../deployments/5042002.json"), "utf8"));
-if (manifest.chain?.id !== 5042002 || manifest.state === "draft" || !manifest.namespace?.suffix || !manifest.namespace?.baseNode) {
+const manifest = JSON.parse(await readFile(resolve(process.argv[2] ?? "../../deployments/5042.json"), "utf8"));
+if (manifest.chain?.id !== 5042 || manifest.state === "draft" || !manifest.namespace?.suffix || !manifest.namespace?.baseNode) {
   throw new Error("Arc protocol handoff requires an activated suffix/base node");
 }
 for (const key of ["registry", "publicResolver", "controller", "baseRegistrar"]) {
@@ -13,7 +13,7 @@ for (const key of ["registry", "publicResolver", "controller", "baseRegistrar"])
 }
 const q = (value) => JSON.stringify(value);
 const generated = [
-  "network: arc-testnet",
+  "network: arc-mainnet",
   `registry_address: ${q(manifest.contracts.registry.address)}`,
   `registry_start_block: ${manifest.contracts.registry.deploymentBlock}`,
   `resolver_address: ${q(manifest.contracts.publicResolver.address)}`,

@@ -263,7 +263,7 @@ function createContourMcpServer() {
     "runtime-discovery",
     "contour://runtime",
     {
-      title: "Contour Arc Testnet runtime discovery",
+      title: "Contour Arc Mainnet runtime discovery",
       mimeType: "application/json",
     },
     async (uri) => ({

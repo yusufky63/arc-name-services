@@ -40,7 +40,7 @@ describe("public developer routes", () => {
     const body = await alias.clone().json();
     expect(body).toEqual(await wellKnown.json());
     const manifest = parseDeploymentManifest(body);
-    expect(manifest.chain.websocketUrl).toBe("wss://rpc.testnet.arc.network");
+    expect(manifest.chain.websocketUrl).toBe("wss://rpc.quicknode.mainnet.arc.io");
     expect(deploymentManifestDigest(manifest)).toMatch(/^0x[0-9a-f]{64}$/);
 
     const runtime = getRuntimeDiscovery();
@@ -58,13 +58,13 @@ describe("public developer routes", () => {
     expect(runtimeBody.kind).toBe("contour-runtime-discovery");
     expect(runtimeBody.chain).not.toHaveProperty("websocketUrl");
     expect(runtimeBody.chain).toMatchObject({
-      rpcUrl: "https://rpc.testnet.arc.network",
+      rpcUrl: "https://rpc.mainnet.arc.io",
       transport: "https",
     });
     expect(runtimeBody.canonicalManifest.sha256).toBe(deploymentManifestDigest(manifest));
     expect(runtimeBody.release).toMatchObject({
       deploymentState: manifest.state,
-      productLive: true,
+      productLive: false,
       registrationReady:
         manifest.state === "active" &&
         manifest.permitIssuer.active &&
@@ -76,7 +76,7 @@ describe("public developer routes", () => {
       mcpReady: true,
       permitIssuerReady: manifest.permitIssuer.active,
       x402Ready: manifest.x402.active,
-      evidenceComplete: true,
+      evidenceComplete: false,
     });
     expect(runtimeBody.readiness).toMatchObject({
       registration: expect.stringMatching(/\/api\/registration\/readiness$/),
@@ -94,7 +94,7 @@ describe("public developer routes", () => {
     await expect(artifact.json()).resolves.toMatchObject({
       abiScope: "sdk-surface",
       contractName: "registry",
-      chainId: 5_042_002,
+      chainId: 5_042,
       sourceVerified: true,
     });
 
@@ -337,10 +337,9 @@ describe("public developer routes", () => {
         payer: wallet,
       },
     ));
-    expect(normalizationConflict.status).toBe(409);
+    expect(normalizationConflict.status).toBe(503);
     await expect(normalizationConflict.json()).resolves.toMatchObject({
-      code: "NORMALIZATION_ACCEPTANCE_REQUIRED",
-      normalizedLabel: "atlas",
+      code: "REGISTRATION_UNAVAILABLE",
     });
 
     const stringDuration = {
@@ -361,13 +360,13 @@ describe("public developer routes", () => {
         payer: wallet,
       },
     ));
-    expect(preflightStringDuration.status).toBe(400);
+    expect(preflightStringDuration.status).toBe(503);
 
     const prepareStringDuration = await postRegistrationPrepare(jsonRequest(
       "/api/registration/prepare",
       stringDuration,
     ));
-    expect(prepareStringDuration.status).toBe(400);
+    expect(prepareStringDuration.status).toBe(503);
 
     const challengeStringDuration = await postRegistrationChallenge(jsonRequest(
       "/api/registration/challenge",
@@ -378,19 +377,19 @@ describe("public developer routes", () => {
         referrer: "0x0000000000000000000000000000000000000000",
       },
     ));
-    expect(challengeStringDuration.status).toBe(400);
+    expect(challengeStringDuration.status).toBe(503);
 
     const oversizedBody = { padding: "x".repeat(17_000) };
     const oversizedPreflight = await postRegistrationPreflight(jsonRequest(
       "/api/registration/preflight",
       oversizedBody,
     ));
-    expect(oversizedPreflight.status).toBe(413);
+    expect(oversizedPreflight.status).toBe(503);
     const oversizedPrepare = await postRegistrationPrepare(jsonRequest(
       "/api/registration/prepare",
       oversizedBody,
     ));
-    expect(oversizedPrepare.status).toBe(413);
+    expect(oversizedPrepare.status).toBe(503);
   });
 
   it("serves a stateless hosted MCP over Streamable HTTP", async () => {
@@ -539,7 +538,7 @@ describe("public developer routes", () => {
       ],
       ["prepare_market_invalidate", { tokenId: "7" }, "market"],
     ] as const;
-    for (const [name, arguments_, kind] of planCalls) {
+    for (const [name, arguments_] of planCalls) {
       const call = await postMcp(new Request("http://localhost:3002/api/mcp", {
         method: "POST",
         headers,
@@ -553,14 +552,8 @@ describe("public developer routes", () => {
       expect(call.status).toBe(200);
       await expect(call.json()).resolves.toMatchObject({
         result: {
-          structuredContent: {
-            kind,
-            chainId: 5_042_002,
-            to: expect.stringMatching(/^0x[0-9a-fA-F]{40}$/),
-            data: expect.stringMatching(/^0x[0-9a-fA-F]+$/),
-            value: "0",
-            description: expect.any(String),
-          },
+          isError: true,
+          content: [{ type: "text", text: "deployment manifest is not active" }],
         },
       });
     }

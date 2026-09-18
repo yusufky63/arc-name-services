@@ -1,4 +1,4 @@
-﻿# AI & Developer Operations Guide — Contour Name Protocol
+# AI & Developer Operations Guide — Contour Name Protocol
 
 This document defines critical operational, architectural, and build rules for AI agents and human developers modifying the Contour Name Protocol codebase.
 
@@ -12,7 +12,7 @@ This document defines critical operational, architectural, and build rules for A
 ---
 
 ## 2. No Version Hardcoding on Core Execution Paths
-- The canonical deployed suite on Arc Testnet (Chain ID: 5042002) is the source-verified Canonical V1 suite.
+- The canonical deployed suite on Arc Mainnet (Chain ID: 5042) is the source-verified Canonical V1 suite.
 - NEVER gate user-facing execution functions (such as `prepareRegistrationPlan`, `prepareApprovalPlan`, or `prepareMarketplaceApprovalPlan` in `@contour/sdk`) with hardcoded registrar version checks (e.g. `registrarVersionOf(manifest) !== "v2"`).
 - Always bind execution readiness to real on-chain/manifest truth:
   - Registration is active when: `manifest.state === "active" && manifest.permitIssuer.active && manifest.activationEvidence.controllerPolicy.registrationsPaused === false`.
@@ -21,9 +21,9 @@ This document defines critical operational, architectural, and build rules for A
 ---
 
 ## 3. Manifest Modification & Promotion Attestation Sync
-- The canonical manifest is located at `deployments/5042002.json`.
-- The promotion attestation is located at `deployments/5042002.promotion.json`.
-- Whenever `deployments/5042002.json` is modified (e.g. updating x402 parameters, URLs, or policy values), you MUST update `manifestSha256` in `deployments/5042002.promotion.json` to match `deploymentManifestDigest(manifest)` (`@contour/config`).
+- The canonical manifest is located at `deployments/5042.json`.
+- The promotion attestation is located at `deployments/5042.promotion.json`.
+- Whenever `deployments/5042.json` is modified (e.g. updating x402 parameters, URLs, or policy values), you MUST update `manifestSha256` in `deployments/5042.promotion.json` to match `deploymentManifestDigest(manifest)` (`@contour/config`).
 - If `x402.active` is `true`, it requires `x402.facilitatorUrl` to be non-null and `manifest.state === "active"`.
 
 ---

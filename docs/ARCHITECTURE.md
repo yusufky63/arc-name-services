@@ -4,8 +4,8 @@
 > ERC-721 metadata use canonical V2. Existing V1 names remain on their original
 > contracts; V1 registration is paused while reads, name management and its
 > marketplace/escape paths remain available. The exact two-release trust set is
-> [`deployments/5042002.json`](../deployments/5042002.json) plus its
-> digest-bound [`deployments/5042002.legacy.json`](../deployments/5042002.legacy.json)
+> [`deployments/5042.json`](../deployments/5042.json) plus its
+> digest-bound [`deployments/5042.legacy.json`](../deployments/5042.legacy.json)
 > snapshot. Public capability state is also exposed at `/status`.
 
 > Aşağıdaki staged/private-candidate anlatımı V2 production geçişinin güncel
@@ -65,8 +65,8 @@ ayrı bir trust boundary'dir.
 
 Her iki ürün suite'i de no-proxy'dir. İsimler implementation sınıf adlarıdır; marka
 iddiası değildir. Canonical V2 adresleri yalnız
-[`deployments/5042002.json`](../deployments/5042002.json), retained V1 adresleri yalnız
-[`deployments/5042002.legacy.json`](../deployments/5042002.legacy.json) kaydından alınır.
+[`deployments/5042.json`](../deployments/5042.json), retained V1 adresleri yalnız
+[`deployments/5042.legacy.json`](../deployments/5042.legacy.json) kaydından alınır.
 UI, SDK ve MCP environment değişkeninden alternatif kontrat adresi kabul etmez.
 
 | Bileşen | Ana state/invariant | Release davranışı |
@@ -88,7 +88,7 @@ veya managed KMS/HSM yoktur.
 - Canonical manifest `registrarVersion: "v2"` ve exact metadata base URI'yi taşır.
 - `legacyReleases[]`, retained V1 release ID, verification block, yedi adres,
   deployment block ve runtime hash'i ile cutover policy'sini canonical digest'e bağlar.
-- `5042002.legacy.json` immutable V1 kimlik/read snapshot'ıdır. Kesimden sonraki execution
+- `5042.legacy.json` immutable V1 kimlik/read snapshot'ıdır. Kesimden sonraki execution
   policy'si bu dosyanın tarihsel alanlarından değil canonical `legacyReleases[]`
   referansından okunur: V1 registrations paused, V1 marketplace unpaused.
 - Yeni label, hem V2 hem V1 availability kontrolü geçmeden V2'de mint edilemez.
@@ -187,7 +187,7 @@ exact wallet-bound intent -> fresh Arc checks
 Direct permit bir reservation veya sahiplik belgesi değildir. Server restart ve yatay
 ölçekleme request state'i kaybettirmez; doğrulama exact intent, current nonce, kısa TTL ve
 EIP-712 signer policy üzerinden yapılır. Aynı label için eşzamanlı permit çıkması kabul edilen
-Arc Testnet trade-off'udur. Transaction sonucu yalnız controller/registrar/registry state'i
+Arc Mainnet trade-off'udur. Transaction sonucu yalnız controller/registrar/registry state'i
 ve receipt'le belirlenir; UI response loss durumunda tekrar issuance'dan önce chain'i okur.
 
 Başarılı re-registration sırasında registrar node'u geçici olarak sahiplenir, public
@@ -263,7 +263,7 @@ görünürlüğü operator-controlled ayrı bir capability'dir. Detaylar
 
 ## Manifest ve activation state
 
-`deployments/5042002.json` dört state kullanır:
+`deployments/5042.json` dört state kullanır:
 
 ```text
 draft -> configured -> verified -> active
@@ -367,7 +367,7 @@ release ID ile baştan deploy edilir.
 
 ## Operasyon sınırları
 
-- Tek operational RPC endpoint'i `https://rpc.testnet.arc.network` HTTPS adresidir;
+- Tek operational RPC endpoint'i `https://rpc.mainnet.arc.io` HTTPS adresidir;
   WebSocket transportu kapalıdır ve başka RPC fallback host'u yoktur. Normal web/operator
   HTTP profili process-local 2.100 ms pacing ve yalnız `-32011`/HTTP `429` için en fazla üç
   deneme kullanır. Uzun, salt-okunur promotion audit'i 6.000 ms pacing, en fazla altı

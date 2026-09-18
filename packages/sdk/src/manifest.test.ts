@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import deployment from "../../../deployments/5042002.json" with { type: "json" };
+import deployment from "../../../deployments/5042.json" with { type: "json" };
 import { deploymentManifestDigest, parseDeploymentManifest } from "@contour/config";
 import { fetchDeploymentManifest } from "./manifest.js";
 
@@ -17,7 +17,7 @@ describe("pinned manifest discovery", () => {
       expectedManifestSha256: deploymentManifestDigest(canonical),
       expectedReleaseId: canonical.releaseId,
     });
-    expect(result.chain.id).toBe(5_042_002);
+    expect(result.chain.id).toBe(5_042);
     expect(result).toEqual(canonical);
   });
 

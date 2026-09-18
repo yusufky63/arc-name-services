@@ -87,7 +87,7 @@ function readyResult(
     return {
       ...endpoint,
       state: "ready",
-      detail: "Circle Gateway Domain 26 nanopayments are active on Arc Testnet.",
+      detail: "Circle Gateway Domain 26 nanopayments are active on Arc Mainnet.",
     };
   }
 

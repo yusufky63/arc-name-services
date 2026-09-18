@@ -12,7 +12,7 @@ const privateKey = `0x${"01".repeat(32)}` as Hex;
 const account = privateKeyToAccount(privateKey);
 
 const permit: RegistrationPermit = {
-  chainId: 5_042_002n,
+  chainId: 5_042n,
   controller: "0x2222222222222222222222222222222222222222",
   releaseId: `0x${"10".repeat(32)}`,
   normalizationProfileHash: `0x${"11".repeat(32)}`,

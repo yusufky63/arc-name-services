@@ -102,7 +102,7 @@ async function computeHealth(): Promise<HealthResult> {
     if (timeout) clearTimeout(timeout);
     const expectedSigner = getAddress(config.manifest.permitIssuer.signerAddress!);
     const expectedPolicyVersion = config.manifest.permitIssuer.policyVersion!;
-    const ready = live.chainId === 5_042_002 && getAddress(live.permitSigner) === expectedSigner &&
+    const ready = live.chainId === 5_042 && getAddress(live.permitSigner) === expectedSigner &&
       getAddress(signerHealth.signerAddress) === expectedSigner &&
       live.signerPolicyVersion.toString() === expectedPolicyVersion && !live.registrationsPaused;
     const body = {
@@ -135,7 +135,7 @@ async function computeHealth(): Promise<HealthResult> {
         coordinationScope: "single-process",
         durable: false,
         code: "ISSUER_DEPENDENCY_UNAVAILABLE",
-        chainId: 5_042_002,
+        chainId: 5_042,
         controller: config.manifest.contracts.controller.address,
         releaseId: config.manifest.releaseId,
         normalizationProfileHash: config.manifest.normalization.profileHash,

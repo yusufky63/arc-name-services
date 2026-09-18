@@ -35,7 +35,19 @@ const controllerAdminAbi = parseAbi([
 ]);
 
 async function sourceFixture() {
-  return JSON.parse(await readFile(SOURCE_PATH, "utf8"));
+  const source = JSON.parse(await readFile(SOURCE_PATH, "utf8"));
+  source.testnet = false;
+  source.chain.id = 5_042;
+  source.chain.caip2 = "eip155:5042";
+  source.chain.rpcUrl = "https://rpc.mainnet.arc.io";
+  source.chain.websocketUrl = "wss://rpc.quicknode.mainnet.arc.io";
+  source.chain.explorerUrl = "https://explorer.arc.io";
+  source.x402.network = "eip155:5042";
+  for (const contract of Object.values(source.contracts)) {
+    contract.abiUrl = `https://explorer.arc.io/api/v2/smart-contracts/${contract.address}`;
+    contract.sourceVerificationUrl = contract.abiUrl;
+  }
+  return source;
 }
 
 function fixtureContext(source) {
@@ -114,7 +126,7 @@ function fixtureContext(source) {
     code = {},
     state = {},
   } = {}) => ({
-    getChainId: async () => 5_042_002,
+    getChainId: async () => 5_042,
     getBlockNumber: async () => cutoverBlock,
     getBlock: async () => ({
       number: cutoverBlock,
@@ -165,7 +177,7 @@ function fixtureContext(source) {
 
 test("configured-state CLI accepts an explicit manifest without changing the default", () => {
   const defaults = parseConfiguredChainStateArguments([]);
-  assert.equal(defaults.manifestPath, resolve("deployments", "5042002.json"));
+  assert.equal(defaults.manifestPath, resolve("deployments", "5042.json"));
   assert.equal(defaults.outputPath, null);
   const selected = parseConfiguredChainStateArguments([
     "--output",

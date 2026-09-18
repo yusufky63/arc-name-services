@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { DeploymentManifest } from "@contour/config";
-import deploymentManifest from "../../../../deployments/5042002.json";
+import deploymentManifest from "../../../../deployments/5042.json";
 
 const mocks = vi.hoisted(() => ({
   releases: [] as DeploymentManifest[],

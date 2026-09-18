@@ -1,6 +1,5 @@
-import deploymentManifest from "../../../../deployments/5042002.json";
-import legacyDeploymentManifest from "../../../../deployments/5042002.legacy.json";
-import promotionAttestation from "../../../../deployments/5042002.promotion.json";
+import deploymentManifest from "../../../../deployments/5042.json";
+import promotionAttestation from "../../../../deployments/5042.promotion.json";
 import {
   CONTRACT_KEYS,
   assertPromotionAttestation,
@@ -22,7 +21,6 @@ let manifestValidationError: unknown = null;
 
 try {
   const candidate = parseDeploymentManifest(deploymentManifest);
-  const legacy = parseDeploymentManifest(legacyDeploymentManifest);
   const serverRuntime = typeof window === "undefined";
   const productLiveRequested =
     candidate.state === "active" && candidate.activationEvidence.productLive;
@@ -47,7 +45,7 @@ try {
     productLiveRequested,
   );
   parsedManifest = candidate;
-  parsedLegacyManifest = legacy;
+  parsedLegacyManifest = null;
 } catch (error) {
   parsedManifest = null;
   parsedLegacyManifest = null;

@@ -4,7 +4,7 @@ export const BRAND = {
   suffix: ".contour",
   tagline: "A stable coordinate for an agentic economy.",
   disclaimer:
-    "Contour is an independent application built on Arc Testnet and is not sponsored or endorsed by Circle. Arc is a trademark of Circle Internet Group, Inc. and/or its affiliates.",
+    "Contour is an independent application built on Arc Mainnet and is not sponsored or endorsed by Circle. Arc is a trademark of Circle Internet Group, Inc. and/or its affiliates.",
 } as const;
 
 export const PRODUCT_DEFAULTS = {

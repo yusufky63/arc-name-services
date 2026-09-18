@@ -25,13 +25,13 @@ import {
 import { rateLimitedArcHttp } from "./lib/arc-rpc-transport.mjs";
 import { normalizeOperatorPrivateKey } from "./lib/operator-key.mjs";
 
-export const ARC_TESTNET_CHAIN_ID = 5_042_002;
+export const ARC_TESTNET_CHAIN_ID = 5_042;
 
 const MAX_HTTP_BODY_BYTES = 64 * 1024;
 const DEFAULT_READINESS_ATTEMPTS = 5;
 const DEFAULT_READINESS_RETRY_MS = 750;
 const HASH_PATTERN = /^0x[0-9a-fA-F]{64}$/;
-const CANONICAL_ARC_RPC_URL = "https://rpc.testnet.arc.network";
+const CANONICAL_ARC_RPC_URL = "https://rpc.mainnet.arc.io";
 
 const controllerAbi = parseAbi([
   "function owner() view returns (address)",
@@ -123,9 +123,9 @@ function canonicalManifest(manifestValue, { requireActive = false } = {}) {
     fail("manifest is not structurally valid");
   }
   if (
-    manifest.chain.id !== ARC_TESTNET_CHAIN_ID || manifest.testnet !== true ||
+    manifest.chain.id !== ARC_TESTNET_CHAIN_ID || manifest.testnet !== false ||
     manifest.chain.caip2 !== `eip155:${ARC_TESTNET_CHAIN_ID}`
-  ) fail("manifest is not bound to Arc Testnet");
+  ) fail("manifest is not bound to Arc Mainnet");
   if (registrarVersionOf(manifest) !== "v2") {
     fail("operations drill requires the canonical V2 cutover manifest");
   }
@@ -640,7 +640,7 @@ async function verifyLiveGuards({
   } catch {
     throw controlledExternalFailure("Arc chain ID could not be read");
   }
-  if (chainId !== ARC_TESTNET_CHAIN_ID) fail("RPC chain ID is not Arc Testnet");
+  if (chainId !== ARC_TESTNET_CHAIN_ID) fail("RPC chain ID is not Arc Mainnet");
   let head;
   try {
     head = safePositiveInteger(await publicClient.getBlockNumber(), "Arc head block");
@@ -1186,7 +1186,7 @@ async function main() {
     process.stdout.write(`${operationsDrillUsage()}\n`);
     return;
   }
-  const manifestPath = resolve(cli.values.get("--manifest") ?? "deployments/5042002.json");
+  const manifestPath = resolve(cli.values.get("--manifest") ?? "deployments/5042.json");
   let manifestValue;
   try {
     manifestValue = JSON.parse(await readFile(manifestPath, "utf8"));
@@ -1219,7 +1219,7 @@ async function main() {
   const rpcUrl = CANONICAL_ARC_RPC_URL;
   const chain = {
     id: ARC_TESTNET_CHAIN_ID,
-    name: "Arc Testnet",
+    name: "Arc Mainnet",
     nativeCurrency: { name: "USDC", symbol: "USDC", decimals: 18 },
     rpcUrls: { default: { http: [rpcUrl] } },
   };

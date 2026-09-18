@@ -21,7 +21,7 @@ import {
 } from "./lib/registration-smoke-evidence.mjs";
 
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
-const ARC_TESTNET_RPC_URL = "https://rpc.testnet.arc.network";
+const ARC_TESTNET_RPC_URL = "https://rpc.mainnet.arc.io";
 const HASH_PATTERN = /^0x[0-9a-fA-F]{64}$/;
 const RPC_READ_RETRY_DEFAULTS = Object.freeze({
   maxAttempts: 4,
@@ -46,7 +46,7 @@ const TRANSIENT_RPC_CODES = new Set([
 const TRANSIENT_RPC_MESSAGE_PATTERN = /(?:\b429\b|too many requests|rate[ -]?limit|request limit|temporar(?:y|ily) unavailable|service unavailable|bad gateway|gateway timeout|network error|fetch failed|socket hang up|timed?\s*out|econnreset|econnrefused|etimedout|eai_again|enotfound)/i;
 
 export const adminActivationConstants = Object.freeze({
-  chainId: 5_042_002,
+  chainId: 5_042,
   actions: Object.freeze([
     "controller-open",
     "market-open",
@@ -58,11 +58,11 @@ export const adminActivationConstants = Object.freeze({
 
 const ARC_TESTNET = Object.freeze({
   id: adminActivationConstants.chainId,
-  name: "Arc Testnet",
+  name: "Arc Mainnet",
   nativeCurrency: { name: "USDC", symbol: "USDC", decimals: 18 },
   rpcUrls: { default: { http: [ARC_TESTNET_RPC_URL] } },
-  blockExplorers: { default: { name: "ArcScan", url: "https://testnet.arcscan.app" } },
-  testnet: true,
+  blockExplorers: { default: { name: "ArcScan", url: "https://explorer.arc.io" } },
+  testnet: false,
 });
 
 const ownedAbi = parseAbi([
@@ -319,10 +319,10 @@ export function parseAdminActivationArguments(argv) {
 export function validateCanonicalAdminManifest(value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) fail("manifest must be a JSON object");
   if (value.schemaVersion !== "1.1.0") fail("manifest schemaVersion must equal 1.1.0");
-  if (value.testnet !== true) fail("manifest must identify a testnet release");
-  if (value.chain?.id !== adminActivationConstants.chainId) fail("manifest chain ID is not Arc Testnet");
-  if (value.chain?.caip2 !== `eip155:${adminActivationConstants.chainId}`) fail("manifest CAIP-2 ID is not Arc Testnet");
-  if (value.chain?.rpcUrl !== ARC_TESTNET_RPC_URL) fail("manifest Arc Testnet RPC URL is not canonical");
+  if (value.testnet !== false) fail("manifest must identify an Arc Mainnet release");
+  if (value.chain?.id !== adminActivationConstants.chainId) fail("manifest chain ID is not Arc Mainnet");
+  if (value.chain?.caip2 !== `eip155:${adminActivationConstants.chainId}`) fail("manifest CAIP-2 ID is not Arc Mainnet");
+  if (value.chain?.rpcUrl !== ARC_TESTNET_RPC_URL) fail("manifest Arc Mainnet RPC URL is not canonical");
   if (!Number.isSafeInteger(value.chain?.confirmations) || value.chain.confirmations < 1) {
     fail("manifest confirmations must be a positive safe integer");
   }
@@ -382,7 +382,7 @@ export function createAdminClients({
   publicClientFactory = createPublicClient,
   walletClientFactory = createWalletClient,
 } = {}) {
-  if (rpcUrl !== ARC_TESTNET_RPC_URL) fail(`Arc Testnet RPC URL must exactly equal ${ARC_TESTNET_RPC_URL}`);
+  if (rpcUrl !== ARC_TESTNET_RPC_URL) fail(`Arc Mainnet RPC URL must exactly equal ${ARC_TESTNET_RPC_URL}`);
   const selectedTransport = transport ?? transportFactory(rpcUrl);
   const chain = {
     ...ARC_TESTNET,
@@ -406,7 +406,7 @@ export async function readCanonicalAdminState(publicClient, manifest, retryOptio
   const retry = normalizeRpcReadRetryOptions(rpcRetryOptions);
   const rpcRead = (operation) => retryRpcRead(operation, retry);
   const chainId = await rpcRead(() => publicClient.getChainId());
-  if (chainId !== identity.chainId) fail(`connected chain ID ${chainId} is not Arc Testnet`);
+  if (chainId !== identity.chainId) fail(`connected chain ID ${chainId} is not Arc Mainnet`);
   const captureBlock = await rpcRead(() => publicClient.getBlockNumber());
   const controller = identity.controller;
   const marketplace = identity.marketplace;

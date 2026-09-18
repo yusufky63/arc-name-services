@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1.0.0",
+  "verifier": "contour-live-promotion-v1",
+  "manifestSha256": "0xafcbbe38c79753d67256a220a07a468ce4db4542a4a1a903bb1b2f2e052c9cc3",
+  "state": "configured",
+  "productLive": false,
+  "liveVerified": false,
+  "releaseId": "0xa22373388f708b7df3e546180c9a28477238281f54a2d072d73f7226d824de78",
+  "verifiedAtBlock": null,
+  "checkedAtBlock": null
+}

@@ -1,7 +1,7 @@
-﻿# 🌐 Contour Name Protocol (`.contour`)
+# 🌐 Contour Name Protocol (`.contour`)
 
-[![Network: Arc Testnet](https://img.shields.io/badge/Network-Arc%20Testnet%20(5042002)-6366f1?style=for-the-badge)](https://testnet.arcscan.app)
-[![Settlement: USDC](https://img.shields.io/badge/Settlement-USDC-2775CA?style=for-the-badge&logo=usd-coin&logoColor=white)](https://testnet.arcscan.app)
+[![Network: Arc Mainnet](https://img.shields.io/badge/Network-Arc%20Testnet%20(5042)-6366f1?style=for-the-badge)](https://explorer.arc.io)
+[![Settlement: USDC](https://img.shields.io/badge/Settlement-USDC-2775CA?style=for-the-badge&logo=usd-coin&logoColor=white)](https://explorer.arc.io)
 [![MCP: Enabled](https://img.shields.io/badge/AI%20Agent-MCP%20Ready-10b981?style=for-the-badge)](https://modelcontextprotocol.io)
 [![Next.js 16](https://img.shields.io/badge/Frontend-Next.js%2016%20Turbopack-000000?style=for-the-badge&logo=nextdotjs)](https://nextjs.org)
 [![Solidity: Foundry](https://img.shields.io/badge/Contracts-Solidity%20%7C%20Foundry-363636?style=for-the-badge&logo=solidity)](https://getfoundry.sh)
@@ -16,8 +16,8 @@
 | Resource | Link / Endpoint | Description |
 | :--- | :--- | :--- |
 | 🌐 **Live Web Application** | [contour-arc.vercel.app](https://contour-arc.vercel.app) | Complete Web3 App (Search, Register, Manage, Market) |
-| ⛓️ **Arc Testnet RPC** | `https://rpc.testnet.arc.network` | Chain ID: `5042002` (`eip155:5042002`) |
-| 🔍 **Block Explorer** | [testnet.arcscan.app](https://testnet.arcscan.app) | Contract verification & transaction explorer |
+| ⛓️ **Arc Mainnet RPC** | `https://rpc.mainnet.arc.io` | Chain ID: `5042` (`eip155:5042`) |
+| 🔍 **Block Explorer** | [explorer.arc.io](https://explorer.arc.io) | Contract verification & transaction explorer |
 | 🤖 **Hosted MCP Server** | `https://contour-arc.vercel.app/api/mcp` | Streamable HTTP endpoint for AI Agents |
 | 📄 **OpenAPI Specification** | `https://contour-arc.vercel.app/api/openapi.json` | OpenAPI 3.1 REST API specification |
 | 🧠 **Agent Index (`llms.txt`)** | `https://contour-arc.vercel.app/llms.txt` | Machine-readable integration guide for LLMs |
@@ -77,7 +77,7 @@ flowchart TD
         Controller[ArcRegistrationController]
         Resolver[ArcDefaultResolver]
         Marketplace[ArcMarketplace]
-        USDC[Arc Testnet USDC]
+        USDC[Arc Mainnet USDC]
     end
 
     Web -->|EIP-1193 / Wagmi| Controller
@@ -97,7 +97,7 @@ flowchart TD
 
 ## 💰 Pricing Structure
 
-Annual registration and renewal fees on Arc Testnet:
+Annual registration and renewal fees on Arc Mainnet:
 
 | Label Length | Annual Price | Description |
 | :--- | :---: | :--- |
@@ -130,10 +130,10 @@ const manifest = await fetchDeploymentManifest(
   "https://contour-arc.vercel.app/deployment-manifest.json"
 );
 
-// 2. Initialize Viem Public Client for Arc Testnet
+// 2. Initialize Viem Public Client for Arc Mainnet
 const client = createPublicClient({
   chain: ARC_TESTNET,
-  transport: http("https://rpc.testnet.arc.network"),
+  transport: http("https://rpc.mainnet.arc.io"),
 });
 
 // 3. Create Contour Name Client

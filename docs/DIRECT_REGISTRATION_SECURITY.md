@@ -37,7 +37,7 @@ EIP-712 domain en az şu değerleri bağlar:
 ```text
 name: Arc Registrar Controller
 version: 1
-chainId: 5042002
+chainId: 5042
 verifyingContract: 0xFbA7618c929075728b82c69B0B2A8C8d98e4B6A3
 ```
 
@@ -107,7 +107,7 @@ controller zero address olamaz.
    route'una gönderilir; public UI ek `personal_sign` istemez.
 8. Web/Vercel issuer aynı normalization'ı ve origin/chain/controller/release/profile,
    requester/price/allowance/availability/pause/signer/policy state'ini bağımsız tekrarlar.
-9. Yalnız server secret store'daki canonical Arc Testnet EOA key'i default 180
+9. Yalnız server secret store'daki canonical Arc Mainnet EOA key'i default 180
    saniyelik EIP-712 permit'i imzalar. Server recovered signer'ı manifest ve controller
    state'iyle yeniden eşleştirir.
 10. Client domain/payload/signer'ı, SDK calldata byte parity'sini doğrular ve
@@ -267,7 +267,7 @@ yasaktır; EVM transaction atomicity'si test edilir.
 
 ### Key custody
 
-- Bu Arc Testnet-only release aynı fonlanmış secp256k1 EOA'yı deployer, protocol owner,
+- Bu Arc Mainnet-only release aynı fonlanmış secp256k1 EOA'yı deployer, protocol owner,
   treasury ve permit signer olarak kullanabilir.
 - Private key'in server-runtime kopyası Vercel/server secret store'da
   `REGISTRATION_PERMIT_SIGNER_PRIVATE_KEY` olarak tutulur; public readiness derived signer
@@ -403,7 +403,7 @@ Direct registration active olmadan önce aşağıdaki evidence zorunludur:
 - EOA secret injection ve local recovery; throwaway fork/release üzerinde 24 saatlik
   signer activation/rotation/revoke, canonical suite'te non-destructive pause/readiness
   ve clean-redeploy rehearsal drill'i;
-- funded Arc Testnet approval + register E2E;
+- funded Arc Mainnet approval + register E2E;
 - copied calldata ve replay saldırı fixture'ları;
 - USDC shared-balance, blocklist ve exact-delta testleri;
 - MetaMask/Rabby desktop/mobile wallet flow;

@@ -26,7 +26,7 @@ export function SiteFooter() {
           <Link href="/api/mcp">MCP</Link>
         </div>
         <div className="site-footer__network">
-          <code>ARC TESTNET · CHAIN {ARC_TESTNET.id}</code>
+          <code>ARC MAINNET · CHAIN {ARC_TESTNET.id}</code>
           <code>CONTOUR · BUILT ON ARC NETWORK</code>
         </div>
       </div>

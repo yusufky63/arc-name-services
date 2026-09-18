@@ -2,7 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { renderBensArtifacts } from "./render-config-lib.mjs";
 
-const source = resolve(process.argv[2] ?? "../../deployments/5042002.json");
+const source = resolve(process.argv[2] ?? "../../deployments/5042.json");
 const attestationSource = resolve(
   process.argv[3] ?? source.replace(/\.json$/i, ".promotion.json"),
 );

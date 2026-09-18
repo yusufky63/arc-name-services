@@ -94,8 +94,10 @@ describe("admin registration reopening", () => {
     expect(applied).toBeNull();
   });
 
-  it("treats productLive=false as release evidence instead of an execution blocker", () => {
-    expect(registrationOpeningValidationError(openingSnapshot())).toBeNull();
+  it("blocks admin execution while the mainnet deployment is only configured", () => {
+    expect(() => registrationOpeningValidationError(openingSnapshot())).toThrow(
+      /controller is not active/i,
+    );
   });
 
   it("permanently blocks retained V1 registration reopening while preserving marketplace recovery", async () => {
@@ -114,7 +116,7 @@ describe("admin registration reopening", () => {
     );
   });
 
-  it("accepts a healthy matching issuer while registration is paused and productLive=false", async () => {
+  it("does not probe issuer health before the mainnet release is active", async () => {
     const snapshot = openingSnapshot();
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(
       JSON.stringify(issuerHealth(snapshot)),
@@ -124,10 +126,12 @@ describe("admin registration reopening", () => {
       },
     )));
 
-    await expect(assertIssuerPreparedForOpening(snapshot)).resolves.toBeUndefined();
+    await expect(assertIssuerPreparedForOpening(snapshot)).rejects.toThrow(
+      /controller is not active/i,
+    );
   });
 
-  it("still rejects issuer signer drift", async () => {
+  it("keeps signer checks behind the active-release boundary", async () => {
     const snapshot = openingSnapshot();
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(
       JSON.stringify(issuerHealth(snapshot, {
@@ -140,26 +144,21 @@ describe("admin registration reopening", () => {
     )));
 
     await expect(assertIssuerPreparedForOpening(snapshot)).rejects.toThrow(
-      "local issuer health, signer, policy version, and live controller state",
+      /controller is not active/i,
     );
   });
 
-  it("pauses registration before disabling the canonical registrar controller", () => {
-    const action = registrarControllerAction(openingSnapshot());
-    expect(action.steps.map((step) => step.plan.target)).toEqual(["controller", "registrar"]);
-    expect(action.steps.every((step) => step.plan.releaseId === action.releaseId)).toBe(true);
-    expect(action.finalVerify?.({
-      ...openingSnapshot(),
-      controller: { ...openingSnapshot().controller, registrationsPaused: true },
-      registrar: { ...openingSnapshot().registrar, canonicalControllerEnabled: false },
-    })).toBe(true);
+  it("does not prepare registrar changes for a configured release", () => {
+    expect(() => registrarControllerAction(openingSnapshot())).toThrow(
+      /controller is not active/i,
+    );
   });
 
-  it("can re-enable the registrar without silently reopening registration", () => {
+  it("does not prepare registrar re-enabling before activation", () => {
     const snapshot = openingSnapshot();
     snapshot.registrar.canonicalControllerEnabled = false;
-    const action = registrarControllerAction(snapshot);
-    expect(action.steps.map((step) => step.plan.target)).toEqual(["registrar"]);
-    expect(action.successMessage).toMatch(/remains under its separate pause/i);
+    expect(() => registrarControllerAction(snapshot)).toThrow(
+      /controller is not active/i,
+    );
   });
 });

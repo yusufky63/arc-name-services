@@ -6,9 +6,9 @@
 > or candidate credentials. Registration and market availability are derived
 > from the exact manifest plus current onchain pause state.
 
-Bu belge Arc Testnet release kanıtlarının nasıl üretildiğini, saklandığını, yayımlandığını
+Bu belge Arc Mainnet release kanıtlarının nasıl üretildiğini, saklandığını, yayımlandığını
 ve doğrulandığını tanımlar. Normatif deployment kaydı
-[`deployments/5042002.json`](../deployments/5042002.json)'dır. Mevcut release `active`;
+[`deployments/5042.json`](../deployments/5042.json)'dır. Mevcut release `active`;
 controller/marketplace unpaused ve stateless issuer active'dir. Yeni tek-EOA suite 15/15
 successful transaction ile deploy edilmiş; yedi exact adresin ArcScan source/ABI doğrulaması,
 constructor-argument eşleşmesi ve core activation URL/hash publication'ı tamamlanmıştır.
@@ -36,10 +36,10 @@ state'i de ayrı release ve evidence sözleşmesidir.
 Yeni tek-EOA release için repository'de korunan ham ve receipt-hydrated broadcast:
 
 ```text
-deployments/evidence/5042002/contour-single-owner-v1/foundry-run-raw.json
+deployments/evidence/5042/contour-single-owner-v1/foundry-run-raw.json
 SHA-256: 0x6752150027d7d0c1e231db48add25a600fda829ff184aec4cc7e08c284946b8d
 
-deployments/evidence/5042002/contour-single-owner-v1/foundry-run-hydrated.json
+deployments/evidence/5042/contour-single-owner-v1/foundry-run-hydrated.json
 SHA-256: 0xe603cb9a2a87d5dd43a442cc2379942d5f9c0211511042141bd835f2cb9d7e1f
 ```
 
@@ -52,8 +52,8 @@ Güncel release'in ArcScan source/ABI cevapları public API URL'si ve exact resp
 şu indekste pinlenir:
 
 ```text
-deployments/evidence/5042002/contour-v1/arcscan-source-verification.json
-API: https://testnet.arcscan.app/api/v2/smart-contracts/{address}
+deployments/evidence/5042/contour-v1/arcscan-source-verification.json
+API: https://explorer.arc.io/api/v2/smart-contracts/{address}
 ```
 
 17 Temmuz 2026 cevaplarının yedisinde de `is_verified:true`, non-empty `abi`, başarılı
@@ -79,7 +79,7 @@ doğrulaması gerekir.
 Rol/adres/API/UI URL/zaman/hash eşlemesini taşıyan yerel indeks:
 
 ```text
-deployments/evidence/5042002/contour-v1/arcscan-source-verification.json
+deployments/evidence/5042/contour-v1/arcscan-source-verification.json
 SHA-256: 0x659c1c514fbf2ae60919999adfa8c085adf50157b5eb2e194cd16e34c7ab218c
 ```
 
@@ -89,7 +89,7 @@ release index'i tarafından referans edilmez.
 Owner/treasury/signer, pause ve wiring state'i tek bir Multicall snapshot'ında ayrıca korunur:
 
 ```text
-deployments/evidence/5042002/contour-single-owner-v1/configured-chain-state.json
+deployments/evidence/5042/contour-single-owner-v1/configured-chain-state.json
 Capture block: 52190647
 SHA-256: 0x2d90fc0ae9198f26103420107e434739bdc4d996f5c602a0fdf0513d17ea58e0
 Reproduce: pnpm capture:configured-state
@@ -204,7 +204,7 @@ pinlenir ve en az şu şekle uyar:
 ```json
 {
   "schemaVersion": "1.0.0",
-  "chainId": 5042002,
+  "chainId": 5042,
   "releaseId": "<bytes32>",
   "manifestSha256": "<bytes32>",
   "generatedAt": "<RFC3339>",
@@ -216,7 +216,7 @@ pinlenir ve en az şu şekle uyar:
       "url": "https://<allowlisted-host>/<immutable-path>",
       "sha256": "<bytes32>",
       "mediaType": "application/json",
-      "chainId": 5042002,
+      "chainId": 5042,
       "releaseId": "<bytes32>",
       "blockNumber": 1,
       "createdAt": "<RFC3339>"
@@ -248,7 +248,7 @@ olmalıdır:
 
 Her kontrat ayrıca ABI URL/hash çifti ve ArcScan source-verification URL/hash çifti taşır.
 ArcScan API source verification tamamlanmıştır; API endpoint biçimi
-`https://testnet.arcscan.app/api/v2/smart-contracts/{address}`'tir. Canonical manifestte
+`https://explorer.arc.io/api/v2/smart-contracts/{address}`'tir. Canonical manifestte
 yedi rolün `sourceVerified` alanı `true` ve ABI/source URL+hash çiftleri doludur; current
 URL/hash index'i public cevapların exact byte hash'lerini kaydeder. Retired
 `contour-v1/arcscan/` gövdeleri current cevap snapshot'ı değildir. Endpoint cevabı değişirse promotion
@@ -293,7 +293,7 @@ review'dan geçene kadar operations reviewer envelope'u oluşturulmaz; G90/G99 `
 
 ## Tek EOA authority kanıtı
 
-Yeni Arc Testnet release'i aynı funded EOA'yı deployer, protocol owner, treasury ve permit
+Yeni Arc Mainnet release'i aynı funded EOA'yı deployer, protocol owner, treasury ve permit
 signer olarak kullanır. Kanıt paketi EOA adresini, funding snapshot'ını, yedi temiz deployment
 receipt'ini, registry root/reverse-root authority'sini, registrar/controller/marketplace
 `owner` ve sıfır `pendingOwner` state'ini, controller/marketplace `treasury` alanlarını ve

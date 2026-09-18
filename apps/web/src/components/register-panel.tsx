@@ -626,7 +626,7 @@ export function RegisterPanel({
         clearStoredIntent(intentKey);
         requestRef.current = null;
         setState("success");
-        setMessage(`${label}${BRAND.suffix} is now yours on Arc Testnet.`);
+        setMessage(`${label}${BRAND.suffix} is now yours on Arc Mainnet.`);
         router.refresh();
         return;
       }
@@ -778,7 +778,7 @@ export function RegisterPanel({
       clearStoredIntent(intentKey);
       requestRef.current = null;
       setState("success");
-      setMessage(`${label}${BRAND.suffix} is now yours on Arc Testnet.`);
+      setMessage(`${label}${BRAND.suffix} is now yours on Arc Mainnet.`);
       router.refresh();
     } catch (error) {
       setState("error");
@@ -859,7 +859,7 @@ export function RegisterPanel({
           <span>{stateLabel[state]}</span>
           {message ? <p>{message}</p> : null}
           {txHash ? (
-            <a href={`https://testnet.arcscan.app/tx/${txHash}`} target="_blank" rel="noreferrer">
+            <a href={`https://explorer.arc.io/tx/${txHash}`} target="_blank" rel="noreferrer">
               View transaction ↗
             </a>
           ) : null}

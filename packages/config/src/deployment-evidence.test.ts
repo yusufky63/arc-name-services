@@ -172,7 +172,7 @@ function fixture(registrarVersion: RegistrarVersion = "v1") {
       transaction: {
         from: ADDRESSES.deployer,
         value: "0x0",
-        chainId: "0x4cef52",
+        chainId: "0x13b2",
         input: encodeDeployment({ abi: artifacts[key].abi, bytecode: artifacts[key].bytecode.object, args }),
       },
     });
@@ -194,7 +194,7 @@ function fixture(registrarVersion: RegistrarVersion = "v1") {
         from: ADDRESSES.deployer,
         to: target,
         value: "0x0",
-        chainId: "0x4cef52",
+        chainId: "0x13b2",
         input: encodeCall({ abi: artifacts[key].abi, functionName, args }),
       },
     });
@@ -266,7 +266,7 @@ function fixture(registrarVersion: RegistrarVersion = "v1") {
 
 function draftTemplate(registrarVersion: RegistrarVersion = "v1"): DeploymentManifest {
   const template = JSON.parse(readFileSync(
-    new URL("../../../deployments/5042002.json", import.meta.url),
+    new URL("../../../deployments/5042.json", import.meta.url),
     "utf8",
   )) as DeploymentManifest;
   template.schemaVersion = "1.1.0";

@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "1.1.0",
+  "state": "configured",
+  "releaseId": "0xa22373388f708b7df3e546180c9a28477238281f54a2d072d73f7226d824de78",
+  "registrarVersion": "v1",
+  "nftMetadata": null,
+  "testnet": false,
+  "chain": {
+    "id": 5042,
+    "caip2": "eip155:5042",
+    "rpcUrl": "https://rpc.mainnet.arc.io",
+    "websocketUrl": "wss://rpc.quicknode.mainnet.arc.io",
+    "explorerUrl": "https://explorer.arc.io",
+    "multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "confirmations": 1
+  },
+  "settlement": {
+    "symbol": "USDC",
+    "erc20Address": "0x3600000000000000000000000000000000000000",
+    "applicationDecimals": 6,
+    "nativeInterfaceDecimals": 18,
+    "sharedUnderlyingBalance": true
+  },
+  "namespace": {
+    "brand": "Contour Name Protocol",
+    "suffix": "contour",
+    "baseNode": "0xb0622ac8c513b1e04f26418271b595fae314dbed2e3dea63916fc45cde7c5bbe"
+  },
+  "normalization": {
+    "profileId": "arc-ensip15-single-label-v1",
+    "implementation": "@adraffy/ens-normalize@1.11.1",
+    "unicodeVersion": "17.0.0",
+    "upstreamSpecSha256": "0x4febc8f5d285cbf80d2320fb0c1777ac25e378eb72910c34ec963d0a4e319c84",
+    "profileHash": "0x0889fdb1d0500090d2c605094dd2bd30510a137778f641aca67d8d2fb491f89c",
+    "corpusHash": "0xd25e274d718f468f1edbded13a5319a404d9e2dff39ded6ecf78ef88ea37cf60"
+  },
+  "contracts": {
+    "registry": {
+      "address": "0x944d5087a0967b3E982826F3d93a7FAcFD4e19cD",
+      "deploymentBlock": 21554918,
+      "transactionHash": "0x04e25c3d44407a520a757156817bb90f84edd2f7ecb6b2df2b8a9aeef8b4614f",
+      "runtimeCodeHash": "0x138f245a7247d5094b64f8512a5b3f8cf0502a3814a57430a8cb64f591accf27",
+      "abiUrl": "https://sourcify.dev/server/v2/contract/5042/0x944d5087a0967b3E982826F3d93a7FAcFD4e19cD?fields=abi",
+      "abiSha256": "0xae4c01f07c7313d2d971eeb37941a9ec1825940b3c67db49b7dd6b1738a52c8f",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://sourcify.dev/server/v2/contract/5042/0x944d5087a0967b3E982826F3d93a7FAcFD4e19cD?fields=all",
+      "sourceVerificationSha256": "0xe1d9f009bcb2874dad682311ce80c214da6360d1610c4b4b54e0a951fe5a7df7"
+    },
+    "baseRegistrar": {
+      "address": "0x5ecE3F5815813668307BdCe1405B5C765E526837",
+      "deploymentBlock": 21554918,
+      "transactionHash": "0xcf5384d3bd0ecda7c1cbe6b7489a550f2decf67dafd0c9a0fd794c8a9409898d",
+      "runtimeCodeHash": "0x010b987465ac18b5dae3b4ea556373c026ff7bea396510e3d93e0c861f7b806d",
+      "abiUrl": "https://sourcify.dev/server/v2/contract/5042/0x5ecE3F5815813668307BdCe1405B5C765E526837?fields=abi",
+      "abiSha256": "0xd8fe2cd0189e63a24249baeabed18f4d001ddb537cc8922c6dd0b6704a0462f1",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://sourcify.dev/server/v2/contract/5042/0x5ecE3F5815813668307BdCe1405B5C765E526837?fields=all",
+      "sourceVerificationSha256": "0xb8d2949e6ada545c837c037f6173963b4eb645043decbf7e2b40a9432d9952b1"
+    },
+    "controller": {
+      "address": "0x3FAD66f9F3Ca165118D5b292Fa6036e273718Bf0",
+      "deploymentBlock": 21554918,
+      "transactionHash": "0x2da3f67f7825383d3d0ccd301b8d3e26ae72e1242991a40e17805c97a0d6c19d",
+      "runtimeCodeHash": "0x4ebf21a2e122988363c34d0121e9ccad191070c9ad3912c365c54eabb8f9d3a4",
+      "abiUrl": "https://sourcify.dev/server/v2/contract/5042/0x3FAD66f9F3Ca165118D5b292Fa6036e273718Bf0?fields=abi",
+      "abiSha256": "0xf6986f0fbe003ee66ebc1266b2f3a1f024fd5058e8fe4eace1664511c1c1d8a9",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://sourcify.dev/server/v2/contract/5042/0x3FAD66f9F3Ca165118D5b292Fa6036e273718Bf0?fields=all",
+      "sourceVerificationSha256": "0x64b126dd7569beb7dc608d05c312be9b46841af8a42571ab9c8aa8a697a84d81"
+    },
+    "publicResolver": {
+      "address": "0x156b7785C1E6368324e7aAcD64aFEe1D3e325146",
+      "deploymentBlock": 21554918,
+      "transactionHash": "0x2987f0d858fe069c2f47c9b4d49b4ebc17b98cc1fff0205d0b206c8937b6d2f9",
+      "runtimeCodeHash": "0x8d5aaa73eb802967029e847252c934a4142bbeb965e4acb0453bf168807e0291",
+      "abiUrl": "https://sourcify.dev/server/v2/contract/5042/0x156b7785C1E6368324e7aAcD64aFEe1D3e325146?fields=abi",
+      "abiSha256": "0x974e3b4c05e0c0ed4fe5fcf1db171433ff51f9d881df07ca640a29fbc51a7180",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://sourcify.dev/server/v2/contract/5042/0x156b7785C1E6368324e7aAcD64aFEe1D3e325146?fields=all",
+      "sourceVerificationSha256": "0xe84faac92c5a9398f10571be3ca26a2515aea27aaf4fadc784987b259196a966"
+    },
+    "reverseRegistrar": {
+      "address": "0x83697cFE56D1139437D9eC26A7264D5F1C4188f6",
+      "deploymentBlock": 21554919,
+      "transactionHash": "0xc869fcb8e561612ef07eb1c6a781ae13e8424a628f5d9080464b92d6be131822",
+      "runtimeCodeHash": "0x83d432d9163a9ae94bf3281966fe6000e6c9347a0332c7892e20c4a3279088a0",
+      "abiUrl": "https://sourcify.dev/server/v2/contract/5042/0x83697cFE56D1139437D9eC26A7264D5F1C4188f6?fields=abi",
+      "abiSha256": "0xf009371a0979d16fa226e5ae4b75f31d3819658ff7a194ff993228f721edb231",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://sourcify.dev/server/v2/contract/5042/0x83697cFE56D1139437D9eC26A7264D5F1C4188f6?fields=all",
+      "sourceVerificationSha256": "0xc9c71a2aef1fec4439de4109aeb6f1f4fca27bfb0759e681caa81b94f955abb8"
+    },
+    "universalResolver": {
+      "address": "0x4B33c84CdCa6647D75dE93462292edA665c35800",
+      "deploymentBlock": 21554919,
+      "transactionHash": "0xfadaddb1a09854cc857ac554e2566a44adf9f64fd6f80ccef7d7b89463615f28",
+      "runtimeCodeHash": "0x852a23cd770e7bf2ee5b7826172cc1598c60f534f6016eafcaa8223350721464",
+      "abiUrl": "https://sourcify.dev/server/v2/contract/5042/0x4B33c84CdCa6647D75dE93462292edA665c35800?fields=abi",
+      "abiSha256": "0x0724bbcee8a06132e7164fa26435c36653a38479187a900b47936ae2d2f58b8e",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://sourcify.dev/server/v2/contract/5042/0x4B33c84CdCa6647D75dE93462292edA665c35800?fields=all",
+      "sourceVerificationSha256": "0x4606ceeba587b612e849a3144a9d1ae8196b6c3e876c9106cd70357514d16247"
+    },
+    "marketplace": {
+      "address": "0x1Ae0F0F22f84Fb11DE30E25982eDf6F0B56B64fd",
+      "deploymentBlock": 21554920,
+      "transactionHash": "0x18ad73047f68965e6632bb367b5f4a4336a2b531f3ea45f53105536a44d6c7e5",
+      "runtimeCodeHash": "0x45fdebc0e4a6bd33169e65995f80bb7b565dc4e09f51dde04091b2e3420a262d",
+      "abiUrl": "https://sourcify.dev/server/v2/contract/5042/0x1Ae0F0F22f84Fb11DE30E25982eDf6F0B56B64fd?fields=abi",
+      "abiSha256": "0x16585777c411dbd11d7c61f38aeeb13cd0b681cd38fd4c7818665900a051b0be",
+      "sourceVerified": true,
+      "sourceVerificationUrl": "https://sourcify.dev/server/v2/contract/5042/0x1Ae0F0F22f84Fb11DE30E25982eDf6F0B56B64fd?fields=all",
+      "sourceVerificationSha256": "0xefbb98cd8b05dca98146764bfe920a8dba8c5a62eb1ec9fefd036359eedd5377"
+    }
+  },
+  "activationEvidence": {
+    "productLive": false,
+    "verifiedAtBlock": null,
+    "artifacts": {
+      "deploymentReceipts": {
+        "url": null,
+        "sha256": null
+      },
+      "constructorWiring": {
+        "url": null,
+        "sha256": null
+      },
+      "governanceRoles": {
+        "url": null,
+        "sha256": null
+      },
+      "treasuryControls": {
+        "url": null,
+        "sha256": null
+      },
+      "signerPolicy": {
+        "url": null,
+        "sha256": null
+      },
+      "releaseAttestation": {
+        "url": null,
+        "sha256": null
+      },
+      "fundedEndToEnd": {
+        "url": null,
+        "sha256": null
+      },
+      "operationsDrill": {
+        "url": null,
+        "sha256": null
+      }
+    },
+    "governance": {
+      "account": "0x78de409a6306550882328E2a67160471368387FF"
+    },
+    "controllerPolicy": {
+      "permitSigner": "0x78de409a6306550882328E2a67160471368387FF",
+      "signerPolicyVersion": "1",
+      "referralBps": 500,
+      "registrationsPaused": true
+    },
+    "marketplacePolicy": {
+      "feeBps": 250,
+      "paused": true
+    }
+  },
+  "permitIssuer": {
+    "url": null,
+    "signerAddress": "0x78de409a6306550882328E2a67160471368387FF",
+    "publicKey": null,
+    "policyVersion": "1",
+    "active": false
+  },
+  "resolverCapabilities": {
+    "addr": true,
+    "multicoinAddr": true,
+    "text": true,
+    "name": true,
+    "contenthash": true,
+    "interface": true,
+    "ccipRead": false
+  },
+  "discovery": {
+    "manifestUrl": null,
+    "agentManifestUrl": null,
+    "mcpUrl": null,
+    "openApiUrl": null
+  },
+  "bens": {
+    "protocolConfigured": false,
+    "subgraphSynced": false,
+    "apiUrl": null,
+    "subgraphUrl": null,
+    "hostedArcscanActive": false
+  },
+  "x402": {
+    "active": false,
+    "network": "eip155:5042",
+    "asset": "0x3600000000000000000000000000000000000000",
+    "scheme": "exact",
+    "facilitatorUrl": null
+  }
+}

@@ -1,6 +1,6 @@
 # Contour TypeScript SDK
 
-The SDK reads the source-verified Contour deployment through Arc Testnet RPC and
+The SDK reads the source-verified Contour deployment through Arc Mainnet RPC and
 prepares unsigned, exact-guarded transactions. It never stores a wallet or private
 key, signs a payload, or broadcasts a transaction.
 

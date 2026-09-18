@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { getAddress, isAddress, type Address, type Hex } from "viem";
 
-export const ARC_TESTNET_CAIP2 = "eip155:5042002";
+export const ARC_TESTNET_CAIP2 = "eip155:5042";
 export const ARC_USDC_ADDRESS = "0x3600000000000000000000000000000000000000" as const;
 export const CIRCLE_GATEWAY_DOMAIN = 26;
 export const CIRCLE_GATEWAY_WALLET = "0x0077777d7EBA4688BDeF3E311b846F25870A19B9" as const;
@@ -87,7 +87,7 @@ export function buildPaymentRequirements(params: {
     x402Version: 2,
     resource: {
       url: params.resourcePath ?? "/api/registration/prepare",
-      description: params.description ?? "Arc Testnet name registration via Circle x402",
+      description: params.description ?? "Arc Mainnet name registration via Circle x402",
       mimeType: "application/json",
     },
     accepts: [
@@ -163,11 +163,11 @@ export async function verifyPaymentAuthorization(params: {
 
   // 1. Network check
   const network = paymentObj.network ?? paymentObj.chainId;
-  if (network && network !== ARC_TESTNET_CAIP2 && network !== 5042002 && network !== "5042002") {
+  if (network && network !== ARC_TESTNET_CAIP2 && network !== 5042 && network !== "5042") {
     return {
       valid: false,
       code: "PAYMENT_WRONG_NETWORK",
-      error: `Payment network (${String(network)}) does not match required Arc Testnet (${ARC_TESTNET_CAIP2}).`,
+      error: `Payment network (${String(network)}) does not match required Arc Mainnet (${ARC_TESTNET_CAIP2}).`,
     };
   }
 

@@ -1,6 +1,6 @@
 # Arc name-service operasyon runbook'u
 
-Bu runbook canonical tek EOA Arc Testnet release'i için fail-closed operasyon sırasıdır.
+Bu runbook canonical tek EOA Arc Mainnet release'i için fail-closed operasyon sırasıdır.
 Önceki Safe-owned suite retired ve superseded'dır. Checked-in canonical manifest hâlâ V1'dir:
 `active + productLive:false`, controller ve marketplace unpaused, issuer manifestte active'dir.
 Bu durum operational-public baseline'dır; funded E2E/operations/recovery kanıtları eksikken
@@ -29,7 +29,7 @@ uyumluluk içindir ve `REGISTRATION_CHALLENGE_SECRET` canonical readiness'e dahi
 
 ## Mevcut authority ve kritik hedefler
 
-- Chain: Arc Testnet `5042002`
+- Chain: Arc Mainnet `5042`
 - Checked-in canonical V1 release:
   `0x66aeb7b208fdfb6eb9f728a3d0b12d6d3b7132eb0e363b38f7c388c358edefdc`
 - Deployer / protocol owner / treasury / permit signer:
@@ -109,15 +109,15 @@ password'u veya candidate credential'ı bulunmaz.
 
    ```bash
    pnpm prepare:v1-cutover-manifest \
-     --manifest deployments/5042002.legacy.json \
+     --manifest deployments/5042.legacy.json \
      --pause-transaction <v1-pause-transaction-hash> \
      --cutover-block <confirmed-cutover-block> \
      --cutover-block-hash <confirmed-cutover-block-hash> \
-     --output deployments/local/5042002-v1-cutover.json
+     --output deployments/local/5042-v1-cutover.json
    pnpm capture:v1-economic-cutover \
-     --manifest deployments/local/5042002-v1-cutover.json \
+     --manifest deployments/local/5042-v1-cutover.json \
      --cutover-block <confirmed-cutover-block> \
-     --output deployments/local/5042002-v1-economic-cutover.json
+     --output deployments/local/5042-v1-economic-cutover.json
    ```
 
    Bu araçlar canonical dosyayı değiştirmez ve mevcut output'u overwrite etmez. V1 market
@@ -130,12 +130,12 @@ password'u veya candidate credential'ı bulunmaz.
 
    ```bash
    node scripts/create-fresh-deployment-template.mjs \
-     deployments/local/5042002-v1-cutover.json \
-     deployments/local/5042002-v2-draft.json \
+     deployments/local/5042-v1-cutover.json \
+     deployments/local/5042-v2-draft.json \
      --registrar-version v2
    pnpm capture:configured-state \
-     --manifest deployments/local/5042002-v2-prepared/manifest.configured.json \
-     --output deployments/local/5042002-v2-configured-chain-state.json
+     --manifest deployments/local/5042-v2-prepared/manifest.configured.json \
+     --output deployments/local/5042-v2-configured-chain-state.json
    ```
 
 5. V2 configured evidence immutable/hash-pinned olarak public canonical
@@ -165,7 +165,7 @@ password'u veya candidate credential'ı bulunmaz.
     smoke ve pause rollback'i doğrulanır. V1 marketplace açık kalır.
 11. Promotion verifier staged candidate manifest + exact candidate origin + live issuer için
     PASS olduktan sonra `active + productLive:false` release ayrı, credential'sız public
-    build ile operasyonel Arc Testnet erişimine alınabilir. Bunun için `public` environment
+    build ile operasyonel Arc Mainnet erişimine alınabilir. Bunun için `public` environment
     modu kullanılır; candidate artifact'i promote edilmez:
 
     ```bash
@@ -237,7 +237,7 @@ pnpm prepare:promotion-target-intent \
 
 Broadcast root `.env` içindeki normalized canonical EOA key'ini ve
 `PROMOTION_CANDIDATE_INGRESS_USERNAME/PASSWORD` değerlerini kullanır. `ARC_RPC_URL` varsa
-exact `https://rpc.testnet.arc.network` olmalıdır:
+exact `https://rpc.mainnet.arc.io` olmalıdır:
 
 ```bash
 pnpm drill:operations --broadcast \
@@ -358,7 +358,7 @@ sayılır ve yeni snapshot/review gerekir.
 ## RPC veya Arc explorer
 
 Explorer unavailable olması chain failure değildir. Bu release'in tek operational HTTP RPC'si
-`https://rpc.testnet.arc.network` adresidir; WebSocket transportu kapalıdır ve başka host
+`https://rpc.mainnet.arc.io` adresidir; WebSocket transportu kapalıdır ve başka host
 fallback olarak kullanılmaz. Operator chain ID, pinned head/block, receipt ve aynı block'taki
 code/state'i bu canonical endpoint'ten yeniden okur. Normal HTTP profili process başına
 2.100 ms aralık ve yalnız `-32011`/HTTP `429` için en fazla üç deneme kullanır. Uzun,

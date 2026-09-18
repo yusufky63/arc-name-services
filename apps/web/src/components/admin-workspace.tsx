@@ -66,7 +66,7 @@ function AdminGate({
   const wallet = useWalletSession();
   const copy = {
     connect: ["WALLET REQUIRED", "Connect the governance wallet.", "Live service status remains public on the Status page. Contract state and controls open only after connected-wallet authorization."],
-    network: ["ARC TESTNET REQUIRED", "Switch the wallet network.", "Admin reads, simulations, and writes are pinned to Arc Testnet chain ID 5042002."],
+    network: ["ARC MAINNET REQUIRED", "Switch the wallet network.", "Admin reads, simulations, and writes are pinned to Arc Mainnet chain ID 5042."],
     loading: ["VERIFYING ACCESS", "Reading live contract authority.", "Controller, marketplace, registrar, registry, signer, liability, and release state are read in one Arc multicall."],
     denied: ["ACCESS DENIED", "This wallet is not an administrator.", "Use the live governance, contract owner, or exact pending-owner wallet. Client visibility is not the contract authorization boundary."],
     error: ["ADMIN READ FAILED", "Live administration state is unavailable.", message ?? "No transaction was requested. Retry the read after checking Arc RPC and wallet state."],
@@ -85,7 +85,7 @@ function AdminGate({
       ) : null}
       {state === "network" ? (
         <button className="admin-button" type="button" onClick={() => void wallet.switchToArc().catch(() => undefined)} disabled={wallet.busy}>
-          Switch to Arc Testnet
+          Switch to Arc Mainnet
         </button>
       ) : null}
     </section>
@@ -436,7 +436,7 @@ export function AdminWorkspace({
         <div className="admin-hero content-shell">
           <span>CONTOUR / ADMINISTRATION</span>
           <h1>Protocol<br />operations.</h1>
-          <p>Live contract authority, recorded activity, and owner-signed Arc Testnet controls.</p>
+          <p>Live contract authority, recorded activity, and owner-signed Arc Mainnet controls.</p>
         </div>
       </section>
 
@@ -484,7 +484,7 @@ export function AdminWorkspace({
             <div className="admin-access-rail content-shell">
               <div className="admin-access-rail__heading">
                 <span>AUTHORIZED WALLET</span>
-                <small>ARC TESTNET / VERIFIED</small>
+                <small>ARC MAINNET / VERIFIED</small>
               </div>
               <code>{wallet.account}</code>
               <div className="admin-access-rail__meta">

@@ -18,7 +18,7 @@ contract ArcBaseRegistrar is Ownable2Step {
     error NotApprovedOrOwner();
     error UnsafeRecipient();
 
-    string public constant name = "Arc Testnet Names";
+    string public constant name = "Contour Names";
     string public constant symbol = "ARCN";
 
     IArcNameRegistry public immutable registry;

@@ -10,7 +10,7 @@ import { getDeploymentManifest } from "@/lib/manifest";
 
 export const metadata: Metadata = {
   title: "Developers",
-  description: "Public SDK, HTTP, MCP, ABI, and repository-local React integration for Contour on Arc Testnet.",
+  description: "Public SDK, HTTP, MCP, ABI, and repository-local React integration for Contour on Arc Mainnet.",
 };
 
 const mcpTools = [
@@ -329,7 +329,7 @@ const { registrationTransaction, permit, signature } = await response.json();`}<
           <div className="developer-tool-list">
             <div>
               <code>Circle Gateway Domain: 26</code>
-              <p>Canonical Arc Testnet gateway domain for batched nanopayment settlement.</p>
+              <p>Canonical Arc Mainnet gateway domain for batched nanopayment settlement.</p>
             </div>
             <div>
               <code>USDC Asset: 0x3600...0000</code>

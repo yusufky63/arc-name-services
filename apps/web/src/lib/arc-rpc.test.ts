@@ -31,10 +31,10 @@ describe("Arc RPC rate-limit recovery", () => {
     expect(waits).toEqual([250, 250, 2_100]);
   });
 
-  it("accepts only the canonical Arc Testnet RPC", () => {
-    expect(resolveCanonicalArcRpcUrl(undefined)).toBe("https://rpc.testnet.arc.network");
-    expect(resolveCanonicalArcRpcUrl(" https://rpc.testnet.arc.network ")).toBe(
-      "https://rpc.testnet.arc.network",
+  it("accepts only the canonical Arc Mainnet RPC", () => {
+    expect(resolveCanonicalArcRpcUrl(undefined)).toBe("https://rpc.mainnet.arc.io");
+    expect(resolveCanonicalArcRpcUrl(" https://rpc.mainnet.arc.io ")).toBe(
+      "https://rpc.mainnet.arc.io",
     );
     expect(() => resolveCanonicalArcRpcUrl("https://rpc.example")).toThrow(/must exactly equal/);
     expect(() => resolveCanonicalArcRpcUrl(undefined, "https://rpc.example")).toThrow(/not canonical/);

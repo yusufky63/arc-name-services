@@ -212,7 +212,7 @@ function WalletOptionsDialog({
           </button>
         </div>
         <p id="wallet-modal-description" className="wallet-modal__description">
-          Choose the wallet you want to use on Arc Testnet.
+          Choose the wallet you want to use on Arc Mainnet.
         </p>
 
         {groups.detected.length > 0 ? (

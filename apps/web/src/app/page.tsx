@@ -38,7 +38,7 @@ export default function HomePage() {
           </h1>
           <p className="hero__lede">
             Search a name, see the USDC price, then connect your wallet and
-            register on Arc Testnet.
+            register on Arc Mainnet.
           </p>
           <div className="hero__search">
             <SearchForm />
@@ -112,7 +112,7 @@ export default function HomePage() {
         </div>
         <div className="truth-line">
           <span>NETWORK</span>
-          <strong>ARC TESTNET</strong>
+          <strong>ARC MAINNET</strong>
           <i aria-hidden="true" />
           <span>PAYMENT</span>
           <strong>USDC</strong>
@@ -124,7 +124,7 @@ export default function HomePage() {
           <SectionIndex index="04">Contour market</SectionIndex>
           <h2>Buy and sell at a fixed price.</h2>
           <p>
-            Browse available listings and complete purchases with USDC on Arc Testnet.
+            Browse available listings and complete purchases with USDC on Arc Mainnet.
           </p>
           <Link className="text-link" href="/market">
             Open market <ArrowUpRightIcon />

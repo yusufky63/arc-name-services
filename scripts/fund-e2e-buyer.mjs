@@ -14,17 +14,17 @@ import { privateKeyToAccount } from "viem/accounts";
 import { rateLimitedArcHttp } from "./lib/arc-rpc-transport.mjs";
 import { normalizeOperatorPrivateKey } from "./lib/operator-key.mjs";
 
-const CHAIN_ID = 5_042_002;
-const RPC_URL = "https://rpc.testnet.arc.network";
+const CHAIN_ID = 5_042;
+const RPC_URL = "https://rpc.mainnet.arc.io";
 const GOVERNANCE = getAddress("0x78de409a6306550882328E2a67160471368387FF");
 const SETTLEMENT = getAddress("0x3600000000000000000000000000000000000000");
 const erc20Abi = parseAbi(["function balanceOf(address account) view returns (uint256)"]);
 const chain = Object.freeze({
   id: CHAIN_ID,
-  name: "Arc Testnet",
+  name: "Arc Mainnet",
   nativeCurrency: { name: "USDC", symbol: "USDC", decimals: 18 },
   rpcUrls: { default: { http: [RPC_URL] } },
-  testnet: true,
+  testnet: false,
 });
 
 function fail(message) {

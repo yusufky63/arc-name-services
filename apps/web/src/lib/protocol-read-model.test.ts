@@ -8,7 +8,7 @@ import {
 } from "viem";
 import type { DeploymentManifest } from "@contour/config";
 import { deriveNameIdentity } from "@contour/normalization";
-import deploymentManifest from "../../../../deployments/5042002.json";
+import deploymentManifest from "../../../../deployments/5042.json";
 
 const TRANSFER_EVENT = parseAbiItem(
   "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
@@ -41,7 +41,7 @@ vi.mock("./manifest", () => ({
 }));
 
 vi.mock("./network", () => ({
-  arcTestnet: { id: 5_042_002, name: "Arc Testnet" },
+  arcTestnet: { id: 5_042, name: "Arc" },
 }));
 
 function configuredFixture(): DeploymentManifest {

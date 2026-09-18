@@ -18,7 +18,7 @@ const snapshot: NameNftSnapshot = {
   releaseId: `0x${"ab".repeat(32)}`,
   releaseKey: "canonical",
   registrarVersion: "v2",
-  chainId: 5_042_002,
+  chainId: 5_042,
   chainName: "Arc Testnet",
   explorerUrl: "https://testnet.arcscan.app",
   registrarAddress: "0x1111111111111111111111111111111111111111",
@@ -145,7 +145,7 @@ describe("NFT metadata URLs and attributes", () => {
       properties: {
         releaseId: snapshot.releaseId,
         registrarVersion: "v2",
-        chainId: 5_042_002,
+        chainId: 5_042,
         contract: snapshot.registrarAddress,
         tokenId: "123",
         owner: snapshot.owner,

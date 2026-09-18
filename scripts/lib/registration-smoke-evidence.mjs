@@ -14,7 +14,7 @@ import {
 } from "../../packages/config/dist/index.js";
 import { deriveNameIdentity } from "../../packages/normalization/dist/index.js";
 
-export const REGISTRATION_SMOKE_RPC_URL = "https://rpc.testnet.arc.network";
+export const REGISTRATION_SMOKE_RPC_URL = "https://rpc.mainnet.arc.io";
 export const REGISTRATION_SMOKE_TRANSACTION_IDS = Object.freeze([
   "registrationUsdcApproval",
   "registration",
@@ -268,7 +268,7 @@ function assertControllerOpenCandidate(manifest, origin) {
   if (
     manifest.chain.id !== ARC_TESTNET_CHAIN_ID ||
     manifest.chain.rpcUrl !== REGISTRATION_SMOKE_RPC_URL ||
-    manifest.testnet !== true ||
+    manifest.testnet !== false ||
     manifest.state !== "active" ||
     manifest.activationEvidence.productLive !== false ||
     manifest.activationEvidence.controllerPolicy.registrationsPaused !== false ||

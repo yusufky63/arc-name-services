@@ -146,7 +146,7 @@ export class KeeperWorkflow {
     return {
       orderId: order.id, state: order.state, normalizedLabel: order.normalizedLabel,
       exactAmount: order.exactAmount.toString(), network: ARC_TESTNET_CAIP2, asset: ARC_USDC.erc20Address,
-      durationYears, paymentRequired: { x402Version: 2, resource: { url: `/v1/orders/${order.id}/authorize`, description: "Arc Testnet name registration", mimeType: "application/json" }, accepts: [requirements] },
+      durationYears, paymentRequired: { x402Version: 2, resource: { url: `/v1/orders/${order.id}/authorize`, description: "Arc Mainnet name registration", mimeType: "application/json" }, accepts: [requirements] },
     };
   }
 

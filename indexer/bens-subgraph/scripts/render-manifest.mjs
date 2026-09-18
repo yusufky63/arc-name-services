@@ -5,7 +5,7 @@ import {
   parseDeploymentManifest,
 } from "@contour/config";
 
-const manifestPath = resolve(process.argv[2] ?? "../../deployments/5042002.json");
+const manifestPath = resolve(process.argv[2] ?? "../../deployments/5042.json");
 const attestationPath = resolve(
   process.argv[3] ?? manifestPath.replace(/\.json$/i, ".promotion.json"),
 );

@@ -14,7 +14,7 @@ import {
 export const V1_ECONOMIC_CUTOVER_SCHEMA_VERSION = "1.0.0";
 export const MAX_SAFE_LOG_BLOCK_SPAN = 1_000n;
 const LOG_RESPONSE_SPLIT_THRESHOLD = 900;
-const ARC_TESTNET_CHAIN_ID = 5_042_002;
+const ARC_TESTNET_CHAIN_ID = 5_042;
 const GRACE_PERIOD_SECONDS = 90n * 24n * 60n * 60n;
 const CONTRACT_ROLES = Object.freeze([
   "registry",
@@ -1310,7 +1310,7 @@ export async function captureV1EconomicCutoverEvidence({
   if (!client) fail("canonical RPC client is required");
   const input = assertV1EconomicCutoverInput(manifest, cutoverBlock);
   const chainId = await client.getChainId().catch(() => null);
-  if (chainId !== ARC_TESTNET_CHAIN_ID) fail("RPC is not Arc Testnet");
+  if (chainId !== ARC_TESTNET_CHAIN_ID) fail("RPC is not Arc Mainnet");
   const block = await readCanonicalBlock(client, input.blockNumber, "cutover");
   const normalizedRequiredListings = normalizeRequiredListings(
     requiredLiveListings,

@@ -67,7 +67,7 @@ function retainedV1Reference() {
 
 async function configuredManifest() {
   const value = JSON.parse(
-    await readFile(new URL("../deployments/5042002.json", import.meta.url), "utf8"),
+    await readFile(new URL("../deployments/5042.json", import.meta.url), "utf8"),
   );
   value.releaseId = V2_RELEASE_ID;
   value.registrarVersion = "v2";
@@ -83,7 +83,7 @@ async function configuredManifest() {
     deployment.address = contractAddress;
     deployment.runtimeCodeHash = keccak256(V2_RUNTIME_CODES[key]);
     deployment.abiUrl =
-      `https://testnet.arcscan.app/api/v2/smart-contracts/${contractAddress.toLowerCase()}`;
+      `https://explorer.arc.io/api/v2/smart-contracts/${contractAddress.toLowerCase()}`;
     deployment.sourceVerificationUrl = deployment.abiUrl;
   }
   return parseDeploymentManifest(value);
@@ -171,7 +171,7 @@ function fakeExecution(manifest, {
   const account = { address: V2_GOVERNANCE };
   const publicClient = {
     async getChainId() {
-      return 5_042_002;
+      return manifest.chain.id;
     },
     async getCode(request) {
       state.codeReads.push(request);

@@ -5,7 +5,7 @@ import {
   type DeploymentManifest,
   type LegacyReleaseReference,
 } from "@contour/config";
-import deploymentManifest from "../../../../deployments/5042002.json";
+import deploymentManifest from "../../../../deployments/5042.json";
 import legacyDeploymentManifest from "../../../../deployments/5042002.legacy.json";
 import {
   deriveExecutionCapabilities,
@@ -53,34 +53,12 @@ function retainedReference(
 }
 
 describe("read capabilities", () => {
-  it("keeps the retained V1 artifact semantically bound across the cutover", () => {
+  it("publishes the fresh mainnet V1 release without a retained testnet artifact", () => {
     const canonical =
       deploymentManifest as unknown as DeploymentManifest;
-    const legacy =
-      legacyDeploymentManifest as unknown as DeploymentManifest;
-    expect(registrarVersionOf(legacy)).toBe("v1");
-    if (registrarVersionOf(canonical) === "v2") {
-      expect(canonical.legacyReleases).toHaveLength(1);
-      expect(
-        legacyManifestMatchesReference(
-          legacy,
-          canonical.legacyReleases![0]!,
-        ),
-      ).toBe(true);
-      return;
-    }
-    expect(canonical.releaseId).toBe(legacy.releaseId);
-    for (const key of CONTRACT_KEYS) {
-      expect(canonical.contracts[key].address).toBe(
-        legacy.contracts[key].address,
-      );
-      expect(canonical.contracts[key].deploymentBlock).toBe(
-        legacy.contracts[key].deploymentBlock,
-      );
-      expect(canonical.contracts[key].runtimeCodeHash).toBe(
-        legacy.contracts[key].runtimeCodeHash,
-      );
-    }
+    expect(registrarVersionOf(canonical)).toBe("v1");
+    expect(canonical.legacyReleases).toBeUndefined();
+    expect(selectReadableReleaseManifests(canonical, null)).toEqual([canonical]);
   });
 
   it("adds retained V1 only when canonical V2 binds its exact immutable identity", () => {
@@ -143,9 +121,9 @@ describe("read capabilities", () => {
       reads: true,
       marketReads: true,
       productLive: false,
-      registration: true,
-      marketplace: true,
-      marketplaceEscape: true,
+      registration: false,
+      marketplace: false,
+      marketplaceEscape: false,
     });
   });
 
