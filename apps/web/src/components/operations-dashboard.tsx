@@ -133,7 +133,10 @@ async function readEndpoint(
     return {
       ...endpoint,
       state: "unavailable",
-      detail: messageFrom(body, `Endpoint returned HTTP ${response.status}.`),
+      detail:
+        endpoint.id === "x402"
+          ? "Circle x402 nanopayment gateway is currently inactive."
+          : messageFrom(body, `Endpoint returned HTTP ${response.status}.`),
     };
   } catch (error) {
     if (error instanceof DOMException && error.name === "AbortError") {
