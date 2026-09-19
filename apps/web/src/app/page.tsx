@@ -5,7 +5,7 @@ import { SearchForm } from "@/components/search-form";
 import { SectionIndex } from "@/components/section-index";
 import { BRAND } from "@/lib/brand";
 import { getOptionalDeploymentManifest, protocolCapabilities } from "@/lib/manifest";
-import { readProtocolStats } from "@/lib/protocol-read-model";
+import { ProtocolStatsRibbon } from "@/components/protocol-stats";
 
 const protocolSteps = [
   ["01", "Search", "Enter the name you want"],
@@ -18,18 +18,10 @@ function compactAddress(value: string) {
   return `${value.slice(0, 8)}…${value.slice(-6)}`;
 }
 
-export default async function HomePage() {
+export default function HomePage() {
   const deployment = getOptionalDeploymentManifest();
   const registry = deployment?.contracts.registry;
   const marketplace = deployment?.contracts.marketplace;
-  const stats = protocolCapabilities.reads
-    ? await readProtocolStats().catch(() => ({
-        totalRegistered: 0,
-        totalListed: 0,
-        uniqueOwners: 0,
-        currency: "USDC",
-      }))
-    : null;
 
   return (
     <main id="main-content">
@@ -59,44 +51,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {stats ? (
-        <section className="protocol-stats-surface">
-          <div className="protocol-stats content-shell">
-            <div className="protocol-stats__grid">
-              <div className="protocol-stat">
-                <span className="protocol-stat__index">01 / TOTAL</span>
-                <strong className="protocol-stat__value">
-                  {stats.totalRegistered.toString().padStart(2, "0")}
-                </strong>
-                <span className="protocol-stat__label">REGISTERED NAMES</span>
-                <p className="protocol-stat__hint">Confirmed on Arc Mainnet</p>
-              </div>
-              <div className="protocol-stat">
-                <span className="protocol-stat__index">02 / MARKET</span>
-                <strong className="protocol-stat__value">
-                  {stats.totalListed.toString().padStart(2, "0")}
-                </strong>
-                <span className="protocol-stat__label">NAMES FOR SALE</span>
-                <p className="protocol-stat__hint">Active marketplace listings</p>
-              </div>
-              <div className="protocol-stat">
-                <span className="protocol-stat__index">03 / OWNERS</span>
-                <strong className="protocol-stat__value">
-                  {stats.uniqueOwners.toString().padStart(2, "0")}
-                </strong>
-                <span className="protocol-stat__label">ACTIVE USERS</span>
-                <p className="protocol-stat__hint">Unique identity holders</p>
-              </div>
-              <div className="protocol-stat">
-                <span className="protocol-stat__index">04 / SETTLEMENT</span>
-                <strong className="protocol-stat__value">100% USDC</strong>
-                <span className="protocol-stat__label">INSTANT FINALITY</span>
-                <p className="protocol-stat__hint">Native Arc transactions</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      ) : null}
+      <ProtocolStatsRibbon readEnabled={protocolCapabilities.reads} />
 
       <section className="name-feature section-paper">
         <div className="section-heading modular-grid">
