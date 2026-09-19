@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1.0",
-  "state": "configured",
+  "state": "active",
   "releaseId": "0xa22373388f708b7df3e546180c9a28477238281f54a2d072d73f7226d824de78",
   "registrarVersion": "v1",
   "nftMetadata": null,
@@ -115,31 +115,31 @@
   },
   "activationEvidence": {
     "productLive": false,
-    "verifiedAtBlock": null,
+    "verifiedAtBlock": 21554920,
     "artifacts": {
       "deploymentReceipts": {
-        "url": null,
-        "sha256": null
+        "url": "https://contour-arc.vercel.app/evidence/contour-v1/deployment-receipts.json",
+        "sha256": "0x8246a326915bffa27aceac76a983a5567c6923629f6ddadffaaea7931113ff58"
       },
       "constructorWiring": {
-        "url": null,
-        "sha256": null
+        "url": "https://contour-arc.vercel.app/evidence/contour-v1/constructor-wiring.json",
+        "sha256": "0x73cad636018fd76da92598c69ffa864b05ef6e306e2d63a94c591505fdf519fc"
       },
       "governanceRoles": {
-        "url": null,
-        "sha256": null
+        "url": "https://contour-arc.vercel.app/evidence/contour-v1/governance-roles.json",
+        "sha256": "0xfb62e258bae6190312be9c23bab6b67eaf48ea0c5aa1895008a02b37e46e47ad"
       },
       "treasuryControls": {
-        "url": null,
-        "sha256": null
+        "url": "https://contour-arc.vercel.app/evidence/contour-v1/treasury-controls.json",
+        "sha256": "0x759c157cb3c2ef4aa24fe27eb554b9c8c4964928f7295ce428d66f76b739fc61"
       },
       "signerPolicy": {
-        "url": null,
-        "sha256": null
+        "url": "https://contour-arc.vercel.app/evidence/contour-v1/signer-policy.json",
+        "sha256": "0x08ef33cf73ea50f859b137983420f67efc16cc7267f11fef93ec269ad22eeceb"
       },
       "releaseAttestation": {
-        "url": null,
-        "sha256": null
+        "url": "https://contour-arc.vercel.app/evidence/contour-v1/release-attestation.json",
+        "sha256": "0xefeb4a55f725c7bc0f6f09d637586a838ab78f48e1ccc852fd2e0f79007632e7"
       },
       "fundedEndToEnd": {
         "url": null,
@@ -157,19 +157,19 @@
       "permitSigner": "0x78de409a6306550882328E2a67160471368387FF",
       "signerPolicyVersion": "1",
       "referralBps": 500,
-      "registrationsPaused": true
+      "registrationsPaused": false
     },
     "marketplacePolicy": {
       "feeBps": 250,
-      "paused": true
+      "paused": false
     }
   },
   "permitIssuer": {
-    "url": null,
+    "url": "https://contour-arc.vercel.app/api/registration/issuer/",
     "signerAddress": "0x78de409a6306550882328E2a67160471368387FF",
     "publicKey": null,
     "policyVersion": "1",
-    "active": false
+    "active": true
   },
   "resolverCapabilities": {
     "addr": true,

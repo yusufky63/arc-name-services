@@ -30,7 +30,7 @@ function openingSnapshot(): AdminSnapshot {
   }
 
   return {
-    productLive: false,
+    productLive: true,
     releaseId,
     releaseKey: "canonical",
     registrarVersion: registrarVersionOf(manifest),
@@ -94,10 +94,8 @@ describe("admin registration reopening", () => {
     expect(applied).toBeNull();
   });
 
-  it("blocks admin execution while the mainnet deployment is only configured", () => {
-    expect(() => registrationOpeningValidationError(openingSnapshot())).toThrow(
-      /controller is not active/i,
-    );
+  it("validates opening readiness when the mainnet deployment is active", () => {
+    expect(registrationOpeningValidationError(openingSnapshot())).toBeNull();
   });
 
   it("permanently blocks retained V1 registration reopening while preserving marketplace recovery", async () => {
@@ -116,49 +114,47 @@ describe("admin registration reopening", () => {
     );
   });
 
-  it("does not probe issuer health before the mainnet release is active", async () => {
+  it("probes issuer health when the mainnet release is active and verifies matching health", async () => {
     const snapshot = openingSnapshot();
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(
       JSON.stringify(issuerHealth(snapshot)),
       {
-        status: 503,
+        status: 200,
         headers: { "content-type": "application/json" },
       },
     )));
 
-    await expect(assertIssuerPreparedForOpening(snapshot)).rejects.toThrow(
-      /controller is not active/i,
-    );
+    await expect(assertIssuerPreparedForOpening(snapshot)).resolves.toBeUndefined();
   });
 
-  it("keeps signer checks behind the active-release boundary", async () => {
+  it("rejects opening when issuer signer does not match", async () => {
     const snapshot = openingSnapshot();
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(
       JSON.stringify(issuerHealth(snapshot, {
         localSignerAddress: "0x0000000000000000000000000000000000000001",
       })),
       {
-        status: 503,
+        status: 200,
         headers: { "content-type": "application/json" },
       },
     )));
 
     await expect(assertIssuerPreparedForOpening(snapshot)).rejects.toThrow(
-      /controller is not active/i,
+      /Registration cannot open until the local issuer health, signer, policy version, and live controller state all match/i,
     );
   });
 
-  it("does not prepare registrar changes for a configured release", () => {
-    expect(() => registrarControllerAction(openingSnapshot())).toThrow(
-      /controller is not active/i,
-    );
+  it("prepares registrar controller action for an active release", () => {
+    const action = registrarControllerAction(openingSnapshot());
+    expect(action.id).toBe("registrar-controller");
+    expect(action.steps.length).toBeGreaterThan(0);
   });
 
-  it("does not prepare registrar re-enabling before activation", () => {
+  it("prepares registrar re-enabling when controller is disabled", () => {
     const snapshot = openingSnapshot();
     snapshot.registrar.canonicalControllerEnabled = false;
-    expect(() => registrarControllerAction(snapshot)).toThrow(
-      /controller is not active/i,
-    );
+    const action = registrarControllerAction(snapshot);
+    expect(action.id).toBe("registrar-controller");
+    expect(action.confirmLabel).toBe("Enable controller");
   });
 });

@@ -121,9 +121,9 @@ describe("read capabilities", () => {
       reads: true,
       marketReads: true,
       productLive: false,
-      registration: false,
-      marketplace: false,
-      marketplaceEscape: false,
+      registration: true,
+      marketplace: true,
+      marketplaceEscape: true,
     });
   });
 

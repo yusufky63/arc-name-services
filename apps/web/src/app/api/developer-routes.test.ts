@@ -64,7 +64,7 @@ describe("public developer routes", () => {
     expect(runtimeBody.canonicalManifest.sha256).toBe(deploymentManifestDigest(manifest));
     expect(runtimeBody.release).toMatchObject({
       deploymentState: manifest.state,
-      productLive: false,
+      productLive: true,
       registrationReady:
         manifest.state === "active" &&
         manifest.permitIssuer.active &&
@@ -76,7 +76,7 @@ describe("public developer routes", () => {
       mcpReady: true,
       permitIssuerReady: manifest.permitIssuer.active,
       x402Ready: manifest.x402.active,
-      evidenceComplete: false,
+      evidenceComplete: true,
     });
     expect(runtimeBody.readiness).toMatchObject({
       registration: expect.stringMatching(/\/api\/registration\/readiness$/),
@@ -337,9 +337,9 @@ describe("public developer routes", () => {
         payer: wallet,
       },
     ));
-    expect(normalizationConflict.status).toBe(503);
+    expect(normalizationConflict.status).toBe(409);
     await expect(normalizationConflict.json()).resolves.toMatchObject({
-      code: "REGISTRATION_UNAVAILABLE",
+      code: "NORMALIZATION_ACCEPTANCE_REQUIRED",
     });
 
     const stringDuration = {
@@ -360,13 +360,13 @@ describe("public developer routes", () => {
         payer: wallet,
       },
     ));
-    expect(preflightStringDuration.status).toBe(503);
+    expect(preflightStringDuration.status).toBe(400);
 
     const prepareStringDuration = await postRegistrationPrepare(jsonRequest(
       "/api/registration/prepare",
       stringDuration,
     ));
-    expect(prepareStringDuration.status).toBe(503);
+    expect(prepareStringDuration.status).toBe(400);
 
     const challengeStringDuration = await postRegistrationChallenge(jsonRequest(
       "/api/registration/challenge",
@@ -377,19 +377,19 @@ describe("public developer routes", () => {
         referrer: "0x0000000000000000000000000000000000000000",
       },
     ));
-    expect(challengeStringDuration.status).toBe(503);
+    expect(challengeStringDuration.status).toBe(400);
 
     const oversizedBody = { padding: "x".repeat(17_000) };
     const oversizedPreflight = await postRegistrationPreflight(jsonRequest(
       "/api/registration/preflight",
       oversizedBody,
     ));
-    expect(oversizedPreflight.status).toBe(503);
+    expect(oversizedPreflight.status).toBe(413);
     const oversizedPrepare = await postRegistrationPrepare(jsonRequest(
       "/api/registration/prepare",
       oversizedBody,
     ));
-    expect(oversizedPrepare.status).toBe(503);
+    expect(oversizedPrepare.status).toBe(413);
   });
 
   it("serves a stateless hosted MCP over Streamable HTTP", async () => {
@@ -538,7 +538,7 @@ describe("public developer routes", () => {
       ],
       ["prepare_market_invalidate", { tokenId: "7" }, "market"],
     ] as const;
-    for (const [name, arguments_] of planCalls) {
+    for (const [name, arguments_, kind] of planCalls) {
       const call = await postMcp(new Request("http://localhost:3002/api/mcp", {
         method: "POST",
         headers,
@@ -550,11 +550,17 @@ describe("public developer routes", () => {
         }),
       }));
       expect(call.status).toBe(200);
-      await expect(call.json()).resolves.toMatchObject({
+      const payload = (await call.json()) as {
         result: {
-          isError: true,
-          content: [{ type: "text", text: "deployment manifest is not active" }],
-        },
+          isError?: boolean;
+          structuredContent?: { kind: string; to: string; data: string };
+        };
+      };
+      expect(payload.result.isError).toBeFalsy();
+      expect(payload.result.structuredContent).toMatchObject({
+        kind,
+        to: expect.stringMatching(/^0x[0-9a-fA-F]{40}$/),
+        data: expect.stringMatching(/^0x[0-9a-fA-F]+$/),
       });
     }
 
