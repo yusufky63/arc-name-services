@@ -999,6 +999,23 @@ export function NameManagementPanel({
           </p>
         </header>
 
+        {listing && !connectedOwner ? (
+          <div className="name-purchase-card name-purchase-card--top" id="purchase">
+            <div>
+              <span>THIS NAME IS FOR SALE</span>
+              <strong>{formatUnits(BigInt(listing.price), 6)} USDC</strong>
+              <p>Listed by {shortAddress(listing.seller)} · valid until {dateLabel(listing.validUntil)}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => void buyName()}
+              disabled={busy !== null || !marketplaceEnabled || marketPaused}
+            >
+              {busy === "buy" ? "Buying…" : marketplaceEnabled ? "Buy this name" : "Purchases unavailable"}
+            </button>
+          </div>
+        ) : null}
+
         <div className="name-management__summary">
           <div><span>Status</span><strong>{lifecycle.toUpperCase()}</strong></div>
           <div><span>Expiry</span><strong>{dateLabel(expiry)}</strong></div>
@@ -1053,12 +1070,7 @@ export function NameManagementPanel({
               </div>
             </form>
           </div>
-        ) : listing ? (
-          <div className="name-purchase-card">
-            <div><span>FIXED PRICE</span><strong>{formatUnits(BigInt(listing.price), 6)} USDC</strong><p>Listed by {shortAddress(listing.seller)} · valid until {dateLabel(listing.validUntil)}</p></div>
-            <button type="button" onClick={() => void buyName()} disabled={busy !== null || !marketplaceEnabled || marketPaused}>{busy === "buy" ? "Buying…" : marketplaceEnabled ? "Buy this name" : "Purchases unavailable"}</button>
-          </div>
-        ) : wallet.account ? (
+        ) : !listing && wallet.account ? (
           <div className="name-management__connect"><p>This wallet does not own the name, and the name is not listed for sale.</p></div>
         ) : null}
 

@@ -23,6 +23,7 @@ import {
   waitForWalletReceipt,
   walletErrorMessage,
 } from "@/lib/wallet-protocol";
+import { RefreshIcon } from "./icons";
 
 type PendingAccountAction = {
   version: 2;
@@ -300,6 +301,23 @@ export function AccountDashboard({ actionsEnabled }: { actionsEnabled: boolean }
   return (
     <section className="account-dashboard">
       <div className="account-dashboard__content content-shell">
+        <div className="account-toolbar">
+          <div className="account-toolbar__meta">
+            <span className="account-toolbar__badge">ARC MAINNET 5042</span>
+            <code title={wallet.account}>{wallet.account}</code>
+          </div>
+          <button
+            type="button"
+            className="refresh-button"
+            onClick={() => void refresh(true)}
+            disabled={loading}
+            title="Refresh account data from Arc Mainnet"
+            aria-label="Refresh account data"
+          >
+            <RefreshIcon className={loading ? "refresh-icon--spinning" : ""} />
+            <span>{loading ? "Refreshing…" : "Refresh"}</span>
+          </button>
+        </div>
         {message ? <p className="account-feedback" role="status">{message}</p> : null}
         {error ? <p className="account-feedback account-feedback--error" role="alert">{error}</p> : null}
         {loading && !snapshot ? <div className="account-empty">Loading your names…</div> : null}
@@ -346,7 +364,23 @@ export function AccountDashboard({ actionsEnabled }: { actionsEnabled: boolean }
               </div>
               <div><span>03 / NAMES</span><strong>{snapshot.names.length.toString().padStart(2, "0")}</strong><em>{activeNames.toString().padStart(2, "0")} ACTIVE</em></div>
             </div>
-            <div className="account-names-heading"><span>04 / YOUR NAMES</span><h2>Choose a name to manage</h2></div>
+            <div className="account-names-heading">
+              <span>04 / YOUR NAMES</span>
+              <div className="account-names-heading__title">
+                <h2>Choose a name to manage</h2>
+                <button
+                  type="button"
+                  className="refresh-button"
+                  onClick={() => void refresh(true)}
+                  disabled={loading}
+                  title="Refresh account data from Arc Mainnet"
+                  aria-label="Refresh names"
+                >
+                  <RefreshIcon className={loading ? "refresh-icon--spinning" : ""} />
+                  <span>{loading ? "Refreshing…" : "Refresh"}</span>
+                </button>
+              </div>
+            </div>
             {snapshot.names.length === 0 ? <div className="account-empty">No names were found for this wallet.</div> : null}
             <div className="account-name-list">
               {snapshot.names.map((name) => {

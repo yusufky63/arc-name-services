@@ -76,6 +76,9 @@ const labelCache = new Map<
 let marketSnapshotCache:
   | { expiresAt: number; promise: Promise<MarketSnapshot> }
   | null = null;
+let protocolStatsCache:
+  | { expiresAt: number; promise: Promise<ProtocolStats> }
+  | null = null;
 let protocolChainAssertion: Promise<void> | null = null;
 let confirmedHeadCache:
   | { expiresAt: number; promise: Promise<bigint> }
@@ -91,6 +94,7 @@ const nftSnapshotCache = new Map<
 
 export function invalidateMarketSnapshot() {
   marketSnapshotCache = null;
+  protocolStatsCache = null;
   confirmedHeadCache = null;
 }
 
@@ -436,7 +440,7 @@ async function explorerEventLogs(
 function verifiedRegisteredLabel(
   log: ExplorerLog,
   suffix: string,
-): { tokenId: bigint; label: string } | null {
+): { tokenId: bigint; label: string; owner?: Address | undefined } | null {
   let decoded: ReturnType<typeof decodeEventLog<typeof NAME_REGISTERED_EVENT[]>>;
   try {
     decoded = decodeEventLog({
@@ -461,10 +465,44 @@ function verifiedRegisteredLabel(
     ) {
       return null;
     }
-    return { tokenId: identity.tokenId, label: identity.normalized };
+    return {
+      tokenId: identity.tokenId,
+      label: identity.normalized,
+      owner: decoded.args.owner ? getAddress(decoded.args.owner) : undefined,
+    };
   } catch {
     return null;
   }
+}
+
+type VerifiedRegistration = {
+  tokenId: bigint;
+  label: string;
+  owner?: Address | undefined;
+};
+
+async function registeredRegistrations(
+  manifest: DeploymentManifest,
+  head: bigint,
+): Promise<VerifiedRegistration[]> {
+  const registrations: VerifiedRegistration[] = [];
+  const address = requireDeployedContract(manifest, "controller");
+  const suffix = manifest.namespace.suffix;
+  if (!suffix) throw new Error("The deployed namespace suffix is missing.");
+  const from = deploymentBlock(manifest, "controller");
+  if (from > head) return registrations;
+  const logs = await explorerEventLogs(
+    manifest,
+    address,
+    toEventSelector(NAME_REGISTERED_EVENT),
+    from,
+    head,
+  );
+  for (const log of logs) {
+    const verified = verifiedRegisteredLabel(log, suffix);
+    if (verified) registrations.push(verified);
+  }
+  return registrations;
 }
 
 async function registeredLabels(
@@ -801,6 +839,79 @@ export function readMarketSnapshot(): Promise<MarketSnapshot> {
   marketSnapshotCache = { expiresAt: Date.now() + SNAPSHOT_CACHE_MS, promise };
   promise.catch(() => {
     if (marketSnapshotCache?.promise === promise) marketSnapshotCache = null;
+  });
+  return promise;
+}
+
+export type ProtocolStats = {
+  chainId: number;
+  totalRegistered: number;
+  totalListed: number;
+  uniqueOwners: number;
+  currency: string;
+  asOfBlock: string;
+};
+
+const STATS_CACHE_MS = 20_000;
+
+async function readProtocolStatsUncached(): Promise<ProtocolStats> {
+  const manifests = marketReadableManifests();
+  const client = getProtocolPublicClient();
+  const head = await confirmedHead(client, manifests[0]!);
+
+  const [registrationsAcrossReleases, market] = await Promise.all([
+    Promise.all(
+      manifests.map((manifest) =>
+        registeredRegistrations(manifest, head).catch(() => []),
+      ),
+    ),
+    readMarketSnapshot().catch(() => ({ listings: [] })),
+  ]);
+
+  const uniqueTokens = new Set<string>();
+  const uniqueOwners = new Set<string>();
+
+  for (const list of registrationsAcrossReleases) {
+    for (const item of list) {
+      uniqueTokens.add(item.tokenId.toString());
+      if (item.owner && item.owner !== zeroAddress) {
+        uniqueOwners.add(item.owner.toLowerCase());
+      }
+    }
+  }
+
+  return {
+    chainId: ARC_TESTNET_CHAIN_ID,
+    totalRegistered: uniqueTokens.size,
+    totalListed: market.listings.length,
+    uniqueOwners:
+      uniqueOwners.size > 0 ? uniqueOwners.size : uniqueTokens.size > 0 ? 1 : 0,
+    currency: "USDC",
+    asOfBlock: head.toString(),
+  };
+}
+
+export function readProtocolStats(): Promise<ProtocolStats> {
+  if (protocolStatsCache && protocolStatsCache.expiresAt > Date.now()) {
+    return protocolStatsCache.promise;
+  }
+  const promise = boundedSnapshotRead(async () => {
+    try {
+      return await readProtocolStatsUncached();
+    } catch {
+      return {
+        chainId: ARC_TESTNET_CHAIN_ID,
+        totalRegistered: 0,
+        totalListed: 0,
+        uniqueOwners: 0,
+        currency: "USDC",
+        asOfBlock: "0",
+      };
+    }
+  });
+  protocolStatsCache = { expiresAt: Date.now() + STATS_CACHE_MS, promise };
+  promise.catch(() => {
+    if (protocolStatsCache?.promise === promise) protocolStatsCache = null;
   });
   return promise;
 }

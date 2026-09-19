@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import type { Connector } from "wagmi";
-import { groupWalletConnectors } from "./wallet-connectors";
+import {
+  groupWalletConnectors,
+  resolveConnectorDisplayName,
+} from "./wallet-connectors";
 
 function connector(
   name: string,
@@ -35,6 +38,15 @@ describe("wallet connector grouping", () => {
     expect(groups.coinbase).toBe(coinbase);
   });
 
+  it("detects Rabby and OKX Wallet by name even without explicit rdns", () => {
+    const okx = connector("OKX Wallet", "injected");
+    const rabby = connector("Rabby Wallet", "injected");
+    const groups = groupWalletConnectors([okx, rabby]);
+
+    expect(groups.detected).toEqual([okx, rabby]);
+    expect(groups.injectedFallback).toBeNull();
+  });
+
   it("keeps a generic browser-wallet option when EIP-6963 finds no named wallet", () => {
     const generic = connector("Injected", "injected");
     const groups = groupWalletConnectors([generic]);
@@ -55,5 +67,13 @@ describe("wallet connector grouping", () => {
 
     expect(groups.detected).toEqual([]);
     expect(groups.coinbase).toBe(coinbaseExtension);
+  });
+
+  it("resolves connector display names correctly", () => {
+    expect(resolveConnectorDisplayName(connector("Coinbase", "injected"))).toBe("Coinbase Wallet");
+    expect(resolveConnectorDisplayName(connector("Coinbase Wallet", "coinbaseWallet"))).toBe("Coinbase Wallet");
+    expect(resolveConnectorDisplayName(connector("Rabby Wallet", "injected"))).toBe("Rabby Wallet");
+    expect(resolveConnectorDisplayName(connector("OKX Wallet", "injected"))).toBe("OKX Wallet");
+    expect(resolveConnectorDisplayName(connector("Injected", "injected"))).toBe("Browser wallet");
   });
 });

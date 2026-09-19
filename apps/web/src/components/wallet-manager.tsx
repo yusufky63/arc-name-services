@@ -22,7 +22,10 @@ import {
 } from "wagmi";
 import { getConnection } from "wagmi/actions";
 import { ARC_TESTNET } from "@/lib/network";
-import { groupWalletConnectors } from "@/lib/wallet-connectors";
+import {
+  groupWalletConnectors,
+  resolveConnectorDisplayName,
+} from "@/lib/wallet-connectors";
 
 export type ConnectedWallet = {
   account: Address;
@@ -120,7 +123,8 @@ function WalletOption({
   busy: boolean;
   onSelect(connector: Connector): void;
 }) {
-  const initial = connector.name.trim().slice(0, 1).toUpperCase() || "W";
+  const displayName = resolveConnectorDisplayName(connector);
+  const initial = displayName.trim().slice(0, 1).toUpperCase() || "W";
   return (
     <button
       className="wallet-option"
@@ -131,7 +135,7 @@ function WalletOption({
     >
       <span className="wallet-option__icon" aria-hidden="true">{initial}</span>
       <span>
-        <strong>{connector.name}</strong>
+        <strong>{displayName}</strong>
         <small>Connect wallet</small>
       </span>
       <i aria-hidden="true">→</i>
@@ -233,7 +237,11 @@ function WalletOptionsDialog({
 
         {groups.injectedFallback ? (
           <section className="wallet-modal__group" aria-labelledby="browser-wallet-title">
-            <h3 id="browser-wallet-title">Browser wallet</h3>
+            <h3 id="browser-wallet-title">
+              {resolveConnectorDisplayName(groups.injectedFallback) !== "Browser wallet"
+                ? "Detected wallet"
+                : "Browser wallet"}
+            </h3>
             <WalletOption
               connector={groups.injectedFallback}
               busy={busy}
@@ -244,7 +252,7 @@ function WalletOptionsDialog({
 
         {groups.coinbase ? (
           <section className="wallet-modal__group" aria-labelledby="coinbase-wallet-title">
-            <h3 id="coinbase-wallet-title">Coinbase</h3>
+            <h3 id="coinbase-wallet-title">Coinbase Wallet</h3>
             <WalletOption connector={groups.coinbase} busy={busy} onSelect={onSelect} />
           </section>
         ) : null}

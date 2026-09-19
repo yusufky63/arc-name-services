@@ -4335,3 +4335,208 @@ select:focus-visible {
   .admin-dialog__panel > footer { flex-direction: column-reverse; }
   .admin-dialog__panel > footer .admin-button { width: 100%; }
 }
+
+/* Manual Refresh Button & Spinning Animation */
+.refresh-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 38px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--arc-line);
+  color: var(--arc-ink);
+  background: var(--arc-white);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.refresh-button svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.refresh-button:hover:not(:disabled) {
+  color: var(--arc-white);
+  background: var(--arc-blue-aa);
+  border-color: var(--arc-blue-aa);
+}
+
+.refresh-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.refresh-icon--spinning {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.account-toolbar {
+  min-height: 52px;
+  padding: 0.75rem var(--page-pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--arc-paper);
+  border-bottom: 1px solid var(--arc-line);
+}
+
+.account-toolbar__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+}
+
+.account-toolbar__badge {
+  padding: 0.2rem 0.5rem;
+  color: var(--arc-white);
+  background: var(--arc-blue);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.account-toolbar__meta code {
+  color: var(--arc-night);
+  font-family: var(--mono);
+}
+
+.account-names-heading__title {
+  grid-column: 4 / -1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.account-names-heading__title h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(3rem, 7vw, 7rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.07em;
+}
+
+.market-toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+/* Elevated name purchase card */
+.name-purchase-card--top {
+  border: 1px solid var(--arc-line);
+  margin-bottom: 2rem;
+}
+
+/* Protocol Stats Ribbon */
+.protocol-stats-surface {
+  background: var(--arc-night);
+  border-bottom: 1px solid var(--night-line);
+  color: var(--arc-white);
+}
+
+.protocol-stats {
+  padding: 0 var(--page-pad);
+}
+
+.protocol-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-left: 1px solid var(--night-line);
+  border-right: 1px solid var(--night-line);
+}
+
+.protocol-stat {
+  min-height: 150px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.6rem;
+  border-right: 1px solid var(--night-line);
+  background: var(--arc-night);
+  transition: background 0.2s ease;
+}
+
+.protocol-stat:last-child {
+  border-right: 0;
+}
+
+.protocol-stat:hover {
+  background: #02133a;
+}
+
+.protocol-stat__index {
+  color: var(--arc-blue-aa);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.protocol-stat__value {
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 3.5vw, 3.8rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  color: var(--arc-white);
+}
+
+.protocol-stat__label {
+  color: rgba(255, 255, 255, 0.72);
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.protocol-stat__hint {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 0.72rem;
+}
+
+@media (max-width: 900px) {
+  .protocol-stats__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .protocol-stat:nth-child(2) {
+    border-right: 0;
+  }
+  .protocol-stat:nth-child(-n+2) {
+    border-bottom: 1px solid var(--night-line);
+  }
+}
+
+@media (max-width: 520px) {
+  .protocol-stats__grid {
+    grid-template-columns: 1fr;
+  }
+  .protocol-stat {
+    border-right: 0;
+    border-bottom: 1px solid var(--night-line);
+  }
+}
+

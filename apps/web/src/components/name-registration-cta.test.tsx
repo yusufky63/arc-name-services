@@ -65,4 +65,19 @@ describe("name registration hero CTA", () => {
       />,
     )).toBe("");
   });
+
+  it("offers fixed-price purchase for a listed name", () => {
+    const html = renderToStaticMarkup(
+      <NameRegistrationCta
+        label="atlas"
+        registrationEnabled
+        nameAvailable={false}
+        listingPrice="50.00 USDC"
+      />,
+    );
+
+    expect(html).toContain('href="#management"');
+    expect(html).toContain("Buy atlas.contour · 50.00 USDC");
+    expect(html).toContain("name-route-hero__registration-cta--market");
+  });
 });

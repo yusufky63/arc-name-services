@@ -6,15 +6,32 @@ export function NameRegistrationCta({
   registrationEnabled,
   nameAvailable,
   liveRegistrationHref,
+  listingPrice,
 }: {
   label: string;
   registrationEnabled: boolean;
   nameAvailable?: boolean | undefined;
   liveRegistrationHref?: string | undefined;
+  listingPrice?: string | null | undefined;
 }) {
+  const fullName = `${label}${BRAND.suffix}`;
+
+  if (listingPrice) {
+    return (
+      <div className="name-route-hero__registration">
+        <a
+          className="name-route-hero__registration-cta name-route-hero__registration-cta--market"
+          href="#management"
+        >
+          <span>Buy {fullName} · {listingPrice}</span>
+          <span aria-hidden="true">&darr;</span>
+        </a>
+      </div>
+    );
+  }
+
   if (nameAvailable !== true) return null;
 
-  const fullName = `${label}${BRAND.suffix}`;
   const href = registrationEnabled ? "#registration" : liveRegistrationHref;
   if (!href) return null;
 

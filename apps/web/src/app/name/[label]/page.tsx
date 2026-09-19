@@ -345,6 +345,7 @@ export default async function NamePage({ params, searchParams }: PageProps) {
             registrationEnabled={protocolCapabilities.registration}
             nameAvailable={record?.available}
             liveRegistrationHref={liveRegistrationHref}
+            listingPrice={listing ? `${formatUnits(BigInt(listing.price), 6)} USDC` : null}
           />
           <div className="name-route-hero__facts">
             {heroFacts.map(([field, value]) => (
@@ -388,25 +389,6 @@ export default async function NamePage({ params, searchParams }: PageProps) {
         </section>
       ) : null}
 
-      {isRegistered &&
-      record &&
-      owner &&
-      record.expiry !== null &&
-      record.expiry !== undefined &&
-      deployment?.state === "active" ? (
-        <NameIdentityPanel
-          fullName={fullName}
-          releaseId={deployment.releaseId!}
-          label={label}
-          tokenId={record.tokenId.toString()}
-          owner={owner}
-          expiry={record.expiry.toString()}
-          lifecycle={inGrace ? "grace" : "active"}
-          explorerUrl={deployment.chain.explorerUrl}
-          registrarAddress={requireActivatedContract(deployment, "baseRegistrar")}
-        />
-      ) : null}
-
       {isRegistered && record && deployment?.state === "active" ? (
         <NameManagementPanel
           releaseId={deployment.releaseId!}
@@ -427,6 +409,25 @@ export default async function NamePage({ params, searchParams }: PageProps) {
           managementEnabled={deployment?.state === "active"}
           marketplaceEnabled={selectedMarketplaceEnabled}
           marketplaceEscapeEnabled={selectedMarketplaceEscapeEnabled}
+        />
+      ) : null}
+
+      {isRegistered &&
+      record &&
+      owner &&
+      record.expiry !== null &&
+      record.expiry !== undefined &&
+      deployment?.state === "active" ? (
+        <NameIdentityPanel
+          fullName={fullName}
+          releaseId={deployment.releaseId!}
+          label={label}
+          tokenId={record.tokenId.toString()}
+          owner={owner}
+          expiry={record.expiry.toString()}
+          lifecycle={inGrace ? "grace" : "active"}
+          explorerUrl={deployment.chain.explorerUrl}
+          registrarAddress={requireActivatedContract(deployment, "baseRegistrar")}
         />
       ) : null}
 

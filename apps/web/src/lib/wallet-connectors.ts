@@ -11,12 +11,52 @@ function connectorRdns(connector: Connector): readonly string[] {
   return typeof connector.rdns === "string" ? [connector.rdns] : connector.rdns;
 }
 
-function isCoinbase(connector: Connector) {
+function isGenericInjected(connector: Connector): boolean {
+  const name = connector.name?.trim().toLowerCase();
+  return (
+    connector.type === "injected" &&
+    connectorRdns(connector).length === 0 &&
+    (name === "injected" || name === "browser wallet" || !name)
+  );
+}
+
+export function isCoinbase(connector: Connector): boolean {
   return (
     connector.type === "coinbaseWallet" ||
     connector.id.toLowerCase().includes("coinbase") ||
+    connector.name.toLowerCase().includes("coinbase") ||
     connectorRdns(connector).some((rdns) => rdns.toLowerCase().includes("coinbase"))
   );
+}
+
+export function resolveConnectorDisplayName(connector: Connector): string {
+  if (isCoinbase(connector)) {
+    return "Coinbase Wallet";
+  }
+  const name = connector.name?.trim();
+  if (name && name.toLowerCase() !== "injected" && name.toLowerCase() !== "browser wallet") {
+    return name;
+  }
+  if (typeof window !== "undefined") {
+    const win = window as unknown as {
+      ethereum?: {
+        isRabby?: boolean;
+        isOKExWallet?: boolean;
+        isOkxWallet?: boolean;
+        isMetaMask?: boolean;
+        isCoinbaseWallet?: boolean;
+        isBraveWallet?: boolean;
+      };
+      okxwallet?: unknown;
+      rabby?: unknown;
+    };
+    if (win.ethereum?.isRabby || Boolean(win.rabby)) return "Rabby Wallet";
+    if (win.ethereum?.isOkxWallet || win.ethereum?.isOKExWallet || Boolean(win.okxwallet)) return "OKX Wallet";
+    if (win.ethereum?.isCoinbaseWallet) return "Coinbase Wallet";
+    if (win.ethereum?.isMetaMask) return "MetaMask";
+    if (win.ethereum?.isBraveWallet) return "Brave Wallet";
+  }
+  return name && name.toLowerCase() !== "injected" ? name : "Browser wallet";
 }
 
 function uniqueConnectors(connectors: readonly Connector[]) {
@@ -34,24 +74,22 @@ function uniqueConnectors(connectors: readonly Connector[]) {
 export function groupWalletConnectors(
   connectors: readonly Connector[],
 ): WalletConnectorGroups {
-  const eip6963 = uniqueConnectors(
+  const detectedCandidates = uniqueConnectors(
     connectors.filter(
       (connector) =>
-        connector.type === "injected" && connectorRdns(connector).length > 0,
+        connector.type === "injected" &&
+        !isGenericInjected(connector),
     ),
   );
-  const detectedCoinbase = eip6963.find(isCoinbase) ?? null;
+  const detectedCoinbase = detectedCandidates.find(isCoinbase) ?? null;
   const configuredCoinbase = connectors.find(
     (connector) => connector.type === "coinbaseWallet",
   ) ?? null;
-  const genericInjected = connectors.find(
-    (connector) =>
-      connector.type === "injected" && connectorRdns(connector).length === 0,
-  ) ?? null;
+  const genericInjected = connectors.find(isGenericInjected) ?? null;
 
   return {
-    detected: eip6963.filter((connector) => !isCoinbase(connector)),
+    detected: detectedCandidates.filter((connector) => !isCoinbase(connector)),
     coinbase: detectedCoinbase ?? configuredCoinbase,
-    injectedFallback: eip6963.length > 0 ? null : genericInjected,
+    injectedFallback: detectedCandidates.length > 0 ? null : genericInjected,
   };
 }

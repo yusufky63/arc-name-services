@@ -38,7 +38,7 @@ import {
   walletErrorMessage,
   walletMulticall,
 } from "@/lib/wallet-protocol";
-import { SearchIcon } from "./icons";
+import { RefreshIcon, SearchIcon } from "./icons";
 
 type PendingPurchase = {
   version: 2;
@@ -385,7 +385,20 @@ export function MarketBrowser({
         <div className="market-toolbar market-toolbar--live">
           <label htmlFor="market-filter">Filter listings</label>
           <div><SearchIcon /><input id="market-filter" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Filter names" /></div>
-          <span>{rows.length.toString().padStart(2, "0")} / RESULTS</span>
+          <div className="market-toolbar__actions">
+            <button
+              type="button"
+              className="refresh-button"
+              onClick={() => void refresh(true)}
+              disabled={loading}
+              title="Refresh listings from Arc Mainnet"
+              aria-label="Refresh listings"
+            >
+              <RefreshIcon className={loading ? "refresh-icon--spinning" : ""} />
+              <span>Refresh</span>
+            </button>
+            <span>{rows.length.toString().padStart(2, "0")} / RESULTS</span>
+          </div>
         </div>
         {purchaseEnabled && wallet.message ? <p className="market-feedback" role="status">{wallet.message}</p> : null}
         {message ? <p className="market-feedback" role="status">{message}</p> : null}
