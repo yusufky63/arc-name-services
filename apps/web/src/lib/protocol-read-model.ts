@@ -298,6 +298,57 @@ type ExplorerLog = {
   topics: [Hex, ...Hex[]];
 };
 
+async function rpcFallbackEventLogs(
+  address: Address,
+  topic0: Hex,
+  fromBlock: bigint,
+  toBlock: bigint,
+  indexedTopic?: { index: 1 | 2 | 3; value: Hex },
+): Promise<ExplorerLog[]> {
+  const client = getProtocolPublicClient();
+  const CHUNK_SIZE = 4_000n;
+  const topics: (Hex | null)[] = [topic0];
+  if (indexedTopic) {
+    while (topics.length < indexedTopic.index) {
+      topics.push(null);
+    }
+    topics.push(indexedTopic.value);
+  }
+
+  const chunks: { from: bigint; to: bigint }[] = [];
+  for (let current = fromBlock; current <= toBlock; current += CHUNK_SIZE) {
+    const chunkTo = current + CHUNK_SIZE - 1n < toBlock ? current + CHUNK_SIZE - 1n : toBlock;
+    chunks.push({ from: current, to: chunkTo });
+  }
+
+  const chunkResults = await mapWithConcurrency(chunks, 4, async ({ from, to }) => {
+    const rawLogs = await client.request({
+      method: "eth_getLogs",
+      params: [
+        {
+          address,
+          topics,
+          fromBlock: toHex(from),
+          toBlock: toHex(to),
+        },
+      ],
+    }) as Array<{
+      blockNumber: Hex;
+      data: Hex;
+      topics: [Hex, ...Hex[]];
+    }>;
+    return rawLogs
+      .filter((log) => log.blockNumber && Array.isArray(log.topics) && log.topics.length > 0)
+      .map((log) => ({
+        blockNumber: BigInt(log.blockNumber),
+        data: log.data,
+        topics: log.topics,
+      }));
+  });
+
+  return chunkResults.flat();
+}
+
 async function explorerEventLogs(
   manifest: DeploymentManifest,
   address: Address,
@@ -306,63 +357,80 @@ async function explorerEventLogs(
   toBlock: bigint,
   indexedTopic?: { index: 1 | 2 | 3; value: Hex },
 ): Promise<ExplorerLog[]> {
-  const endpoint = new URL("/api", manifest.chain.explorerUrl);
-  endpoint.searchParams.set("module", "logs");
-  endpoint.searchParams.set("action", "getLogs");
-  endpoint.searchParams.set("fromBlock", fromBlock.toString());
-  endpoint.searchParams.set("toBlock", toBlock.toString());
-  endpoint.searchParams.set("address", address);
-  endpoint.searchParams.set("topic0", topic0);
-  if (indexedTopic) {
-    endpoint.searchParams.set(`topic${indexedTopic.index}`, indexedTopic.value);
-    endpoint.searchParams.set(`topic0_${indexedTopic.index}_opr`, "and");
-  }
-
-  const response = await fetch(endpoint, {
-    cache: "no-store",
-    headers: { accept: "application/json" },
-    signal: AbortSignal.timeout(12_000),
-  });
-  if (!response.ok) {
-    throw new Error(`ArcScan log discovery failed with HTTP ${response.status}.`);
-  }
-  const payload = await response.json() as {
-    status?: unknown;
-    message?: unknown;
-    result?: unknown;
-  };
-  if (!Array.isArray(payload.result)) {
-    throw new Error("ArcScan log discovery returned an invalid envelope.");
-  }
-  if (payload.result.length >= EXPLORER_LOG_RESULT_LIMIT) {
-    throw new Error("ArcScan event discovery reached its public result bound.");
-  }
-  if (payload.status !== "1" && payload.result.length > 0) {
-    throw new Error("ArcScan log discovery returned a failed result.");
-  }
-
-  const logs: ExplorerLog[] = [];
-  for (const item of payload.result) {
-    if (!item || typeof item !== "object") continue;
-    const candidate = item as Record<string, unknown>;
-    const topics = Array.isArray(candidate.topics)
-      ? candidate.topics.filter((topic): topic is Hex => typeof topic === "string" && isHex(topic))
-      : [];
-    if (topics.length === 0 || !isHex(candidate.data)) continue;
-    let blockNumber: bigint;
-    try {
-      blockNumber = BigInt(String(candidate.blockNumber));
-    } catch {
-      continue;
+  try {
+    const endpoint = new URL("/api", manifest.chain.explorerUrl);
+    endpoint.searchParams.set("module", "logs");
+    endpoint.searchParams.set("action", "getLogs");
+    endpoint.searchParams.set("fromBlock", fromBlock.toString());
+    endpoint.searchParams.set("toBlock", toBlock.toString());
+    endpoint.searchParams.set("address", address);
+    endpoint.searchParams.set("topic0", topic0);
+    if (indexedTopic) {
+      endpoint.searchParams.set(`topic${indexedTopic.index}`, indexedTopic.value);
+      endpoint.searchParams.set(`topic0_${indexedTopic.index}_opr`, "and");
     }
-    if (blockNumber < fromBlock || blockNumber > toBlock) continue;
-    logs.push({
-      blockNumber,
-      data: candidate.data,
-      topics: topics as [Hex, ...Hex[]],
+
+    const response = await fetch(endpoint, {
+      cache: "no-store",
+      headers: { accept: "application/json" },
+      signal: AbortSignal.timeout(12_000),
     });
+    if (!response.ok) {
+      throw new Error(`ArcScan log discovery failed with HTTP ${response.status}.`);
+    }
+    const text = await response.text();
+    let payload: {
+      status?: unknown;
+      message?: unknown;
+      result?: unknown;
+    };
+    try {
+      payload = JSON.parse(text) as {
+        status?: unknown;
+        message?: unknown;
+        result?: unknown;
+      };
+    } catch {
+      throw new Error("ArcScan log discovery returned non-JSON response.");
+    }
+    if (!Array.isArray(payload.result)) {
+      throw new Error("ArcScan log discovery returned an invalid envelope.");
+    }
+    if (payload.result.length >= EXPLORER_LOG_RESULT_LIMIT) {
+      throw new Error("ArcScan event discovery reached its public result bound.");
+    }
+    if (payload.status !== "1" && payload.result.length > 0) {
+      throw new Error("ArcScan log discovery returned a failed result.");
+    }
+
+    const logs: ExplorerLog[] = [];
+    for (const item of payload.result) {
+      if (!item || typeof item !== "object") continue;
+      const candidate = item as Record<string, unknown>;
+      const topics = Array.isArray(candidate.topics)
+        ? candidate.topics.filter((topic): topic is Hex => typeof topic === "string" && isHex(topic))
+        : [];
+      if (topics.length === 0 || !isHex(candidate.data)) continue;
+      let blockNumber: bigint;
+      try {
+        blockNumber = BigInt(String(candidate.blockNumber));
+      } catch {
+        continue;
+      }
+      if (blockNumber < fromBlock || blockNumber > toBlock) continue;
+      logs.push({
+        blockNumber,
+        data: candidate.data,
+        topics: topics as [Hex, ...Hex[]],
+      });
+    }
+    return logs;
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("public result bound")) {
+      throw error;
+    }
+    return rpcFallbackEventLogs(address, topic0, fromBlock, toBlock, indexedTopic);
   }
-  return logs;
 }
 
 function verifiedRegisteredLabel(
