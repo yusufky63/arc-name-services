@@ -7,6 +7,7 @@ import {
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 30;
 
 export async function GET(request: NextRequest) {
   const owner = request.nextUrl.searchParams.get("owner");
@@ -28,7 +29,8 @@ export async function GET(request: NextRequest) {
           : "public, max-age=5, s-maxage=15, stale-while-revalidate=45",
       },
     });
-  } catch {
+  } catch (error) {
+    console.error("Arc account read failed.", error);
     return NextResponse.json(
       { error: "Account data is temporarily unavailable." },
       { status: 503, headers: { "cache-control": "no-store", "retry-after": "2" } },

@@ -321,7 +321,7 @@ async function rpcFallbackEventLogs(
     chunks.push({ from: current, to: chunkTo });
   }
 
-  const chunkResults = await mapWithConcurrency(chunks, 4, async ({ from, to }) => {
+  const chunkResults = await mapWithConcurrency(chunks, 2, async ({ from, to }) => {
     const rawLogs = await client.request({
       method: "eth_getLogs",
       params: [
@@ -373,7 +373,7 @@ async function explorerEventLogs(
     const response = await fetch(endpoint, {
       cache: "no-store",
       headers: { accept: "application/json" },
-      signal: AbortSignal.timeout(12_000),
+      signal: AbortSignal.timeout(2_500),
     });
     if (!response.ok) {
       throw new Error(`ArcScan log discovery failed with HTTP ${response.status}.`);
