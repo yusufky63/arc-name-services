@@ -29,7 +29,10 @@ export function isCoinbase(connector: Connector): boolean {
   );
 }
 
-export function resolveConnectorDisplayName(connector: Connector): string {
+export function resolveConnectorDisplayName(
+  connector: Connector,
+  options?: { isClient?: boolean },
+): string {
   if (isCoinbase(connector)) {
     return "Coinbase Wallet";
   }
@@ -37,7 +40,7 @@ export function resolveConnectorDisplayName(connector: Connector): string {
   if (name && name.toLowerCase() !== "injected" && name.toLowerCase() !== "browser wallet") {
     return name;
   }
-  if (typeof window !== "undefined") {
+  if (options?.isClient && typeof window !== "undefined") {
     const win = window as unknown as {
       ethereum?: {
         isRabby?: boolean;

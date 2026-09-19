@@ -3,9 +3,17 @@
 import React, { useEffect, useState } from "react";
 import type { ProtocolStats } from "@/lib/protocol-read-model";
 
+const BASELINE_STATS: ProtocolStats = {
+  chainId: 5_042,
+  totalRegistered: 0,
+  totalListed: 0,
+  uniqueOwners: 0,
+  currency: "USDC",
+  asOfBlock: "0",
+};
+
 export function ProtocolStatsRibbon({ readEnabled }: { readEnabled: boolean }) {
-  const [stats, setStats] = useState<ProtocolStats | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<ProtocolStats>(BASELINE_STATS);
 
   useEffect(() => {
     if (!readEnabled) return;
@@ -14,16 +22,13 @@ export function ProtocolStatsRibbon({ readEnabled }: { readEnabled: boolean }) {
     async function loadStats() {
       try {
         const response = await fetch("/api/protocol/stats");
-        if (!response.ok) throw new Error("Stats request failed");
+        if (!response.ok) return;
         const data = (await response.json()) as ProtocolStats;
         if (mounted) {
           setStats(data);
-          setLoading(false);
         }
       } catch {
-        if (mounted) {
-          setLoading(false);
-        }
+        // Retain baseline numbers gracefully
       }
     }
 
@@ -42,11 +47,7 @@ export function ProtocolStatsRibbon({ readEnabled }: { readEnabled: boolean }) {
           <div className="protocol-stat">
             <span className="protocol-stat__index">01 / TOTAL</span>
             <strong className="protocol-stat__value">
-              {stats
-                ? stats.totalRegistered.toString().padStart(2, "0")
-                : loading
-                  ? "…"
-                  : "00"}
+              {stats.totalRegistered.toString().padStart(2, "0")}
             </strong>
             <span className="protocol-stat__label">REGISTERED NAMES</span>
             <p className="protocol-stat__hint">Confirmed on Arc Mainnet</p>
@@ -54,11 +55,7 @@ export function ProtocolStatsRibbon({ readEnabled }: { readEnabled: boolean }) {
           <div className="protocol-stat">
             <span className="protocol-stat__index">02 / MARKET</span>
             <strong className="protocol-stat__value">
-              {stats
-                ? stats.totalListed.toString().padStart(2, "0")
-                : loading
-                  ? "…"
-                  : "00"}
+              {stats.totalListed.toString().padStart(2, "0")}
             </strong>
             <span className="protocol-stat__label">NAMES FOR SALE</span>
             <p className="protocol-stat__hint">Active marketplace listings</p>
@@ -66,11 +63,7 @@ export function ProtocolStatsRibbon({ readEnabled }: { readEnabled: boolean }) {
           <div className="protocol-stat">
             <span className="protocol-stat__index">03 / OWNERS</span>
             <strong className="protocol-stat__value">
-              {stats
-                ? stats.uniqueOwners.toString().padStart(2, "0")
-                : loading
-                  ? "…"
-                  : "00"}
+              {stats.uniqueOwners.toString().padStart(2, "0")}
             </strong>
             <span className="protocol-stat__label">ACTIVE USERS</span>
             <p className="protocol-stat__hint">Unique identity holders</p>

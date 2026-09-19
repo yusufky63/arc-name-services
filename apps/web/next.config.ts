@@ -18,9 +18,9 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
   "style-src 'self' 'unsafe-inline'",
-  `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""}`,
-  "connect-src 'self' https: wss:",
-  "frame-src 'self' https:",
+  `script-src 'self' 'unsafe-inline' https://vercel.live${isDevelopment ? " 'unsafe-eval'" : ""}`,
+  "connect-src 'self' https: wss: https://vercel.live",
+  "frame-src 'self' https: https://vercel.live",
   "worker-src 'self' blob:",
   ...(!isDevelopment ? ["upgrade-insecure-requests"] : []),
 ].join("; ");

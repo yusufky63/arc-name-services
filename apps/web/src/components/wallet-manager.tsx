@@ -7,6 +7,7 @@ import {
   useEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type MouseEvent,
   type ReactNode,
 } from "react";
@@ -114,6 +115,16 @@ function asEthereumProvider(value: unknown): EthereumProvider {
   return value as EthereumProvider;
 }
 
+const emptySubscribe = () => () => {};
+
+function useIsClient(): boolean {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
+}
+
 function WalletOption({
   connector,
   busy,
@@ -123,7 +134,8 @@ function WalletOption({
   busy: boolean;
   onSelect(connector: Connector): void;
 }) {
-  const displayName = resolveConnectorDisplayName(connector);
+  const isClient = useIsClient();
+  const displayName = resolveConnectorDisplayName(connector, { isClient });
   const initial = displayName.trim().slice(0, 1).toUpperCase() || "W";
   return (
     <button
@@ -135,7 +147,7 @@ function WalletOption({
     >
       <span className="wallet-option__icon" aria-hidden="true">{initial}</span>
       <span>
-        <strong>{displayName}</strong>
+        <strong suppressHydrationWarning>{displayName}</strong>
         <small>Connect wallet</small>
       </span>
       <i aria-hidden="true">→</i>
@@ -237,11 +249,7 @@ function WalletOptionsDialog({
 
         {groups.injectedFallback ? (
           <section className="wallet-modal__group" aria-labelledby="browser-wallet-title">
-            <h3 id="browser-wallet-title">
-              {resolveConnectorDisplayName(groups.injectedFallback) !== "Browser wallet"
-                ? "Detected wallet"
-                : "Browser wallet"}
-            </h3>
+            <h3 id="browser-wallet-title">Detected wallet</h3>
             <WalletOption
               connector={groups.injectedFallback}
               busy={busy}

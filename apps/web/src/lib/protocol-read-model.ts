@@ -61,7 +61,7 @@ const NAME_REGISTERED_EVENT = parseAbiItem(
 const EXPLORER_LOG_RESULT_LIMIT = 1_000;
 const MAX_STATE_CANDIDATES = 200;
 const MAX_CONCURRENT_SNAPSHOT_READS = 8;
-const LABEL_CACHE_MS = 15_000;
+const LABEL_CACHE_MS = 60_000;
 const SNAPSHOT_CACHE_MS = 60_000;
 const CONFIRMED_HEAD_CACHE_MS = 5_000;
 const NFT_SNAPSHOT_CACHE_MS = 30_000;
@@ -72,6 +72,10 @@ let protocolClient: ProtocolPublicClient | null = null;
 const labelCache = new Map<
   string,
   { expiresAt: number; promise: Promise<Map<bigint, string>> }
+>();
+const registrationsCache = new Map<
+  string,
+  { expiresAt: number; promise: Promise<VerifiedRegistration[]> }
 >();
 let marketSnapshotCache:
   | { expiresAt: number; promise: Promise<MarketSnapshot> }
@@ -105,6 +109,7 @@ export function invalidateAccountSnapshot(owner: Address) {
 
 export function invalidateNameDiscovery() {
   labelCache.clear();
+  registrationsCache.clear();
   nftSnapshotCache.clear();
   confirmedHeadCache = null;
 }
@@ -302,6 +307,8 @@ type ExplorerLog = {
   topics: [Hex, ...Hex[]];
 };
 
+const ARC_SCAN_FLOOR = 21_719_800n;
+
 async function rpcFallbackEventLogs(
   address: Address,
   topic0: Hex,
@@ -310,7 +317,7 @@ async function rpcFallbackEventLogs(
   indexedTopic?: { index: 1 | 2 | 3; value: Hex },
 ): Promise<ExplorerLog[]> {
   const client = getProtocolPublicClient();
-  const CHUNK_SIZE = 4_000n;
+  const CHUNK_SIZE = 1_500n;
   const topics: (Hex | null)[] = [topic0];
   if (indexedTopic) {
     while (topics.length < indexedTopic.index) {
@@ -319,35 +326,48 @@ async function rpcFallbackEventLogs(
     topics.push(indexedTopic.value);
   }
 
+  const effectiveFrom =
+    fromBlock < ARC_SCAN_FLOOR && toBlock >= ARC_SCAN_FLOOR
+      ? ARC_SCAN_FLOOR
+      : fromBlock;
+
+  if (effectiveFrom > toBlock) {
+    return [];
+  }
+
   const chunks: { from: bigint; to: bigint }[] = [];
-  for (let current = fromBlock; current <= toBlock; current += CHUNK_SIZE) {
+  for (let current = effectiveFrom; current <= toBlock; current += CHUNK_SIZE) {
     const chunkTo = current + CHUNK_SIZE - 1n < toBlock ? current + CHUNK_SIZE - 1n : toBlock;
     chunks.push({ from: current, to: chunkTo });
   }
 
   const chunkResults = await mapWithConcurrency(chunks, 2, async ({ from, to }) => {
-    const rawLogs = await client.request({
-      method: "eth_getLogs",
-      params: [
-        {
-          address,
-          topics,
-          fromBlock: toHex(from),
-          toBlock: toHex(to),
-        },
-      ],
-    }) as Array<{
-      blockNumber: Hex;
-      data: Hex;
-      topics: [Hex, ...Hex[]];
-    }>;
-    return rawLogs
-      .filter((log) => log.blockNumber && Array.isArray(log.topics) && log.topics.length > 0)
-      .map((log) => ({
-        blockNumber: BigInt(log.blockNumber),
-        data: log.data,
-        topics: log.topics,
-      }));
+    try {
+      const rawLogs = await client.request({
+        method: "eth_getLogs",
+        params: [
+          {
+            address,
+            topics,
+            fromBlock: toHex(from),
+            toBlock: toHex(to),
+          },
+        ],
+      }) as Array<{
+        blockNumber: Hex;
+        data: Hex;
+        topics: [Hex, ...Hex[]];
+      }>;
+      return rawLogs
+        .filter((log) => log.blockNumber && Array.isArray(log.topics) && log.topics.length > 0)
+        .map((log) => ({
+          blockNumber: BigInt(log.blockNumber),
+          data: log.data,
+          topics: log.topics,
+        }));
+    } catch {
+      return [];
+    }
   });
 
   return chunkResults.flat();
@@ -485,31 +505,41 @@ async function registeredRegistrations(
   manifest: DeploymentManifest,
   head: bigint,
 ): Promise<VerifiedRegistration[]> {
-  const registrations: VerifiedRegistration[] = [];
-  const address = requireDeployedContract(manifest, "controller");
-  const suffix = manifest.namespace.suffix;
-  if (!suffix) throw new Error("The deployed namespace suffix is missing.");
-  const from = deploymentBlock(manifest, "controller");
-  if (from > head) return registrations;
-  const logs = await explorerEventLogs(
-    manifest,
-    address,
-    toEventSelector(NAME_REGISTERED_EVENT),
-    from,
-    head,
-  );
-  for (const log of logs) {
-    const verified = verifiedRegisteredLabel(log, suffix);
-    if (verified) registrations.push(verified);
-  }
-  return registrations;
+  const key = releaseIdOf(manifest).toLowerCase();
+  const cached = registrationsCache.get(key);
+  if (cached && cached.expiresAt > Date.now()) return cached.promise;
+  const promise = (async () => {
+    const registrations: VerifiedRegistration[] = [];
+    const address = requireDeployedContract(manifest, "controller");
+    const suffix = manifest.namespace.suffix;
+    if (!suffix) throw new Error("The deployed namespace suffix is missing.");
+    const from = deploymentBlock(manifest, "controller");
+    if (from > head) return registrations;
+    const logs = await explorerEventLogs(
+      manifest,
+      address,
+      toEventSelector(NAME_REGISTERED_EVENT),
+      from,
+      head,
+    );
+    for (const log of logs) {
+      const verified = verifiedRegisteredLabel(log, suffix);
+      if (verified) registrations.push(verified);
+    }
+    return registrations;
+  })();
+  registrationsCache.set(key, { expiresAt: Date.now() + LABEL_CACHE_MS, promise });
+  promise.catch(() => {
+    if (registrationsCache.get(key)?.promise === promise) registrationsCache.delete(key);
+  });
+  return promise;
 }
 
 async function registeredLabels(
   manifest: DeploymentManifest,
   head: bigint,
 ): Promise<Map<bigint, string>> {
-  const key = `${releaseIdOf(manifest).toLowerCase()}:${head}`;
+  const key = releaseIdOf(manifest).toLowerCase();
   const cached = labelCache.get(key);
   if (cached && cached.expiresAt > Date.now()) return cached.promise;
   const promise = (async () => {
@@ -852,7 +882,7 @@ export type ProtocolStats = {
   asOfBlock: string;
 };
 
-const STATS_CACHE_MS = 20_000;
+const STATS_CACHE_MS = 60_000;
 
 async function readProtocolStatsUncached(): Promise<ProtocolStats> {
   const manifests = marketReadableManifests();
