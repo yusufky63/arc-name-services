@@ -3341,6 +3341,7 @@ select:focus-visible {
 .ops-checks code[data-state="ready"] { color: #17693b; }
 .ops-checks code[data-state="checking"] { color: var(--arc-blue-aa); }
 .ops-checks code[data-state="unavailable"] { color: #8f241d; }
+.ops-checks code[data-state="inactive"] { color: #5a6578; }
 .ops-checks p a { display: inline-flex; align-items: center; gap: 0.25rem; border-bottom: 1px solid currentColor; }
 .ops-checks p svg { width: 14px; height: 14px; }
 

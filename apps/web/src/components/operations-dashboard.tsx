@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowUpRightIcon } from "./icons";
 
-type CheckState = "checking" | "ready" | "unavailable";
+type CheckState = "checking" | "ready" | "unavailable" | "inactive";
 
 type CheckResult = {
   id: string;
@@ -132,10 +132,10 @@ async function readEndpoint(
 
     return {
       ...endpoint,
-      state: "unavailable",
+      state: endpoint.id === "x402" ? "inactive" : "unavailable",
       detail:
         endpoint.id === "x402"
-          ? "Circle x402 nanopayment gateway is currently inactive."
+          ? "Circle x402 nanopayment gateway is inactive for Release 1 (scheduled for separate future release)."
           : messageFrom(body, `Endpoint returned HTTP ${response.status}.`),
     };
   } catch (error) {
